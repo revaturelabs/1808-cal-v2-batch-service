@@ -2,7 +2,11 @@ package com.revature.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -13,16 +17,42 @@ import javax.persistence.Table;
  * @author Bita, Justin
  *
  */
+@Entity
+@Table(name="BATCH")
 public class BatchEntity {
+	@Id
+	@Column(name="BATCH_ID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer batchId;
+	
+	@Column(name="TRAINING_NAME")
 	private String trainingName;
+	
+	@Column(name="TRAINING_TYPE")
 	private String trainingType;
+	
+	@Column(name="SKILL_TYPE")
 	private String skillType;
+	
+	@Column(name="TRAINER")
 	private String trainer;
+	
+	@Column(name="CO_TRAINER")
 	private String coTrainer;
+	
+	@Column(name="LOCATION")
 	private String location;
+	
+	@Column(name="START_DATE")
 	private LocalDate startDate;
+	
+	@Column(name="END_DATE")
 	private LocalDate endDate;
+	
+	@Column(name="GOOD_GRADE")
 	private Integer goodGrade;
+	
+	@Column(name="PASSING_GRADE")
 	private Integer passingGrade;
 	
 	/**
@@ -203,6 +233,21 @@ public class BatchEntity {
 	public void setPassingGrade(Integer passingGrade) {
 		this.passingGrade = passingGrade;
 	}
+	/**
+	 * Getter for batch id.
+	 * @return A Integer that holds the batch's id.
+	 */
+	public Integer getBatchId() {
+		return batchId;
+	}
+	/**
+	 * Setter for batch id.
+	 * @param batchId A Integer that holds the batch's id.
+	 */
+	public void setBatchId(Integer batchId) {
+		this.batchId = batchId;
+	}
+	
 	
 	/**
 	 * Return a String to represent the BatchEntity.
@@ -210,11 +255,13 @@ public class BatchEntity {
 	 */
 	@Override
 	public String toString() {
-		return "BatchEntity [trainingName=" + trainingName + ", trainingType=" + trainingType + ", skillType="
-				+ skillType + ", trainer=" + trainer + ", coTrainer=" + coTrainer + ", location=" + location
-				+ ", startDate=" + startDate + ", endDate=" + endDate + ", goodGrade=" + goodGrade + ", passingGrade="
-				+ passingGrade + "]";
+		return "BatchEntity [batchId=" + batchId + ", trainingName=" + trainingName + ", trainingType=" + trainingType
+				+ ", skillType=" + skillType + ", trainer=" + trainer + ", coTrainer=" + coTrainer + ", location="
+				+ location + ", startDate=" + startDate + ", endDate=" + endDate + ", goodGrade=" + goodGrade
+				+ ", passingGrade=" + passingGrade + "]";
 	}
+	
+	
 	
 	
 
