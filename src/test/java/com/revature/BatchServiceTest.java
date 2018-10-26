@@ -11,22 +11,25 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.revature.entity.BatchEntity;
 import com.revature.repository.BatchRepository;
 import com.revature.service.BatchService;
-import com.revature.service.BatchServiceInterface;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class BatchServiceTest {
     @Mock
     private BatchRepository br;
     
     @InjectMocks
-    private  BatchServiceInterface bsi;
+    @Autowired
+    private  BatchService bsi;
     
     BatchEntity be, be2, be3;
     List<BatchEntity> lbr;
@@ -46,21 +49,56 @@ public class BatchServiceTest {
 		lbr = new ArrayList<BatchEntity>();
 		be2 = new BatchEntity();
 		be3 = new BatchEntity();
+		be.setBatchId(1);
+		be2.setBatchId(2);
+		be3.setBatchId(3);
 		be.setTrainer("Bill");
 		be2.setTrainer("Tom");
 		be3.setTrainer("Jahn");
+		be.setCoTrainer("beTrainer");
+		be2.setCoTrainer("beTrainer2");
+		be3.setCoTrainer("beTrainer3");
+		be.setTrainingName("beTrainingName");
+		be2.setTrainingName("beTrainingName2");
+		be3.setTrainingName("beTrainingName3");
+		be.setTrainingType("beTrainingType");
+		be2.setTrainingType("beTrainingType2");
+		be3.setTrainingType("beTrainingType3");
+		be.setLocation("beLocation");
+		be2.setLocation("beLocation2");
+		be3.setLocation("beLocation3");
+		be.setSkillType("skillType");
+		be2.setSkillType("skillType2");
+		be3.setSkillType("skillType3");
+		be.setStartDate(LocalDate.now());
+		be.setEndDate(LocalDate.now().plusMonths(1));
+		be2.setStartDate(LocalDate.now());
+		be2.setEndDate(LocalDate.now().plusMonths(2));
+		be3.setStartDate(LocalDate.now());
+		be3.setEndDate(LocalDate.now().plusMonths(3));
+		be.setGoodGrade(75);
+		be2.setGoodGrade(85);
+		be3.setGoodGrade(95);
+		be.setPassingGrade(60);
+		be2.setPassingGrade(80);
+		be3.setPassingGrade(80);
+				
+		
+		
 		lbr.add(be);
 		lbr.add(be2);
 		lbr.add(be3);
-		bsi = new BatchService();
+		//bsi = new BatchService();
 		Mockito.when(br.save(be)).thenReturn(be);
+		Mockito.when(br.save(be2)).thenReturn(be2);
+		Mockito.when(br.save(be3)).thenReturn(be3);
 		Mockito.when(br.findAll()).thenReturn(lbr);
+		
 		
 	}
 
 	@Test
 	public void testCreateBatch() {
-		
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);

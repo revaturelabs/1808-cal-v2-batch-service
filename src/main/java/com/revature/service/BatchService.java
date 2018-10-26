@@ -21,16 +21,22 @@ public class BatchService implements BatchServiceInterface {
 
 	@Override
 	public List<BatchEntity> findBatchesByYear(int year) {
-		// TODO Auto-generated method stub
+		br.findAllBatchesByYear(year);
 		return null;
 	}
 
 	@Override
 	public void createBatch(BatchEntity be) {
-		if (be.getPassingGrade() > be.getGoodGrade()) {
+		if(be.getTrainingName() == null || be.getTrainingType() ==null || be.getCoTrainer()==null
+				|| be.getLocation() == null || be.getSkillType() == null || be.getTrainer() ==null 
+				|| be.getPassingGrade() == null || be.getGoodGrade() == null || be.getEndDate() == null 
+				|| be.getStartDate() == null) {
+			throw new IllegalArgumentException("One of fields was null.");
+		}
+		if ( be.getPassingGrade() > be.getGoodGrade()) {
 			throw new IllegalArgumentException("Passing Grade can not be greater than Good Grade.");
 		}
-		if (be.getEndDate().compareTo(be.getStartDate()) > 0) {
+		if ( be.getEndDate().compareTo(be.getStartDate()) < 0) {
 			throw new IllegalArgumentException("End Date must be After Start date.");
 		}
 		br.save(be);
