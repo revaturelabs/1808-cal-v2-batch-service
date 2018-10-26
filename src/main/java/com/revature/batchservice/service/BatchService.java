@@ -1,18 +1,18 @@
-package com.revature.service;
+package com.revature.batchservice.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-import com.revature.entity.BatchEntity;
-import com.revature.repository.BatchRepository;
+import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.repository.BatchRepository;
 
 @Service
 public class BatchService implements BatchServiceInterface {
     
-	@Autowired
-	private BatchRepository br;
+	
+	private BatchRepository br = (BatchRepository) new ClassPathXmlApplicationContext("beans.xml").getBean("batchRepository");
 	
 	@Override
 	public List<BatchEntity> findAllBatches() {
@@ -21,8 +21,8 @@ public class BatchService implements BatchServiceInterface {
 
 	@Override
 	public List<BatchEntity> findBatchesByYear(int year) {
-		br.findAllBatchesByYear(year);
-		return null;
+		
+		 return br.findAllBatchesByYear(String.valueOf(year));
 	}
 
 	@Override

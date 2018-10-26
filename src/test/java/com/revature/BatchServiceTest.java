@@ -18,9 +18,9 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.revature.entity.BatchEntity;
-import com.revature.repository.BatchRepository;
-import com.revature.service.BatchService;
+import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.repository.BatchRepository;
+import com.revature.batchservice.service.BatchService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BatchServiceTest {
@@ -96,7 +96,8 @@ public class BatchServiceTest {
 		
 		
 	}
-
+		
+	 
 	@Test
 	public void testCreateBatch() {
 		bsi.createBatch(be);

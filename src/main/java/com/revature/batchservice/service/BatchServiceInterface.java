@@ -1,10 +1,10 @@
-package com.revature.service;
+package com.revature.batchservice.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.revature.entity.BatchEntity;
+import com.revature.batchservice.entity.BatchEntity;
 
 @Service
 public interface BatchServiceInterface {

@@ -1,4 +1,4 @@
-package com.revature.entity;
+package com.revature.batchservice.entity;
 
 import java.time.LocalDate;
 
