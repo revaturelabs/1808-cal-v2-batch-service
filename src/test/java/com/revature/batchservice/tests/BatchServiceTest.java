@@ -1,4 +1,4 @@
-package com.revature;
+package com.revature.batchservice.tests;
 
 import static org.junit.Assert.assertEquals;
 

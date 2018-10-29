@@ -1,6 +1,7 @@
 package com.revature.batchservice.entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.joda.ser.LocalDateSerializer;
 
 /**
  * BatchEntity to represent a batch. It holds the training name,
@@ -25,33 +35,50 @@ public class BatchEntity {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer batchId;
 	
+	@NotNull
 	@Column(name="TRAINING_NAME")
 	private String trainingName;
 	
+	@NotNull
 	@Column(name="TRAINING_TYPE")
 	private String trainingType;
 	
+	@NotNull
 	@Column(name="SKILL_TYPE")
 	private String skillType;
 	
+	@NotNull
 	@Column(name="TRAINER")
 	private String trainer;
 	
 	@Column(name="CO_TRAINER")
 	private String coTrainer;
 	
+	@NotNull
 	@Column(name="LOCATION")
 	private String location;
 	
+	@NotNull
 	@Column(name="START_DATE")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	//@JsonFormat(pattern = "YYYY-MM-dd")
+	//@JsonSerialize(using=LocalDateSerializer.class)
+	//@JsonDeserialize(using=LocalDateDeserializer.class)
 	private LocalDate startDate;
 	
+	@NotNull
 	@Column(name="END_DATE")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	//@JsonFormat(pattern = "YYYY-MM-dd")
+	//@JsonSerialize(using=LocalDateSerializer.class)
+	//@JsonDeserialize(using=LocalDateDeserializer.class)
 	private LocalDate endDate;
 	
+	@NotNull
 	@Column(name="GOOD_GRADE")
 	private Integer goodGrade;
 	
+	@NotNull
 	@Column(name="PASSING_GRADE")
 	private Integer passingGrade;
 	

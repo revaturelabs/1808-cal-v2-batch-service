@@ -13,13 +13,13 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository-1.11.xsd">
 
-	<context:component-scan base-package="com.revature.batchservice"></context:component-scan>
+	<context:component-scan base-package="com.revature.batchservice.tests.batchservice"></context:component-scan>
 	
 	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="H2DataSource"></property>
-        <property name="packagesToScan" value="com.revature.domain"></property>
+        <property name="packagesToScan" value="com.revature.batchservice.tests.domain"></property>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
         <property name="jpaProperties">
             <props>

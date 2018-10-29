@@ -1,4 +1,4 @@
-package com.revature;
+package com.revature.batchservice.tests;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,9 +18,7 @@ import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes= {AppConfig.class})
-//@ContextConfiguration(classes = {BatchRepository.class})
-
+//@SpringBootTest(classes= {AppConfig.class})
 @DataJpaTest
 public class BatchRepositoryTest {
 	
@@ -93,8 +91,6 @@ public class BatchRepositoryTest {
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);
-		
-		
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.revature;
+package com.revature.batchservice.tests;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

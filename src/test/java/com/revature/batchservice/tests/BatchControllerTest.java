@@ -1,4 +1,6 @@
-package com.revature;
+package com.revature.batchservice.tests;
+
+import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -6,18 +8,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.batchservice.controller.BatchController;
-import com.revature.batchservice.repository.BatchRepository;
+import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.service.BatchService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BatchControllerTest {
-	
-	@Mock
-    private BatchRepository br;
     
     @Mock
     private BatchService bsi;
@@ -25,6 +26,11 @@ public class BatchControllerTest {
     @InjectMocks
     @Autowired
     private BatchController bc;
+    
+    @Autowired
+    private BatchController realBc;
+    
+    private BatchEntity be;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -32,11 +38,25 @@ public class BatchControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		be = new BatchEntity("Training", "Java", "Servlets", "Nick", "", "Tampa", 
+				LocalDate.now(), LocalDate.now().plusDays(2), 80, 80);
 	}
 
 	@Test
 	public void testControllerCreateMethod() {
-		
+		bc.createBatch(be);
+		Mockito.verify(bsi).createBatch(be);
 	}
-
+	
+	@Test
+	public void testGetAllBatches() {
+		bc.getAllBatches();
+		Mockito.verify(bsi).findAllBatches();
+	}
+	
+	@Test
+	public void testFindBatchById() {
+		bc.getBatcheById(0);
+		Mockito.verify(bsi).findBatchById(0);
+	}
 }

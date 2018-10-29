@@ -27,12 +27,44 @@ public class BatchService implements BatchServiceInterface {
 
 	@Override
 	public void createBatch(BatchEntity be) throws IllegalArgumentException {
-		if(be.getTrainingName() == null || be.getTrainingType() ==null || be.getCoTrainer()==null
+		/*
+		if(be.getTrainingName() == null || be.getTrainingType() ==null
 				|| be.getLocation() == null || be.getSkillType() == null || be.getTrainer() ==null 
 				|| be.getPassingGrade() == null || be.getGoodGrade() == null || be.getEndDate() == null 
 				|| be.getStartDate() == null) {
 			throw new IllegalArgumentException("One of fields was null.");
 		}
+		*/
+		//Check if a field was null. Co-Trainer can be null
+		if(be.getTrainingName() == null) {
+			throw new IllegalArgumentException("trainingName was null.");
+		}
+		if(be.getTrainingType() == null) {
+			throw new IllegalArgumentException("trainingType was null.");
+		}
+		if(be.getLocation() == null) {
+			throw new IllegalArgumentException("location was null.");
+		}
+		if(be.getSkillType() == null) {
+			throw new IllegalArgumentException("skillType was null.");
+		}
+		if(be.getTrainer() == null) {
+			throw new IllegalArgumentException("trainer was null.");
+		}
+		if(be.getPassingGrade() == null) {
+			throw new IllegalArgumentException("passingGrade was null.");
+		}
+		if(be.getGoodGrade() == null) {
+			throw new IllegalArgumentException("goodGrade was null.");
+		}
+		if(be.getStartDate() == null) {
+			throw new IllegalArgumentException("startDate was null.");
+		}
+		if(be.getEndDate() == null) {
+			throw new IllegalArgumentException("endDate was null.");
+		}
+		
+		//Validate field values
 		if ( be.getPassingGrade() > be.getGoodGrade()) {
 			throw new IllegalArgumentException("Passing Grade can not be greater than Good Grade.");
 		}
