@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: BatchService
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Daniel
+Built-By: ziver
 Implementation-Vendor-Id: com.revature.caliber2
 Build-Jdk: 1.8.0_181
 Implementation-URL: http://projects.spring.io/spring-boot/BatchService

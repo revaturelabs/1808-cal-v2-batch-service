@@ -29,7 +29,7 @@ public class BatchServiceTest {
     
     @InjectMocks
     @Autowired
-    private  BatchService bsi;
+    private BatchService bsi;
     
     BatchEntity be, be2, be3;
     List<BatchEntity> lbr;

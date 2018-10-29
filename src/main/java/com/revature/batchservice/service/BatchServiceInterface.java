@@ -10,8 +10,8 @@ import com.revature.batchservice.entity.BatchEntity;
 public interface BatchServiceInterface {
 	
 	public List<BatchEntity> findAllBatches();
-	public List<BatchEntity> findBatchesByYear(int year);
-	public void createBatch(BatchEntity be);
+	public BatchEntity findBatchById(Integer id);
+	public void createBatch(BatchEntity be) throws IllegalArgumentException;
 	public void updateBatch(BatchEntity be);
 	public void deleteBatch(BatchEntity be);
 }

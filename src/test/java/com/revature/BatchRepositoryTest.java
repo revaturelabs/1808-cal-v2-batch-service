@@ -19,7 +19,7 @@ import com.revature.batchservice.service.BatchService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= {AppConfig.class})
-@ContextConfiguration(classes = {BatchRepository.class})
+//@ContextConfiguration(classes = {BatchRepository.class})
 
 @DataJpaTest
 public class BatchRepositoryTest {
@@ -94,8 +94,7 @@ public class BatchRepositoryTest {
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);
 		
-		System.out.println(bsi.findBatchesByYear(2018));
-		 
+		
 	}
 
 }
