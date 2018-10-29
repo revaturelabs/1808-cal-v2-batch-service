@@ -61,7 +61,7 @@ public class BatchControllerTest {
 	
 	@Test
 	public void testFindBatchById() {
-		bc.getBatcheById(0);
+		bc.getBatchById(0);
 		Mockito.verify(bsi).findBatchById(0);
 	}
 }
