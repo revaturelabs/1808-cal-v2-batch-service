@@ -8,7 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.revature.batchservice.entity.BatchEntity;
-
+/**
+ * A JPA repository for batch entities.  It has the default methods of a JpaRepository.
+ * @author Justin Tu, Bita Mahbod, Daniel Mitre
+ *
+ */
 @Repository(value="batchRepository")
 public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	/*

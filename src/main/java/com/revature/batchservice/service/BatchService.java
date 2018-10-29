@@ -8,23 +8,54 @@ import org.springframework.stereotype.Service;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.repository.BatchRepository;
 
+/**
+ * Service class for handling Batches. Has methods for adding a batch to the database, 
+ * finding all Batches, finding batch by id, finding batch by year, updating, and deleting
+ * a batch.
+ * 
+ * Uses a BatchRepository to make calls to the database.
+ * 
+ * @author Justin Tu, Bita Mahbod, Daniel Mitre
+ *
+ */
 @Service
 public class BatchService implements BatchServiceInterface {
     
 	@Autowired
 	private BatchRepository br;
-	//(BatchRepository) new ClassPathXmlApplicationContext("beans.xml").getBean("batchRepository");
 	
+	
+	/**
+	 * Returns a List of all BatchEntities on the connected database.
+	 * @return a List<BatchEntity> that contains all BatchEntities in the database.
+	 */
 	@Override
 	public List<BatchEntity> findAllBatches() {
 		return br.findAll();
 	}
 	
+	/**
+	 * Returns a BatchEntity which has the same id as the given id.
+	 * @param id An Integer that contains the BatchEntity id to look for. 
+	 * @return a BatchEntity which has the same id as the given id. Null if no matching 
+	 * 			id was found.
+	 */
 	@Override
 	public BatchEntity findBatchById(Integer id) {
 		return br.findOne(id);
 	}
 
+	/**
+	 * Attempts to add a BatchEntity to the database. Will throw an IllegalArgumentException
+	 * if a field in the given BatchEntity is null, (Note: BatchEntity.coTrainer can be null)
+	 * if the BatchEntity.passingGrade > BatchEntity.goodGrade, and if BatchEntity.endDate 
+	 * is before BatchEntity.startDate.
+	 * 
+	 * @param be The BatchEntity to add to the database.
+	 * @throws IllegalArgumentException Thrown if a field in be is null (except coTrainer), 
+	 * 			if the passingGrade is greater than the goodGrade, or if the endDate comes
+	 * 			before the startDate.
+	 */
 	@Override
 	public void createBatch(BatchEntity be) throws IllegalArgumentException {
 		/*
@@ -74,16 +105,27 @@ public class BatchService implements BatchServiceInterface {
 		br.save(be);
 	}
 
+	/**
+	 * Takes in a BatchEntity and updates any matching BatchEntity in the database. If
+	 * no BatchEntity on the database has a matching id, then the given BatchEntity is
+	 * added to the database.
+	 * 
+	 * @param be The BatchEntity to update.
+	 */
 	@Override
 	public void updateBatch(BatchEntity be) {
 		br.save(be);
 
 	}
 
+	/**
+	 * Takes in a BatchEntity and attempts to delete it from the database. 
+	 * If the give BatchEntity does not exist in the database, the database will not be changed.
+	 * @param be The BatchEntity to delete from the database.
+	 */
 	@Override
 	public void deleteBatch(BatchEntity be) {
 		br.delete(be);
-
 	}
 
 }

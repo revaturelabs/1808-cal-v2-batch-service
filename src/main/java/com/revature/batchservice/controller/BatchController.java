@@ -16,6 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.service.BatchService;
 
+/**
+ * The BatchController is responsible for handling request about batches. It is mapped to CaliberProjectURL/batch.
+ * The BatchController can return a list of batches, a batch by Id.  It can add to, update, and delete a batch from our database.
+ * The BatchController expects request in JSON and send responses in JSON.
+ * 
+ * @author Justin Tu, Bita Mahbod, Daniel Mitre
+ *
+ */
 @RestController()
 @RequestMapping("/batch")
 public class BatchController {
@@ -25,6 +33,11 @@ public class BatchController {
 	@Autowired
 	private BatchService bs;
 	
+	/**
+	 * Accepts a HTTP GET request. 
+	 * Returns a List of all BatchEntities on the connected database as a JSON object.
+	 * @return a List<BatchEntity> that contains all BatchEntities in the database.
+	 */
 	@GetMapping()
 	public List<BatchEntity> getAllBatches() {
 		log.debug("Inside getAllBatches");
@@ -32,6 +45,13 @@ public class BatchController {
 		return bs.findAllBatches();
 	}
 	
+	/**
+	 * Accepts a HTTP GET request.
+	 * Returns a BatchEntity as a JSON entity based on the given id.
+	 * @param id An Integer that contains the BatchEntity id. The id is passed as a path variable. 
+	 * @return a BatchEntity which has the same id as the given id. Null if no matching 
+	 * 			id was found. Value is returned as a JSON object.
+	 */
 	@GetMapping("/{id}")
 	public BatchEntity getBatcheById(@PathVariable("id") Integer id) {
 		log.debug("Inside findBatchById");
@@ -39,6 +59,12 @@ public class BatchController {
 		return bs.findBatchById(id);
 	}
 	
+	/**
+	 *  Accepts a HTTP POST request.
+	 *  Attempts to add a BatchEntity to the database. 
+	 *  @param be The BatchEntity to add to the database.
+	 * 
+	 */
 	@PostMapping()
 	public void createBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside createBatch");
@@ -50,6 +76,14 @@ public class BatchController {
 		}
 	}
 	
+	/**
+	 * Accepts a HTTP PUT request.
+	 * Takes in a BatchEntity and updates any matching BatchEntity in the database. If
+	 * no BatchEntity on the database has a matching id, then the given BatchEntity is
+	 * added to the database.
+	 * 
+	 * @param be The BatchEntity to update.
+	 */
 	@PutMapping()
 	public void updateBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside updateBatch");
@@ -57,6 +91,12 @@ public class BatchController {
 		bs.updateBatch(be);
 	}
 	
+	/**
+	 * Accepts a HTTP DELETE request.
+	 * Takes in a BatchEntity and attempts to delete it from the database. 
+	 * If the give BatchEntity does not exist in the database, the database will not be changed.
+	 * @param be The BatchEntity to delete from the database.
+	 */
 	@DeleteMapping()
 	public void deleteBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside deleteBatch");
