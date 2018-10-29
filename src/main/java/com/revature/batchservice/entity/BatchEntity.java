@@ -1,6 +1,6 @@
 package com.revature.batchservice.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,12 +54,12 @@ public class BatchEntity {
 	@NotNull
 	@Column(name="START_DATE")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate startDate;
+	private Date startDate;
 	
 	@NotNull
 	@Column(name="END_DATE")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate endDate;
+	private Date endDate;
 	
 	@NotNull
 	@Column(name="GOOD_GRADE")
@@ -80,13 +80,13 @@ public class BatchEntity {
 	 * @param trainer A String to represent the trainer
 	 * @param coTrainer A String to represent the co-trainer
 	 * @param location A String to represent the location
-	 * @param startDate A LocalDate to represent the start date
-	 * @param endDate A LocalDate to represent the end date
+	 * @param startDate A Date to represent the start date
+	 * @param endDate A Date to represent the end date
 	 * @param goodGrade A Integer to represent the good grade
 	 * @param passingGrade A Integer to represent the passing grade
 	 */
 	public BatchEntity(String trainingName, String trainingType, String skillType, String trainer, String coTrainer,
-			String location, LocalDate startDate, LocalDate endDate, Integer goodGrade, Integer passingGrade) {
+			String location, Date startDate, Date endDate, Integer goodGrade, Integer passingGrade) {
 		super();
 		this.trainingName = trainingName;
 		this.trainingType = trainingType;
@@ -193,35 +193,35 @@ public class BatchEntity {
 	}
 	/**
 	 * Getter for start date.
-	 * @return A LocalDate that holds the batch's start date.
+	 * @return A Date that holds the batch's start date.
 	 */
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 	/**
 	 * Setter for start date.
-	 * @param startDate A LocalDate that holds the batch's start date.
+	 * @param startDate A Date that holds the batch's start date.
 	 */
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	/**
 	 * Getter for end date.
-	 * @return A LocalDate that holds the batch's end date.
+	 * @return A Date that holds the batch's end date.
 	 */
-	public LocalDate getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 	/**
 	 * Setter for end date.
-	 * @param endDate A LocalDate that holds the batch's end date.
+	 * @param endDate A Date that holds the batch's end date.
 	 */
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 	/**
 	 * Getter for good grade.
-	 * @return A LocalDate that holds the batch's good grade.
+	 * @return A Date that holds the batch's good grade.
 	 */
 	public Integer getGoodGrade() {
 		return goodGrade;

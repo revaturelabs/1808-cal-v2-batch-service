@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -70,12 +71,30 @@ public class BatchServiceTest {
 		be.setSkillType("skillType");
 		be2.setSkillType("skillType2");
 		be3.setSkillType("skillType3");
+		Calendar startDate = Calendar.getInstance();
+		startDate.set(2018, 10, 22);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(2018, 10, 23);
+		be.setStartDate(startDate.getTime());
+		be.setEndDate(endDate.getTime());
+		
+		startDate.set(2018, 11, 22);
+		endDate.set(2018, 11, 23);
+		be2.setStartDate(startDate.getTime());
+		be2.setEndDate(endDate.getTime());
+		
+		startDate.set(2019, 1, 22);
+		endDate.set(2019, 1, 23);
+		be3.setStartDate(startDate.getTime());
+		be3.setEndDate(endDate.getTime());
+		/*
 		be.setStartDate(LocalDate.now());
 		be.setEndDate(LocalDate.now().plusMonths(1));
 		be2.setStartDate(LocalDate.now());
 		be2.setEndDate(LocalDate.now().plusMonths(2));
 		be3.setStartDate(LocalDate.now());
 		be3.setEndDate(LocalDate.now().plusMonths(3));
+		*/
 		be.setGoodGrade(75);
 		be2.setGoodGrade(85);
 		be3.setGoodGrade(95);
@@ -144,8 +163,17 @@ public class BatchServiceTest {
 	public void testCreateBatchValidation() {
 		be.setGoodGrade(20);
 		be.setPassingGrade(75);
+		/*
 		be.setStartDate(LocalDate.now().plusDays(2));
 		be.setEndDate(LocalDate.now());
+		*/
+		Calendar startDate = Calendar.getInstance();
+		startDate.set(2018, 10, 22);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(2018, 10, 20);
+		
+		be.setStartDate(startDate.getTime());
+		be.setEndDate(endDate.getTime());
 		exceptionRule.expect(IllegalArgumentException.class);
 		exceptionRule.expectMessage("Passing Grade can not be greater than Good Grade.");
 		

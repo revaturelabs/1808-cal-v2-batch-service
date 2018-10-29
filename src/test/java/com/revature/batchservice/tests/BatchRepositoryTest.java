@@ -2,6 +2,7 @@ package com.revature.batchservice.tests;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -56,12 +57,30 @@ public class BatchRepositoryTest {
 		be.setSkillType("skillType");
 		be2.setSkillType("skillType2");
 		be3.setSkillType("skillType3");
+		Calendar startDate = Calendar.getInstance();
+		startDate.set(2018, 10, 22);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(2018, 10, 23);
+		be.setStartDate(startDate.getTime());
+		be.setEndDate(endDate.getTime());
+		
+		startDate.set(2018, 11, 22);
+		endDate.set(2018, 11, 23);
+		be2.setStartDate(startDate.getTime());
+		be2.setEndDate(endDate.getTime());
+		
+		startDate.set(2019, 1, 22);
+		endDate.set(2019, 1, 23);
+		be3.setStartDate(startDate.getTime());
+		be3.setEndDate(endDate.getTime());
+		/*
 		be.setStartDate(LocalDate.now());
 		be.setEndDate(LocalDate.now().plusMonths(1));
 		be2.setStartDate(LocalDate.now());
 		be2.setEndDate(LocalDate.now().plusMonths(2));
 		be3.setStartDate(LocalDate.now());
 		be3.setEndDate(LocalDate.now().plusMonths(3));
+		*/
 		be.setGoodGrade(75);
 		be2.setGoodGrade(85);
 		be3.setGoodGrade(95);
@@ -81,13 +100,14 @@ public class BatchRepositoryTest {
 	 
 	@Test
 	public void testFindAllBatchByYear() {
+		/*
 		be.setStartDate(LocalDate.of(2018,10,10));
 		be2.setStartDate(LocalDate.of(2019,10,10));
 		be3.setStartDate(LocalDate.of(2019,10,10));
 		be.setEndDate(LocalDate.of(2018,10,11));
 		be2.setEndDate(LocalDate.of(2019,10,11));
 		be3.setEndDate(LocalDate.of(2019,10,11));
-		
+		*/
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);

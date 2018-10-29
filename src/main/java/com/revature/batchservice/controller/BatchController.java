@@ -46,18 +46,31 @@ public class BatchController {
 	}
 	
 	/**
-	 * Accepts a HTTP GET request.
+	 * Accepts a HTTP GET request. Mapped to ProjectURL/id/{pathVariable}
 	 * Returns a BatchEntity as a JSON entity based on the given id.
 	 * @param id An Integer that contains the BatchEntity id. The id is passed as a path variable. 
 	 * @return a BatchEntity which has the same id as the given id. Null if no matching 
 	 * 			id was found. Value is returned as a JSON object.
 	 */
-	@GetMapping("/{id}")
-	public BatchEntity getBatcheById(@PathVariable("id") Integer id) {
+	@GetMapping("/id/{id}")
+	public BatchEntity getBatchById(@PathVariable("id") Integer id) {
 		log.debug("Inside findBatchById");
 		System.out.println("Inside findBatchById");
 		return bs.findBatchById(id);
 	}
+	
+	/**
+	 * Accepts a HTTP Get Request. Mapped to ProjectURL/year/{path variable}
+	 * Returns a List<BatchEntity> which contains Batches in the given year.
+	 * The List is returned as a JSON Object.
+	 * @param year An Integer representing the year. Year is taken in as a path variable.
+	 * @return A List<BatchEntity> of batches in the given year. Returned as a JSON object
+	 */
+	@GetMapping("/year/{year}")
+	public List<BatchEntity> getBatchesByStartYear(@PathVariable("year") Integer year) {
+		return bs.findBatchesByStartYear(year);
+	}
+	
 	
 	/**
 	 *  Accepts a HTTP POST request.

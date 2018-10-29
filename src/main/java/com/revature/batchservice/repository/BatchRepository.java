@@ -16,6 +16,13 @@ import com.revature.batchservice.entity.BatchEntity;
 @Repository(value="batchRepository")
 public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	
+	/**
+	 * A Custom query which selects the BatchEntities that start in a given year
+	 * and returns them as a List.
+	 * @param year Integer that represents the start year to search for.
+	 * @return A List<BatchEntity> that that holds all the batches for the given
+	 * start year. 
+	 */
 	@Query("select b from BatchEntity b where year(b.startDate) = :year")
 	public List<BatchEntity> findAllBatchesByYear (@Param("year") Integer year);
 	

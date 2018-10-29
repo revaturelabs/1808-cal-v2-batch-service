@@ -1,6 +1,7 @@
 package com.revature.batchservice.tests;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -38,8 +39,12 @@ public class BatchControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Calendar startDate = Calendar.getInstance();
+		startDate.set(2018, 10, 22);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(2018, 10, 23);
 		be = new BatchEntity("Training", "Java", "Servlets", "Nick", "", "Tampa", 
-				LocalDate.now(), LocalDate.now().plusDays(2), 80, 80);
+				startDate.getTime(), endDate.getTime(), 80, 80);
 	}
 
 	@Test

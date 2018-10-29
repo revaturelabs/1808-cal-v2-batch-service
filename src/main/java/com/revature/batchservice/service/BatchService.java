@@ -34,6 +34,13 @@ public class BatchService implements BatchServiceInterface {
 		return br.findAll();
 	}
 	
+	/**
+	 * Returns a List of all BatchEntities that start in a given year, on the 
+	 * connected database.
+	 * 
+	 * @param year An Integer representing the year to get batches from.
+	 * @return A List<BatchEntity> of batches that start in a given year.
+	 */
 	public List<BatchEntity> findBatchesByStartYear(Integer year){
 		return br.findAllBatchesByYear(year);
 		
