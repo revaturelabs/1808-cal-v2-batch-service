@@ -34,6 +34,11 @@ public class BatchService implements BatchServiceInterface {
 		return br.findAll();
 	}
 	
+	public List<BatchEntity> findBatchesByStartYear(Integer year){
+		return br.findAllBatchesByYear(year);
+		
+	}
+	
 	/**
 	 * Returns a BatchEntity which has the same id as the given id.
 	 * @param id An Integer that contains the BatchEntity id to look for. 
