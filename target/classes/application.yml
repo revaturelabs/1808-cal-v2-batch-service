@@ -11,10 +11,11 @@ spring:
 server:
   port: 9090
   
-eureka:
-  client:
-    service-url:
-      deault-zone:${EUREKA_ZONE}
+
+#eureka:
+#  client:
+#    service-url:
+#      deault-zone:${EUREKA_ZONE}
         
       
 

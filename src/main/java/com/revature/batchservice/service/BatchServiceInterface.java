@@ -14,4 +14,5 @@ public interface BatchServiceInterface {
 	public void createBatch(BatchEntity be) throws IllegalArgumentException;
 	public void updateBatch(BatchEntity be);
 	public void deleteBatch(BatchEntity be);
+	public List<Integer> findBatchYears();
 }

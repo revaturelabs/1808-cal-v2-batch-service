@@ -139,5 +139,18 @@ public class BatchService implements BatchServiceInterface {
 	public void deleteBatch(BatchEntity be) {
 		br.delete(be);
 	}
+	
+	/**
+	 * This method returns a list of the start years that the batches are in.
+	 * The list ordered in ascending order.
+	 * @return A List<Integer> contains start years of all batches, in ascending 
+	 * 		order.
+	 */
+	@Override
+	public List<Integer> findBatchYears() {
+		
+		return br.findBatchYears();
+	}
+	
 
 }

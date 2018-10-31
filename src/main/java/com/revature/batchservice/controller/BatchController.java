@@ -20,7 +20,8 @@ import com.revature.batchservice.service.BatchService;
 /**
  * The BatchController is responsible for handling request about batches. It is mapped to CaliberProjectURL/batch.
  * The BatchController can return a list of batches, a batch by Id.  It can add to, update, and delete a batch from our database.
- * The BatchController expects request in JSON and send responses in JSON.
+ * The BatchController expects request in JSON and always sends responses in JSON.
+ * Unless specified otherwise, by the method.
  * 
  * @author Justin Tu, Bita Mahbod, Daniel Mitre
  *
@@ -117,5 +118,17 @@ public class BatchController {
 		log.debug("Inside deleteBatch");
 		System.out.println("Inside deleteBatch");
 		bs.deleteBatch(be);
+	}
+	
+	/**
+	 * Accepts a HTTP GET Request 
+	 * This method finds all batch start years and returns a List<Integer>.
+	 * List is in ascending order and holds only distinct years.
+	 * @return A List<Integer> filled with batch start years 
+	 */
+	@GetMapping("/valid_years")
+	public List<Integer> batchYears(){
+		return bs.findBatchYears();
+		
 	}
 }
