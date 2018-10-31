@@ -1,11 +1,9 @@
 package com.revature.batchservice.driver;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.revature.batchservice.controller.BatchController;
-import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.repository.BatchRepository;
 
 /**
  * Sandbox driver for miscellaneous testing. Not part of any functionality.
@@ -16,6 +14,9 @@ public class Driver {
 	
 	@Autowired
 	private static BatchController bc;
+	
+	@Autowired
+	private static BatchRepository br;
 	
 	
 	public static void main(String[] args) {

@@ -151,6 +151,12 @@ public class BatchService implements BatchServiceInterface {
 		
 		return br.findBatchYears();
 	}
+
+	@Override
+	public List<BatchEntity> findCurrentBatches() {
+		
+		return br.findAllCurrentBatches();
+	}
 	
 
 }

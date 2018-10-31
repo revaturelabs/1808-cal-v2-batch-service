@@ -130,5 +130,41 @@ public class BatchRepositoryTest {
 		
 	}
 	
+	@Test
+	public void testFindCurrentBatches() {
+		Calendar tempDate = Calendar.getInstance();
+		
+		int year = tempDate.get(Calendar.YEAR);
+		int month = tempDate.get(Calendar.MONTH);
+		int day = tempDate.get(Calendar.DAY_OF_MONTH);
+		tempDate.add(Calendar.DAY_OF_MONTH, -1);
+		//Valid starting time. Batch still active
+		be.setStartDate(tempDate.getTime());
+		tempDate.add(Calendar.YEAR, 1);
+		be.setEndDate(tempDate.getTime());
+		
+		//Batch has not started.
+		tempDate.add(Calendar.DAY_OF_MONTH, 2);
+		be2.setStartDate(tempDate.getTime());
+		tempDate.add(Calendar.DAY_OF_MONTH, 10);
+		be2.setEndDate(tempDate.getTime());
+		
+		//Batch has already ended. 
+		tempDate.set(Calendar.YEAR , year - 1);
+		be3.setStartDate(tempDate.getTime());
+		tempDate.add(Calendar.DAY_OF_MONTH, 3);
+		be3.setEndDate(tempDate.getTime());
+		
+		bsi.createBatch(be);
+		bsi.createBatch(be2);
+		bsi.createBatch(be3);
+		
+		List<BatchEntity> listExpected = new ArrayList<BatchEntity>();
+		listExpected.add(be);
+		
+		List<BatchEntity> listRecieved = bsi.findCurrentBatches();
+		assertEquals(listExpected, listRecieved);
+	}
+	
 
 }

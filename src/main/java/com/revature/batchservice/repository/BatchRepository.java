@@ -1,5 +1,6 @@
 package com.revature.batchservice.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,13 +21,32 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	 * A Custom query which selects the BatchEntities that start in a given year
 	 * and returns them as a List.
 	 * @param year Integer that represents the start year to search for.
-	 * @return A List<BatchEntity> that that holds all the batches for the given
+	 * @return A List<BatchEntity> that  holds all the batches for the given
 	 * start year. 
 	 */
 	@Query("select b from BatchEntity b where year(b.startDate) = :year")
 	public List<BatchEntity> findAllBatchesByYear (@Param("year") Integer year);
 	
+	
+	/**
+	 * A Custom query which selects the unique starting years for all batches. 
+	 * Returns a list in ascending order.
+	 * @return A List<Integer> that holds the distinct start years of all batches. The List is sorted in
+	 * ascending order.
+	 */
 	@Query("select distinct year(b.startDate) from BatchEntity b Order By year(b.startDate) ASC ")
 	public List<Integer> findBatchYears();
 	
+	
+	/**
+	 * A custom query which find all current batches and returns them as a List.
+	 * @return A List<BatchEntity> that holds all the batches for the given current.
+	 */
+	
+	@Query("select b from BatchEntity b where b.startDate <= CURRENT_DATE AND b.endDate >= CURRENT_DATE")
+	public List<BatchEntity> findAllCurrentBatches();
+	
+	@Query("select b.startDate from BatchEntity b")
+	public List<Date> getStartDates();
+
 }
