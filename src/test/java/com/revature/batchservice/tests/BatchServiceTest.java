@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.revature.batchservice.controller.BatchController;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
