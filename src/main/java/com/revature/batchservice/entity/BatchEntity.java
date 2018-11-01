@@ -263,6 +263,26 @@ public class BatchEntity {
 	}
 	
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() != BatchEntity.class) {
+			return false;
+		}
+		BatchEntity other = (BatchEntity) obj;
+		if(!this.coTrainer.equals(other.getCoTrainer()) || !this.location.equals(other.getLocation()) || !this.goodGrade.equals(other.getGoodGrade())
+				|| !this.passingGrade.equals(other.getPassingGrade()) || !this.skillType.equals(other.getSkillType()) 
+				|| !this.trainer.equals(other.getTrainer()) || !this.trainingName.equals(other.getTrainingName()) 
+				|| !this.trainingType.equals(other.getTrainingType()))
+		{
+			return false;
+		}
+		
+		if(this.startDate.getTime() != other.getStartDate().getTime() || this.endDate.getTime() != other.getEndDate().getTime()) {
+			return false;
+		}
+		
+		return true;
+	}
 	/**
 	 * Return a String to represent the BatchEntity.
 	 * @return A String to represent the BatchEntity.

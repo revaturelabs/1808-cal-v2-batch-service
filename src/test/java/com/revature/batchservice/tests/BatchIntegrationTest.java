@@ -68,10 +68,4 @@ public class BatchIntegrationTest {
 		}
 		
 	}
-
-	@Test
-	public void testCreateBatch() {
-		bc.createBatch(be1);
-	}
-
 }

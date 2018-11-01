@@ -1,5 +1,7 @@
 package com.revature.batchservice.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,13 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.revature.batchservice.BatchServiceApplication;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(classes= {AppConfig.class})
-@DataJpaTest
+@SpringBootTest(classes = BatchServiceApplication.class)
 public class BatchRepositoryTest {
 	
 	@Autowired
@@ -100,17 +102,24 @@ public class BatchRepositoryTest {
 	 
 	@Test
 	public void testFindAllBatchByYear() {
-		/*
-		be.setStartDate(LocalDate.of(2018,10,10));
-		be2.setStartDate(LocalDate.of(2019,10,10));
-		be3.setStartDate(LocalDate.of(2019,10,10));
-		be.setEndDate(LocalDate.of(2018,10,11));
-		be2.setEndDate(LocalDate.of(2019,10,11));
-		be3.setEndDate(LocalDate.of(2019,10,11));
-		*/
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);
-	}
+		
+		List<BatchEntity> list2018 = new ArrayList<BatchEntity>();
+		list2018.add(be);
+		list2018.add(be2);
+		
+		List<BatchEntity> list2019 = new ArrayList<BatchEntity>();
+		list2019.add(be3);
+		
+		List<BatchEntity> received2018 = bsi.findBatchesByStartYear(2018);
+		List<BatchEntity> received2019 = bsi.findBatchesByStartYear(2019);
+		assertEquals(list2018,received2018);
+		assertEquals(list2019,  received2019);
+		
+		}
+	
+	
 
 }
