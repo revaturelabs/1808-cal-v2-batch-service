@@ -56,7 +56,28 @@ public class BatchService implements BatchServiceInterface {
 	public BatchEntity findBatchById(Integer id) {
 		return br.findOne(id);
 	}
-
+	/**
+	 * This method returns a list of the current batches; which means the current date is 
+	 * between their start date and end date.
+	 * @return A List<BatchEntity> contains current batches.
+	 */
+	@Override
+	public List<BatchEntity> findCurrentBatches() {
+		
+		return br.findAllCurrentBatches();
+	}
+	/**
+	 * This method returns a list of the start years that the batches are in.
+	 * The list ordered in ascending order.
+	 * @return A List<Integer> contains start years of all batches, in ascending 
+	 * 		order.
+	 */
+	@Override
+	public List<Integer> findBatchYears() {
+		
+		return br.findBatchYears();
+	}
+	
 	/**
 	 * Attempts to add a BatchEntity to the database. Will throw an IllegalArgumentException
 	 * if a field in the given BatchEntity is null, (Note: BatchEntity.coTrainer can be null)
@@ -70,14 +91,6 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public void createBatch(BatchEntity be) throws IllegalArgumentException {
-		/*
-		if(be.getTrainingName() == null || be.getTrainingType() ==null
-				|| be.getLocation() == null || be.getSkillType() == null || be.getTrainer() ==null 
-				|| be.getPassingGrade() == null || be.getGoodGrade() == null || be.getEndDate() == null 
-				|| be.getStartDate() == null) {
-			throw new IllegalArgumentException("One of fields was null.");
-		}
-		*/
 		//Check if a field was null. Co-Trainer can be null
 		if(be.getTrainingName() == null) {
 			throw new IllegalArgumentException("trainingName was null.");
@@ -139,24 +152,4 @@ public class BatchService implements BatchServiceInterface {
 	public void deleteBatch(BatchEntity be) {
 		br.delete(be);
 	}
-	
-	/**
-	 * This method returns a list of the start years that the batches are in.
-	 * The list ordered in ascending order.
-	 * @return A List<Integer> contains start years of all batches, in ascending 
-	 * 		order.
-	 */
-	@Override
-	public List<Integer> findBatchYears() {
-		
-		return br.findBatchYears();
-	}
-
-	@Override
-	public List<BatchEntity> findCurrentBatches() {
-		
-		return br.findAllCurrentBatches();
-	}
-	
-
 }

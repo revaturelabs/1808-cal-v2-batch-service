@@ -27,7 +27,6 @@ import com.revature.batchservice.service.BatchService;
  *
  */
 @RestController()
-@RequestMapping("/batch")
 @CrossOrigin
 public class BatchController {
 
@@ -41,7 +40,7 @@ public class BatchController {
 	 * Returns a List of all BatchEntities on the connected database as a JSON object.
 	 * @return a List<BatchEntity> that contains all BatchEntities in the database.
 	 */
-	@GetMapping()
+	@GetMapping({ "/qc/batch/all", "/vp/batch/all" })
 	public List<BatchEntity> getAllBatches() {
 		log.debug("Inside getAllBatches");
 		System.out.println("Inside getAllBatches");
@@ -55,7 +54,7 @@ public class BatchController {
 	 * @return a BatchEntity which has the same id as the given id. Null if no matching 
 	 * 			id was found. Value is returned as a JSON object.
 	 */
-	@GetMapping("/id/{id}")
+	@GetMapping("all/batch/{id}")
 	public BatchEntity getBatchById(@PathVariable("id") Integer id) {
 		log.debug("Inside findBatchById");
 		System.out.println("Inside findBatchById");
@@ -69,9 +68,21 @@ public class BatchController {
 	 * @param year An Integer representing the year. Year is taken in as a path variable.
 	 * @return A List<BatchEntity> of batches in the given year. Returned as a JSON object
 	 */
-	@GetMapping("/year/{year}")
+	@GetMapping({"/qc/batch/{year}", "/vp/batch/{year}"})
 	public List<BatchEntity> getBatchesByStartYear(@PathVariable("year") Integer year) {
 		return bs.findBatchesByStartYear(year);
+	}
+	/**
+	 * Accepts a HTTP Get Request. Mapped to ProjectURL/vp/batch/all/current
+	 * Returns a List<BatchEntity> which contains current batches; which means the current date is 
+	 * between their start date and end date.
+	 * The List is returned as a JSON object.
+	 * @return A List<BatchEntity> of current batches.
+	 */
+	@GetMapping("/vp/batch/all/current")
+	public List<BatchEntity> getAllCurrentBatches(){
+		log.debug("Inside getAllCurrentBatches");
+		return bs.findCurrentBatches();
 	}
 	
 	
@@ -81,7 +92,7 @@ public class BatchController {
 	 *  @param be The BatchEntity to add to the database.
 	 * 
 	 */
-	@PostMapping()
+	@PostMapping("/all/batch/create")
 	public void createBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside createBatch");
 		System.out.println("Inside createBatch");
@@ -100,7 +111,7 @@ public class BatchController {
 	 * 
 	 * @param be The BatchEntity to update.
 	 */
-	@PutMapping()
+	@PutMapping("/all/batch/update")
 	public void updateBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside updateBatch");
 		System.out.println("Inside updateBatch");
@@ -113,7 +124,7 @@ public class BatchController {
 	 * If the give BatchEntity does not exist in the database, the database will not be changed.
 	 * @param be The BatchEntity to delete from the database.
 	 */
-	@DeleteMapping()
+	@DeleteMapping("/all/batch/delete")
 	public void deleteBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside deleteBatch");
 		System.out.println("Inside deleteBatch");
@@ -131,4 +142,5 @@ public class BatchController {
 		return bs.findBatchYears();
 		
 	}
+	
 }

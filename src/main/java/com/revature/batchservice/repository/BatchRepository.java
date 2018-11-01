@@ -45,8 +45,5 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	
 	@Query("select b from BatchEntity b where CURRENT_DATE BETWEEN b.startDate AND b.endDate")
 	public List<BatchEntity> findAllCurrentBatches();
-	
-	@Query("select b.startDate from BatchEntity b")
-	public List<Date> getStartDates();
 
 }
