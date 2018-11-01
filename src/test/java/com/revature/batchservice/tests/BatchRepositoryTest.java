@@ -5,21 +5,17 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.batchservice.BatchServiceApplication;
 import com.revature.batchservice.entity.BatchEntity;
-import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
 
 @RunWith(SpringRunner.class)
@@ -103,32 +99,22 @@ public class BatchRepositoryTest {
 	 
 	@Test
 	public void testFindAllBatchByYear() {
-		Calendar startDate = Calendar.getInstance();
-		startDate.set(2018, 10, 22);
-		
-		be.setStartDate(startDate.getTime());
-		startDate.set(Calendar.YEAR, 2017);
-		be2.setStartDate(startDate.getTime());
-		startDate.set(Calendar.YEAR, 2016);
-		be3.setStartDate(startDate.getTime());
-		
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);
 		
-		List<Integer> expectedYears = new ArrayList<Integer>();
+		List<BatchEntity> list2018 = new ArrayList<BatchEntity>();
+		list2018.add(be);
+		list2018.add(be2);
 		
-		expectedYears.add(2016);
-		expectedYears.add(2017);
-		expectedYears.add(2018);
+		List<BatchEntity> list2019 = new ArrayList<BatchEntity>();
+		list2019.add(be3);
 		
-		List<Integer> listYears = bsi.findBatchYears();
-		for(Integer i: listYears) {
-			System.out.println(i);
+		List<BatchEntity> received2018 = bsi.findBatchesByStartYear(2018);
+		List<BatchEntity> received2019 = bsi.findBatchesByStartYear(2019);
+		assertEquals(list2018,received2018);
+		assertEquals(list2019,  received2019);
+		
 		}
-		assertEquals(expectedYears, listYears);
-		
-	}
-	
 
 }

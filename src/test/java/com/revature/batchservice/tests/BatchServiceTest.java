@@ -2,7 +2,6 @@ package com.revature.batchservice.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -18,7 +17,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.revature.batchservice.BatchServiceApplication;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
@@ -163,25 +164,45 @@ public class BatchServiceTest {
 	public void testCreateBatchValidation() {
 		be.setGoodGrade(20);
 		be.setPassingGrade(75);
-		/*
-		be.setStartDate(LocalDate.now().plusDays(2));
-		be.setEndDate(LocalDate.now());
-		*/
+		
+		
 		Calendar startDate = Calendar.getInstance();
 		startDate.set(2018, 10, 22);
 		Calendar endDate = Calendar.getInstance();
 		endDate.set(2018, 10, 20);
 		
-		be.setStartDate(startDate.getTime());
-		be.setEndDate(endDate.getTime());
+		be2.setStartDate(startDate.getTime());
+		be2.setEndDate(endDate.getTime());
+		
+		//be3.setStartDate(null);
+		
+		BatchEntity[] beArray = new BatchEntity[10];
+		beArray[0] = new BatchEntity(null, "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[1] = new BatchEntity("a", null, "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[2] = new BatchEntity("a", "a", null, "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[3] = new BatchEntity("a", "a", "a", null, "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[4] = new BatchEntity("a", "a", "a", "a", null, "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[5] = new BatchEntity("a", "a", "a", "a", "", null, endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[6] = new BatchEntity("a", "a", "a", "a", "", "a", null, startDate.getTime(), 1, 1);
+		beArray[7] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), null, 1, 1);
+		beArray[8] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), null, 1);
+		beArray[9] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, null);
+		
+
 		exceptionRule.expect(IllegalArgumentException.class);
 		exceptionRule.expectMessage("Passing Grade can not be greater than Good Grade.");
-		
 		bsi.createBatch(be);
+		
 		exceptionRule.expect(IllegalArgumentException.class);
 		exceptionRule.expectMessage("End Date must be After Start date.");
-		
 		bsi.createBatch(be2);
 		
+		for (int i =0; i<beArray.length; i++) {
+			exceptionRule.expect(NullPointerException.class);
+			bsi.createBatch(beArray[i]);
+		}
+		
 	}
+	
+	
 }

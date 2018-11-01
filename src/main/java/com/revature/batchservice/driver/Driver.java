@@ -19,11 +19,6 @@ public class Driver {
 	
 	
 	public static void main(String[] args) {
-		/*
-		BatchEntity be1 = new BatchEntity("Training2", "C", "Other", "Nick", "", "Tampa", 
-				LocalDate.now(), LocalDate.now().plusDays(2), 80, 80);
-		bc.createBatch(be1);
-		*/
 	}
 
 }

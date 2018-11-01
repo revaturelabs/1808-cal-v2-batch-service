@@ -70,14 +70,6 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public void createBatch(BatchEntity be) throws IllegalArgumentException {
-		/*
-		if(be.getTrainingName() == null || be.getTrainingType() ==null
-				|| be.getLocation() == null || be.getSkillType() == null || be.getTrainer() ==null 
-				|| be.getPassingGrade() == null || be.getGoodGrade() == null || be.getEndDate() == null 
-				|| be.getStartDate() == null) {
-			throw new IllegalArgumentException("One of fields was null.");
-		}
-		*/
 		//Check if a field was null. Co-Trainer can be null
 		if(be.getTrainingName() == null) {
 			throw new IllegalArgumentException("trainingName was null.");
