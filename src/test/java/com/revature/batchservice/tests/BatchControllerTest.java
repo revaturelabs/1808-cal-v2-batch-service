@@ -1,6 +1,5 @@
 package com.revature.batchservice.tests;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 
 import org.junit.Before;
@@ -12,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.batchservice.controller.BatchController;
 import com.revature.batchservice.entity.BatchEntity;
@@ -27,9 +25,6 @@ public class BatchControllerTest {
     @InjectMocks
     @Autowired
     private BatchController bc;
-    
-    @Autowired
-    private BatchController realBc;
     
     private BatchEntity be;
 

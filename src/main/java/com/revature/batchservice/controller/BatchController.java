@@ -43,7 +43,6 @@ public class BatchController {
 	@GetMapping()
 	public List<BatchEntity> getAllBatches() {
 		log.debug("Inside getAllBatches");
-		System.out.println("Inside getAllBatches");
 		return bs.findAllBatches();
 	}
 	
@@ -57,7 +56,6 @@ public class BatchController {
 	@GetMapping("/id/{id}")
 	public BatchEntity getBatchById(@PathVariable("id") Integer id) {
 		log.debug("Inside findBatchById");
-		System.out.println("Inside findBatchById");
 		return bs.findBatchById(id);
 	}
 	
@@ -70,6 +68,7 @@ public class BatchController {
 	 */
 	@GetMapping("/year/{year}")
 	public List<BatchEntity> getBatchesByStartYear(@PathVariable("year") Integer year) {
+		log.debug("Inside getBatchesByStartYear");
 		return bs.findBatchesByStartYear(year);
 	}
 	
@@ -83,7 +82,6 @@ public class BatchController {
 	@PostMapping()
 	public void createBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside createBatch");
-		System.out.println("Inside createBatch");
 		try {
 			bs.createBatch(be);
 		} catch (IllegalArgumentException e) {
@@ -102,7 +100,6 @@ public class BatchController {
 	@PutMapping()
 	public void updateBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside updateBatch");
-		System.out.println("Inside updateBatch");
 		bs.updateBatch(be);
 	}
 	
@@ -115,7 +112,6 @@ public class BatchController {
 	@DeleteMapping()
 	public void deleteBatch(@RequestBody BatchEntity be) {
 		log.debug("Inside deleteBatch");
-		System.out.println("Inside deleteBatch");
 		bs.deleteBatch(be);
 	}
 }
