@@ -2,7 +2,8 @@ package com.revature.batchservice.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,14 +13,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.batchservice.BatchServiceApplication;
 import com.revature.batchservice.entity.BatchEntity;
-import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
 
 @RunWith(SpringRunner.class)
@@ -133,10 +131,16 @@ public class BatchRepositoryTest {
 	@Test
 	public void testFindCurrentBatches() {
 		Calendar tempDate = Calendar.getInstance();
+		String format = "yyyy-MM-dd HH:mm:ss.S";
+		SimpleDateFormat formatter = new SimpleDateFormat();
+		formatter.applyPattern(format);
+		tempDate.set(Calendar.HOUR_OF_DAY, 0);
+		tempDate.set(Calendar.MINUTE, 0);
+		tempDate.set(Calendar.SECOND, 0);
+		tempDate.set(Calendar.MILLISECOND, 0);
+		
 		
 		int year = tempDate.get(Calendar.YEAR);
-		int month = tempDate.get(Calendar.MONTH);
-		int day = tempDate.get(Calendar.DAY_OF_MONTH);
 		tempDate.add(Calendar.DAY_OF_MONTH, -1);
 		//Valid starting time. Batch still active
 		be.setStartDate(tempDate.getTime());
@@ -155,6 +159,8 @@ public class BatchRepositoryTest {
 		tempDate.add(Calendar.DAY_OF_MONTH, 3);
 		be3.setEndDate(tempDate.getTime());
 		
+		
+		
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);
@@ -163,7 +169,17 @@ public class BatchRepositoryTest {
 		listExpected.add(be);
 		
 		List<BatchEntity> listRecieved = bsi.findCurrentBatches();
-		assertEquals(listExpected, listRecieved);
+		//assertEquals(listExpected, listRecieved);
+		for(int i=0; i<listExpected.size(); i++) {
+	        Date expected = listExpected.get(i).getStartDate();
+	        Date received = listRecieved.get(i).getStartDate();
+	        assertEquals(expected.getTime(), received.getTime());
+	        
+	        Date expectedEnd = listExpected.get(i).getEndDate();
+	        Date receivedEnd = listRecieved.get(i).getEndDate();
+	        assertEquals(expectedEnd.getTime(), receivedEnd.getTime());
+	        
+		}
 	}
 	
 

@@ -47,7 +47,7 @@ public class BatchIntegrationTest {
 		endDate.set(2018, 10, 23);
 		be1 = new BatchEntity("Training", "Java", "Servlets", "Nick", "", "Tampa", 
 				startDate.getTime(), endDate.getTime(), 80, 80);
-		System.out.println(LocalDate.now().getYear());
+		//System.out.println(LocalDate.now().getYear());
 	}
 	
 	@Test
