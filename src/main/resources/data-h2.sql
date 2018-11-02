@@ -1,0 +1,1 @@
+Insert into BATCH (BATCH_ID, TRAINING_NAME, TRAINING_TYPE, SKILL_TYPE, LOCATION, TRAINER, CO_TRAINER, START_DATE, END_DATE, GOOD_GRADE, PASSING_GRADE) values (1, 'TestingBatch1', 'Revature', 'Full Stack Java/JEE', 'Tech Incubator at Queens College, 65-30 Kissena Blvd, CEP Hall 2, Queens, NY 11367', 'Patrick Walsh', 'Dan Pickles', '2018-10-05', '2018-11-05', 80, 70);
