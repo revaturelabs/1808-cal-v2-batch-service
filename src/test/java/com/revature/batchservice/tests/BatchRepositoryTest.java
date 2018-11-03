@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -72,14 +73,7 @@ public class BatchRepositoryTest {
 		endDate.set(2019, 1, 23);
 		be3.setStartDate(startDate.getTime());
 		be3.setEndDate(endDate.getTime());
-		/*
-		be.setStartDate(LocalDate.now());
-		be.setEndDate(LocalDate.now().plusMonths(1));
-		be2.setStartDate(LocalDate.now());
-		be2.setEndDate(LocalDate.now().plusMonths(2));
-		be3.setStartDate(LocalDate.now());
-		be3.setEndDate(LocalDate.now().plusMonths(3));
-		*/
+		
 		be.setGoodGrade(75);
 		be2.setGoodGrade(85);
 		be3.setGoodGrade(95);
@@ -115,6 +109,32 @@ public class BatchRepositoryTest {
 		assertEquals(list2018,received2018);
 		assertEquals(list2019,  received2019);
 		
-		}
+	}
 
+	
+	@Test
+	public void testFindBatchYears() {
+		bsi.createBatch(be);
+		bsi.createBatch(be2);
+		bsi.createBatch(be3);
+		
+		List<Integer> recievedYears = bsi.findBatchYears();
+		
+		int countOf2018 = 0;
+		int countOf2019 = 0;
+		
+		//Check that one 2018 and one 2019 was retrieved.
+		for(Integer i : recievedYears) {
+			if(i.intValue() == 2018) {
+				countOf2018++;
+			}
+			if(i.intValue() == 2019) {
+				countOf2019++;
+			}
+		}
+		int expectedCountOf2018 = 1;
+		int expectedCountOf2019 = 1;		
+		assertEquals(expectedCountOf2018, countOf2018);
+		assertEquals(expectedCountOf2019, countOf2019);
+	}	
 }

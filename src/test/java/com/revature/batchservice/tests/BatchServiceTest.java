@@ -88,14 +88,7 @@ public class BatchServiceTest {
 		endDate.set(2019, 1, 23);
 		be3.setStartDate(startDate.getTime());
 		be3.setEndDate(endDate.getTime());
-		/*
-		be.setStartDate(LocalDate.now());
-		be.setEndDate(LocalDate.now().plusMonths(1));
-		be2.setStartDate(LocalDate.now());
-		be2.setEndDate(LocalDate.now().plusMonths(2));
-		be3.setStartDate(LocalDate.now());
-		be3.setEndDate(LocalDate.now().plusMonths(3));
-		*/
+
 		be.setGoodGrade(75);
 		be2.setGoodGrade(85);
 		be3.setGoodGrade(95);
@@ -103,21 +96,17 @@ public class BatchServiceTest {
 		be2.setPassingGrade(80);
 		be3.setPassingGrade(80);
 				
-		
-		
 		lbr.add(be);
 		lbr.add(be2);
 		lbr.add(be3);
-		//bsi = new BatchService();
+		
 		Mockito.when(br.save(be)).thenReturn(be);
 		Mockito.when(br.save(be2)).thenReturn(be2);
 		Mockito.when(br.save(be3)).thenReturn(be3);
 		Mockito.when(br.findAll()).thenReturn(lbr);
-		
-		
+				
 	}
 		
-	 
 	@Test
 	public void testCreateBatch() {
 		bsi.createBatch(be);
@@ -174,8 +163,6 @@ public class BatchServiceTest {
 		be2.setStartDate(startDate.getTime());
 		be2.setEndDate(endDate.getTime());
 		
-		//be3.setStartDate(null);
-		
 		BatchEntity[] beArray = new BatchEntity[10];
 		beArray[0] = new BatchEntity(null, "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
 		beArray[1] = new BatchEntity("a", null, "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
@@ -203,6 +190,5 @@ public class BatchServiceTest {
 		}
 		
 	}
-	
 	
 }

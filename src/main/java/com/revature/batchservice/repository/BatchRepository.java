@@ -26,6 +26,12 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	@Query("select b from BatchEntity b where year(b.startDate) = :year")
 	public List<BatchEntity> findAllBatchesByYear (@Param("year") Integer year);
 	
+	/**
+	 * A Custom query which selects the unique starting years for all batches. 
+	 * Returns a list in ascending order.
+	 * @return A List<Integer> that holds the distinct start years of all batches. The List is sorted in
+	 * ascending order.
+	 */
 	@Query("select distinct year(b.startDate) from BatchEntity b Order By year(b.startDate) ASC ")
 	public List<Integer> findBatchYears();
 	
