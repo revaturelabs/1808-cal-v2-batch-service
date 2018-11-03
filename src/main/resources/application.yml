@@ -15,7 +15,7 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: ${EUREKA_ZONE}
+      default-zone: ${EUREKA_HOME}
         
       
 
