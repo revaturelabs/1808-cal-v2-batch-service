@@ -2,11 +2,9 @@ package com.revature.batchservice.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -74,57 +72,36 @@ public class BatchRepositoryTest {
 		endDate.set(2019, 1, 23);
 		be3.setStartDate(startDate.getTime());
 		be3.setEndDate(endDate.getTime());
-		/*
-		be.setStartDate(LocalDate.now());
-		be.setEndDate(LocalDate.now().plusMonths(1));
-		be2.setStartDate(LocalDate.now());
-		be2.setEndDate(LocalDate.now().plusMonths(2));
-		be3.setStartDate(LocalDate.now());
-		be3.setEndDate(LocalDate.now().plusMonths(3));
-		*/
+		
 		be.setGoodGrade(75);
 		be2.setGoodGrade(85);
 		be3.setGoodGrade(95);
 		be.setPassingGrade(60);
 		be2.setPassingGrade(80);
-		be3.setPassingGrade(80);
-				
-		
+		be3.setPassingGrade(80);		
 		
 		lbr.add(be);
 		lbr.add(be2);
 		lbr.add(be3);
-		
 	}
-
-	 
 	 
 	@Test
 	public void testFindAllBatchByYear() {
-		Calendar startDate = Calendar.getInstance();
-		startDate.set(2018, 10, 22);
-		
-		be.setStartDate(startDate.getTime());
-		startDate.set(Calendar.YEAR, 2017);
-		be2.setStartDate(startDate.getTime());
-		startDate.set(Calendar.YEAR, 2016);
-		be3.setStartDate(startDate.getTime());
-		
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);
 		
-		List<Integer> expectedYears = new ArrayList<Integer>();
+		List<BatchEntity> list2018 = new ArrayList<BatchEntity>();
+		list2018.add(be);
+		list2018.add(be2);
 		
-		expectedYears.add(2016);
-		expectedYears.add(2017);
-		expectedYears.add(2018);
+		List<BatchEntity> list2019 = new ArrayList<BatchEntity>();
+		list2019.add(be3);
 		
-		List<Integer> listYears = bsi.findBatchYears();
-		for(Integer i: listYears) {
-			System.out.println(i);
-		}
-		assertEquals(expectedYears, listYears);
+		List<BatchEntity> received2018 = bsi.findBatchesByStartYear(2018);
+		List<BatchEntity> received2019 = bsi.findBatchesByStartYear(2019);
+		assertEquals(list2018,received2018);
+		assertEquals(list2019,  received2019);
 		
 	}
 	
@@ -158,9 +135,7 @@ public class BatchRepositoryTest {
 		be3.setStartDate(tempDate.getTime());
 		tempDate.add(Calendar.DAY_OF_MONTH, 3);
 		be3.setEndDate(tempDate.getTime());
-		
-		
-		
+				
 		bsi.createBatch(be);
 		bsi.createBatch(be2);
 		bsi.createBatch(be3);
@@ -169,18 +144,33 @@ public class BatchRepositoryTest {
 		listExpected.add(be);
 		
 		List<BatchEntity> listRecieved = bsi.findCurrentBatches();
-		//assertEquals(listExpected, listRecieved);
-		for(int i=0; i<listExpected.size(); i++) {
-	        Date expected = listExpected.get(i).getStartDate();
-	        Date received = listRecieved.get(i).getStartDate();
-	        assertEquals(expected.getTime(), received.getTime());
-	        
-	        Date expectedEnd = listExpected.get(i).getEndDate();
-	        Date receivedEnd = listRecieved.get(i).getEndDate();
-	        assertEquals(expectedEnd.getTime(), receivedEnd.getTime());
-	        
-		}
+		assertEquals(listExpected, listRecieved);
 	}
-	
 
+	
+	@Test
+	public void testFindBatchYears() {
+		bsi.createBatch(be);
+		bsi.createBatch(be2);
+		bsi.createBatch(be3);
+		
+		List<Integer> recievedYears = bsi.findBatchYears();
+		
+		int countOf2018 = 0;
+		int countOf2019 = 0;
+		
+		//Check that one 2018 and one 2019 was retrieved.
+		for(Integer i : recievedYears) {
+			if(i.intValue() == 2018) {
+				countOf2018++;
+			}
+			if(i.intValue() == 2019) {
+				countOf2019++;
+			}
+		}
+		int expectedCountOf2018 = 1;
+		int expectedCountOf2019 = 1;		
+		assertEquals(expectedCountOf2018, countOf2018);
+		assertEquals(expectedCountOf2019, countOf2019);
+	}	
 }

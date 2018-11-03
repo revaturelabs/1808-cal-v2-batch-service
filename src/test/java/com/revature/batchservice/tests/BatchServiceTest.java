@@ -3,7 +3,6 @@ package com.revature.batchservice.tests;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,7 +19,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.revature.batchservice.controller.BatchController;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
@@ -89,14 +87,7 @@ public class BatchServiceTest {
 		endDate.set(2019, 1, 23);
 		be3.setStartDate(startDate.getTime());
 		be3.setEndDate(endDate.getTime());
-		/*
-		be.setStartDate(LocalDate.now());
-		be.setEndDate(LocalDate.now().plusMonths(1));
-		be2.setStartDate(LocalDate.now());
-		be2.setEndDate(LocalDate.now().plusMonths(2));
-		be3.setStartDate(LocalDate.now());
-		be3.setEndDate(LocalDate.now().plusMonths(3));
-		*/
+
 		be.setGoodGrade(75);
 		be2.setGoodGrade(85);
 		be3.setGoodGrade(95);
@@ -104,21 +95,17 @@ public class BatchServiceTest {
 		be2.setPassingGrade(80);
 		be3.setPassingGrade(80);
 				
-		
-		
 		lbr.add(be);
 		lbr.add(be2);
 		lbr.add(be3);
-		//bsi = new BatchService();
+		
 		Mockito.when(br.save(be)).thenReturn(be);
 		Mockito.when(br.save(be2)).thenReturn(be2);
 		Mockito.when(br.save(be3)).thenReturn(be3);
 		Mockito.when(br.findAll()).thenReturn(lbr);
-		
-		
+				
 	}
 		
-	 
 	@Test
 	public void testCreateBatch() {
 		bsi.createBatch(be);
@@ -165,25 +152,42 @@ public class BatchServiceTest {
 	public void testCreateBatchValidation() {
 		be.setGoodGrade(20);
 		be.setPassingGrade(75);
-		/*
-		be.setStartDate(LocalDate.now().plusDays(2));
-		be.setEndDate(LocalDate.now());
-		*/
+		
+		
 		Calendar startDate = Calendar.getInstance();
 		startDate.set(2018, 10, 22);
 		Calendar endDate = Calendar.getInstance();
 		endDate.set(2018, 10, 20);
 		
-		be.setStartDate(startDate.getTime());
-		be.setEndDate(endDate.getTime());
+		be2.setStartDate(startDate.getTime());
+		be2.setEndDate(endDate.getTime());
+		
+		BatchEntity[] beArray = new BatchEntity[10];
+		beArray[0] = new BatchEntity(null, "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[1] = new BatchEntity("a", null, "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[2] = new BatchEntity("a", "a", null, "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[3] = new BatchEntity("a", "a", "a", null, "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[4] = new BatchEntity("a", "a", "a", "a", null, "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[5] = new BatchEntity("a", "a", "a", "a", "", null, endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[6] = new BatchEntity("a", "a", "a", "a", "", "a", null, startDate.getTime(), 1, 1);
+		beArray[7] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), null, 1, 1);
+		beArray[8] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), null, 1);
+		beArray[9] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, null);
+		
+
 		exceptionRule.expect(IllegalArgumentException.class);
 		exceptionRule.expectMessage("Passing Grade can not be greater than Good Grade.");
-		
 		bsi.createBatch(be);
+		
 		exceptionRule.expect(IllegalArgumentException.class);
 		exceptionRule.expectMessage("End Date must be After Start date.");
-		
 		bsi.createBatch(be2);
 		
+		for (int i =0; i<beArray.length; i++) {
+			exceptionRule.expect(NullPointerException.class);
+			bsi.createBatch(beArray[i]);
+		}
+		
 	}
+	
 }
