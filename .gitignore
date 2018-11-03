@@ -1,4 +1,4 @@
-# Compiled source #
+﻿# Compiled source #
 ###################
 *.com
 *.class
@@ -37,6 +37,6 @@ Thumbs.db
 ###########
 target/
 
-Collapse 
+Collapse 
 
 Message Input
