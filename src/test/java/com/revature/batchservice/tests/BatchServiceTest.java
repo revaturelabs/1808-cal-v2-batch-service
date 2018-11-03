@@ -149,10 +149,10 @@ public class BatchServiceTest {
 	@Test
 	public void testDeleteBatch() {
 		
-		bsi.createBatch(be);
+		BatchEntity saved = bsi.createBatch(be);
 		
-	    bsi.deleteBatch(be);
-	    Mockito.verify(br).delete(be);
+	    bsi.deleteBatch(saved.getBatchId());
+	    Mockito.verify(br).delete(be.getBatchId());
 	    List<BatchEntity> deletedList = new ArrayList<BatchEntity>();
 	    
 	    Mockito.when(br.findAll()).thenReturn(deletedList);

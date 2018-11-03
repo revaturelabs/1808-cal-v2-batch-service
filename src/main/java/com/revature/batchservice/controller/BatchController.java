@@ -27,7 +27,7 @@ import com.revature.batchservice.service.BatchService;
  *
  */
 @RestController()
-@CrossOrigin
+@CrossOrigin("*")
 public class BatchController {
 
 	private Logger log = Logger.getLogger("BatchController");
@@ -124,11 +124,11 @@ public class BatchController {
 	 * If the give BatchEntity does not exist in the database, the database will not be changed.
 	 * @param be The BatchEntity to delete from the database.
 	 */
-	@DeleteMapping("/all/batch/delete")
-	public void deleteBatch(@RequestBody BatchEntity be) {
+	@DeleteMapping("/all/batch/delete/{batchId}")
+	public void deleteBatch(@PathVariable String batchId) {
 		log.debug("Inside deleteBatch");
 		System.out.println("Inside deleteBatch");
-		bs.deleteBatch(be);
+		bs.deleteBatch(Integer.parseInt(batchId));
 	}
 	
 	/**

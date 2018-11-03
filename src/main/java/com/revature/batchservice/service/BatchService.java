@@ -90,7 +90,7 @@ public class BatchService implements BatchServiceInterface {
 	 * 			before the startDate.
 	 */
 	@Override
-	public void createBatch(BatchEntity be) throws IllegalArgumentException {
+	public BatchEntity createBatch(BatchEntity be) throws IllegalArgumentException {
 		//Check if a field was null. Co-Trainer can be null
 		if(be.getTrainingName() == null) {
 			throw new IllegalArgumentException("trainingName was null.");
@@ -127,7 +127,7 @@ public class BatchService implements BatchServiceInterface {
 		if ( be.getEndDate().compareTo(be.getStartDate()) < 0) {
 			throw new IllegalArgumentException("End Date must be After Start date.");
 		}
-		br.save(be);
+		return br.save(be);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class BatchService implements BatchServiceInterface {
 	 * @param be The BatchEntity to delete from the database.
 	 */
 	@Override
-	public void deleteBatch(BatchEntity be) {
-		br.delete(be);
+	public void deleteBatch(Integer batchId) {
+		br.delete(batchId);
 	}
 }
