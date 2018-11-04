@@ -1,0 +1,29 @@
+package com.revature.batchservice.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.revature.batchservice.entity.BatchEntity;
+/**
+ * A JPA repository for batch entities.  It has the default methods of a JpaRepository.
+ * @author Justin Tu, Bita Mahbod, Daniel Mitre
+ *
+ */
+@Repository(value="batchRepository")
+public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
+	
+	/**
+	 * A Custom query which selects the BatchEntities that start in a given year
+	 * and returns them as a List.
+	 * @param year Integer that represents the start year to search for.
+	 * @return A List<BatchEntity> that that holds all the batches for the given
+	 * start year. 
+	 */
+	@Query("select b from BatchEntity b where year(b.startDate) = :year")
+	public List<BatchEntity> findAllBatchesByYear (@Param("year") Integer year);
+	
+}

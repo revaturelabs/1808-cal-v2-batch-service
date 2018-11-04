@@ -1,4 +1,4 @@
-package com.revature;
+package com.revature.batchservice.tests;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
