@@ -99,8 +99,19 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public List<BatchEntity> findCurrentBatches() {
+		List<BatchEntity> beList = br.findAllCurrentBatches();
+		for (BatchEntity be: beList) {
+			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
+			if(response != null && response.hasBody()) {
+				String body = response.getBody();
+				body = body.substring(body.indexOf(",") + 2);
+				be.setLocation(body);
+			} else {
+				be.setLocation("Location was not found");
+			}
+		}
+		return beList;
 		
-		return br.findAllCurrentBatches();
 	}
 	/**
 	 * This method returns a list of the start years that the batches are in.
