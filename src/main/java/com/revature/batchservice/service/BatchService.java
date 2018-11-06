@@ -38,9 +38,14 @@ public class BatchService implements BatchServiceInterface {
 	public List<BatchEntity> findAllBatches() {
 		List<BatchEntity> beList = br.findAll();
 		for (BatchEntity be: beList) {
-			
 			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
-			be.setLocationName(response.getBody());
+			if(response != null && response.hasBody()) {
+				String body = response.getBody();
+				body = body.substring(body.indexOf(",") + 2);
+				be.setLocationName(body);
+			} else {
+				be.setLocationName("Location was not found");
+			}
 		}
 		return beList;
 	}

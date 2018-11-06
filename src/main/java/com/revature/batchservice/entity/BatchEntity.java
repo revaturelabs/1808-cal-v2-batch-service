@@ -47,20 +47,12 @@ public class BatchEntity {
 	@Column(name="CO_TRAINER")
 	private String coTrainer;
 	
-	
-	public Integer getLocationId() {
-		return locationId;
-	}
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
-	}
 	@NotNull
 	@Column(name="LOCATION_ID")
 	private Integer locationId;
 	
-	@NotNull
-	private String locationName;
 	
+	private String locationName;
 	
 	@NotNull
 	@Column(name="START_DATE")
@@ -270,6 +262,12 @@ public class BatchEntity {
 		this.locationName = locationName;
 	}
 	
+	public Integer getLocationId() {
+		return locationId;
+	}
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -303,11 +301,4 @@ public class BatchEntity {
 				+ ", goodGrade=" + goodGrade + ", passingGrade=" + passingGrade + "]";
 	}
 	
-
-	
-	
-	
-	
-	
-
 }
