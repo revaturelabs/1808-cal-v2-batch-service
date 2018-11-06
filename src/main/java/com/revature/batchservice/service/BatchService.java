@@ -42,9 +42,9 @@ public class BatchService implements BatchServiceInterface {
 			if(response != null && response.hasBody()) {
 				String body = response.getBody();
 				body = body.substring(body.indexOf(",") + 2);
-				be.setLocationName(body);
+				be.setLocation(body);
 			} else {
-				be.setLocationName("Location was not found");
+				be.setLocation("Location was not found");
 			}
 		}
 		return beList;
@@ -58,7 +58,18 @@ public class BatchService implements BatchServiceInterface {
 	 * @return A List<BatchEntity> of batches that start in a given year.
 	 */
 	public List<BatchEntity> findBatchesByStartYear(Integer year){
-		return br.findAllBatchesByYear(year);
+		List<BatchEntity> beList = br.findAllBatchesByYear(year);
+		for (BatchEntity be: beList) {
+			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
+			if(response != null && response.hasBody()) {
+				String body = response.getBody();
+				body = body.substring(body.indexOf(",") + 2);
+				be.setLocation(body);
+			} else {
+				be.setLocation("Location was not found");
+			}
+		}
+		return beList;
 		
 	}
 	
@@ -70,7 +81,16 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public BatchEntity findBatchById(Integer id) {
-		return br.findOne(id);
+		BatchEntity be = br.findOne(id);
+		ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
+		if(response != null && response.hasBody()) {
+			String body = response.getBody();
+			body = body.substring(body.indexOf(",") + 2);
+			be.setLocation(body);
+		} else {
+			be.setLocation("Location was not found");
+		}
+		return be;
 	}
 	/**
 	 * This method returns a list of the current batches; which means the current date is 

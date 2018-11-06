@@ -214,11 +214,11 @@ public class BatchServiceTest {
 		
 		for(BatchEntity entity: fabl) {
 			if(entity.getLocationId() == 1) {
-				assertEquals(expected1, entity.getLocationName());
+				assertEquals(expected1, entity.getLocation());
 			} else if (entity.getLocationId() == 2) {
-				assertEquals(expected2, entity.getLocationName());
+				assertEquals(expected2, entity.getLocation());
 			} else if (entity.getLocationId() == 3) {
-				assertEquals(expected3, entity.getLocationName());
+				assertEquals(expected3, entity.getLocation());
 			}
 		}
 	}

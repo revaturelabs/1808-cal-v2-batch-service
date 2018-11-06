@@ -52,7 +52,7 @@ public class BatchEntity {
 	private Integer locationId;
 	
 	
-	private String locationName;
+	private String location;
 	
 	@NotNull
 	@Column(name="START_DATE")
@@ -255,11 +255,11 @@ public class BatchEntity {
 		this.batchId = batchId;
 	}
 	
-	public String getLocationName() {
-		return locationName;
+	public String getLocation() {
+		return location;
 	}
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 	public Integer getLocationId() {
