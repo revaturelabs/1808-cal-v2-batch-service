@@ -3,9 +3,11 @@ package com.revature.batchservice.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.feign.LocationClient;
 import com.revature.batchservice.repository.BatchRepository;
 
 /**
@@ -24,6 +26,9 @@ public class BatchService implements BatchServiceInterface {
 	@Autowired
 	private BatchRepository br;
 	
+	@Autowired
+	private LocationClient locationClient;
+	
 	
 	/**
 	 * Returns a List of all BatchEntities on the connected database.
@@ -31,7 +36,13 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public List<BatchEntity> findAllBatches() {
-		return br.findAll();
+		List<BatchEntity> beList = br.findAll();
+		for (BatchEntity be: beList) {
+			
+			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
+			be.setLocationName(response.getBody());
+		}
+		return beList;
 	}
 	
 	/**
@@ -98,8 +109,8 @@ public class BatchService implements BatchServiceInterface {
 		if(be.getTrainingType() == null) {
 			throw new IllegalArgumentException("trainingType was null.");
 		}
-		if(be.getLocation() == null) {
-			throw new IllegalArgumentException("location was null.");
+		if(be.getLocationId() == null) {
+			throw new IllegalArgumentException("locationId was null.");
 		}
 		if(be.getSkillType() == null) {
 			throw new IllegalArgumentException("skillType was null.");

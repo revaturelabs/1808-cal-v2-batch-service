@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.feign.LocationClient;
 import com.revature.batchservice.service.BatchService;
 
 /**

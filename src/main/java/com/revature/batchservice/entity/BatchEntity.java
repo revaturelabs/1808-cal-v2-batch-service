@@ -47,9 +47,20 @@ public class BatchEntity {
 	@Column(name="CO_TRAINER")
 	private String coTrainer;
 	
+	
+	public Integer getLocationId() {
+		return locationId;
+	}
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
+	}
 	@NotNull
-	@Column(name="LOCATION")
-	private String location;
+	@Column(name="LOCATION_ID")
+	private Integer locationId;
+	
+	@NotNull
+	private String locationName;
+	
 	
 	@NotNull
 	@Column(name="START_DATE")
@@ -85,20 +96,23 @@ public class BatchEntity {
 	 * @param goodGrade A Integer to represent the good grade
 	 * @param passingGrade A Integer to represent the passing grade
 	 */
-	public BatchEntity(String trainingName, String trainingType, String skillType, String trainer, String coTrainer,
-			String location, Date startDate, Date endDate, Integer goodGrade, Integer passingGrade) {
+	
+	public BatchEntity(String trainingName, String trainingType, String skillType, String trainer,
+			String coTrainer, Integer locationId, Date startDate, Date endDate, Integer goodGrade,
+			Integer passingGrade) {
 		super();
 		this.trainingName = trainingName;
 		this.trainingType = trainingType;
 		this.skillType = skillType;
 		this.trainer = trainer;
 		this.coTrainer = coTrainer;
-		this.location = location;
+		this.locationId = locationId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.goodGrade = goodGrade;
 		this.passingGrade = passingGrade;
 	}
+	
 	/**
 	 * Default constructor of BatchEntity.
 	 */
@@ -177,20 +191,7 @@ public class BatchEntity {
 	public void setCoTrainer(String coTrainer) {
 		this.coTrainer = coTrainer;
 	}
-	/**
-	 * Getter for location.
-	 * @return A String that holds the batch's location.
-	 */
-	public String getLocation() {
-		return location;
-	}
-	/**
-	 * Setter for location.
-	 * @param location A String that holds the batch's location.
-	 */ 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+
 	/**
 	 * Getter for start date.
 	 * @return A Date that holds the batch's start date.
@@ -262,6 +263,13 @@ public class BatchEntity {
 		this.batchId = batchId;
 	}
 	
+	public String getLocationName() {
+		return locationName;
+	}
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -269,7 +277,7 @@ public class BatchEntity {
 			return false;
 		}
 		BatchEntity other = (BatchEntity) obj;
-		if(!this.coTrainer.equals(other.getCoTrainer()) || !this.location.equals(other.getLocation()) || !this.goodGrade.equals(other.getGoodGrade())
+		if(!this.coTrainer.equals(other.getCoTrainer()) || !this.locationId.equals(other.getLocationId()) || !this.goodGrade.equals(other.getGoodGrade())
 				|| !this.passingGrade.equals(other.getPassingGrade()) || !this.skillType.equals(other.getSkillType()) 
 				|| !this.trainer.equals(other.getTrainer()) || !this.trainingName.equals(other.getTrainingName()) 
 				|| !this.trainingType.equals(other.getTrainingType()))
@@ -283,6 +291,7 @@ public class BatchEntity {
 		
 		return true;
 	}
+	
 	/**
 	 * Return a String to represent the BatchEntity.
 	 * @return A String to represent the BatchEntity.
@@ -290,10 +299,12 @@ public class BatchEntity {
 	@Override
 	public String toString() {
 		return "BatchEntity [batchId=" + batchId + ", trainingName=" + trainingName + ", trainingType=" + trainingType
-				+ ", skillType=" + skillType + ", trainer=" + trainer + ", coTrainer=" + coTrainer + ", location="
-				+ location + ", startDate=" + startDate + ", endDate=" + endDate + ", goodGrade=" + goodGrade
-				+ ", passingGrade=" + passingGrade + "]";
+				+ ", skillType=" + skillType + ", trainer=" + trainer + ", coTrainer=" + coTrainer + ", locationId=" + locationId + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", goodGrade=" + goodGrade + ", passingGrade=" + passingGrade + "]";
 	}
+	
+
+	
 	
 	
 	

@@ -65,9 +65,9 @@ public class BatchServiceTest {
 		be.setTrainingType("beTrainingType");
 		be2.setTrainingType("beTrainingType2");
 		be3.setTrainingType("beTrainingType3");
-		be.setLocation("beLocation");
-		be2.setLocation("beLocation2");
-		be3.setLocation("beLocation3");
+		be.setLocationId(10);
+		be2.setLocationId(20);
+		be3.setLocationId(30);
 		be.setSkillType("skillType");
 		be2.setSkillType("skillType2");
 		be3.setSkillType("skillType3");
@@ -163,16 +163,16 @@ public class BatchServiceTest {
 		be2.setEndDate(endDate.getTime());
 		
 		BatchEntity[] beArray = new BatchEntity[10];
-		beArray[0] = new BatchEntity(null, "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[1] = new BatchEntity("a", null, "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[2] = new BatchEntity("a", "a", null, "a", "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[3] = new BatchEntity("a", "a", "a", null, "", "a", endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[4] = new BatchEntity("a", "a", "a", "a", null, "a", endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[0] = new BatchEntity(null, "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[1] = new BatchEntity("a", null, "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[2] = new BatchEntity("a", "a", null, "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[3] = new BatchEntity("a", "a", "a", null, "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
+		beArray[4] = new BatchEntity("a", "a", "a", "a", null, 10, endDate.getTime(), startDate.getTime(), 1, 1);
 		beArray[5] = new BatchEntity("a", "a", "a", "a", "", null, endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[6] = new BatchEntity("a", "a", "a", "a", "", "a", null, startDate.getTime(), 1, 1);
-		beArray[7] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), null, 1, 1);
-		beArray[8] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), null, 1);
-		beArray[9] = new BatchEntity("a", "a", "a", "a", "", "a", endDate.getTime(), startDate.getTime(), 1, null);
+		beArray[6] = new BatchEntity("a", "a", "a", "a", "", 10, null, startDate.getTime(), 1, 1);
+		beArray[7] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), null, 1, 1);
+		beArray[8] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), null, 1);
+		beArray[9] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, null);
 		
 
 		exceptionRule.expect(IllegalArgumentException.class);
@@ -189,5 +189,9 @@ public class BatchServiceTest {
 		}
 		
 	}
-	
+	@Test
+	public void findAllBatches() {
+		List<BatchEntity> fabl = bsi.findAllBatches();
+		
+	}
 }
