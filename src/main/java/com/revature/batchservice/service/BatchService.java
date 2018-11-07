@@ -2,6 +2,7 @@ package com.revature.batchservice.service;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.feign.LocationClient;
 import com.revature.batchservice.repository.BatchRepository;
+
+import feign.RetryableException;
 
 /**
  * Service class for handling Batches. Has methods for adding a batch to the database, 
@@ -23,13 +26,15 @@ import com.revature.batchservice.repository.BatchRepository;
 @Service
 public class BatchService implements BatchServiceInterface {
     
+	Logger log = Logger.getLogger("BatchService.class");
+	
 	@Autowired
 	private BatchRepository br;
 	
 	@Autowired
 	private LocationClient locationClient;
 	
-	
+		
 	/**
 	 * Returns a List of all BatchEntities on the connected database.
 	 * @return a List<BatchEntity> that contains all BatchEntities in the database.
@@ -37,14 +42,13 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public List<BatchEntity> findAllBatches() {
 		List<BatchEntity> beList = br.findAll();
-		for (BatchEntity be: beList) {
-			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
-			if(response != null && response.hasBody()) {
-				String body = response.getBody();
-				body = body.substring(body.indexOf(",") + 2);
-				be.setLocation(body);
-			} else {
-				be.setLocation("Location was not found");
+		OUTER: for (int i = 0; i < beList.size(); i ++) {
+			BatchEntity be = beList.get(i);
+			if(!contactLocationService(be)) {
+				for(int j = i; j < beList.size(); j++) {
+					beList.get(j).setLocation("Connection to Location database lost");
+				}
+				break OUTER;
 			}
 		}
 		return beList;
@@ -59,18 +63,16 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	public List<BatchEntity> findBatchesByStartYear(Integer year){
 		List<BatchEntity> beList = br.findAllBatchesByYear(year);
-		for (BatchEntity be: beList) {
-			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
-			if(response != null && response.hasBody()) {
-				String body = response.getBody();
-				body = body.substring(body.indexOf(",") + 2);
-				be.setLocation(body);
-			} else {
-				be.setLocation("Location was not found");
+		OUTER: for (int i = 0; i < beList.size(); i ++) {
+			BatchEntity be = beList.get(i);
+			if(!contactLocationService(be)) {
+				for(int j = i; j < beList.size(); j++) {
+					beList.get(j).setLocation("Connection to Location database lost");
+				}
+				break OUTER;
 			}
 		}
 		return beList;
-		
 	}
 	
 	/**
@@ -82,14 +84,7 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public BatchEntity findBatchById(Integer id) {
 		BatchEntity be = br.findOne(id);
-		ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
-		if(response != null && response.hasBody()) {
-			String body = response.getBody();
-			body = body.substring(body.indexOf(",") + 2);
-			be.setLocation(body);
-		} else {
-			be.setLocation("Location was not found");
-		}
+		contactLocationService(be);
 		return be;
 	}
 	/**
@@ -100,14 +95,13 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public List<BatchEntity> findCurrentBatches() {
 		List<BatchEntity> beList = br.findAllCurrentBatches();
-		for (BatchEntity be: beList) {
-			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
-			if(response != null && response.hasBody()) {
-				String body = response.getBody();
-				body = body.substring(body.indexOf(",") + 2);
-				be.setLocation(body);
-			} else {
-				be.setLocation("Location was not found");
+		OUTER: for (int i = 0; i < beList.size(); i ++) {
+			BatchEntity be = beList.get(i);
+			if(!contactLocationService(be)) {
+				for(int j = i; j < beList.size(); j++) {
+					beList.get(j).setLocation("Connection to Location database lost");
+				}
+				break OUTER;
 			}
 		}
 		return beList;
@@ -198,5 +192,31 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public void deleteBatch(Integer batchId) {
 		br.delete(batchId);
+	}
+	
+	/**
+	 * Helper method for getting location info from the Location Micro-Service and
+	 * putting that info into a BatchEntity.
+	 * @param be The BatchEntity to set location info.
+	 * @return Returns true if RetryableException was not thrown by LocaitonClient. 
+	 * 	Returns false otherwise.
+	 */
+	private boolean contactLocationService(BatchEntity be) {
+		try {
+			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
+			if(response != null && response.hasBody()) {
+				String body = response.getBody();
+				body = body.substring(body.indexOf(",") + 2);
+				be.setLocation(body);
+			} else {
+				be.setLocation("Location was not found");
+			}
+			return true;
+		} catch (RetryableException e) {
+			log.warn("Could not connect with LocationService");
+			log.warn(e.getMessage());
+			be.setLocation("Connection to Location database lost");
+			return false;
+		}
 	}
 }

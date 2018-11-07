@@ -134,7 +134,7 @@ public class BatchController {
 	 * List is in ascending order and holds only distinct years.
 	 * @return A List<Integer> filled with batch start years 
 	 */
-	@GetMapping("/valid_years")
+	@GetMapping("/all/batch/valid_years")
 	public List<Integer> batchYears(){
 		return bs.findBatchYears();
 		
