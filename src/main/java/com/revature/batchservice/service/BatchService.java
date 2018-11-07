@@ -84,20 +84,7 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public BatchEntity findBatchById(Integer id) {
 		BatchEntity be = br.findOne(id);
-		try {
-			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
-			if(response != null && response.hasBody()) {
-				String body = response.getBody();
-				body = body.substring(body.indexOf(",") + 2);
-				be.setLocation(body);
-			} else {
-				be.setLocation("Location was not found");
-			}
-		} catch (RetryableException e) {
-			log.warn("Could not connect with LocationService");
-			log.warn(e.getMessage());
-			be.setLocation("Location database is unavailable");
-		}
+		contactLocationService(be);
 		return be;
 	}
 	/**
