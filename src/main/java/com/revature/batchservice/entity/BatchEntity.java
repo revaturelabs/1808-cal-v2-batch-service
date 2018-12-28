@@ -72,6 +72,10 @@ public class BatchEntity {
 	@Column(name="PASSING_GRADE")
 	private Integer passingGrade;
 	
+	@NotNull
+	@Column(name="NUMBER_OF_WEEKS")
+	private Integer weeks;
+	
 	/**
 	 * Constructor for BatchEntity. It holds the training name,
 	 * training type, skill type, trainer, co-trainer, location, start date,
