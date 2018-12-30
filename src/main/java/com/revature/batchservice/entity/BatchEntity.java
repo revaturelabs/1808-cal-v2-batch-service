@@ -91,11 +91,12 @@ public class BatchEntity {
 	 * @param endDate A Date to represent the end date
 	 * @param goodGrade A Integer to represent the good grade
 	 * @param passingGrade A Integer to represent the passing grade
+	 * @param weeks an Integer to represent the number of weeks
 	 */
 	
 	public BatchEntity(String trainingName, String trainingType, String skillType, String trainer,
 			String coTrainer, Integer locationId, Date startDate, Date endDate, Integer goodGrade,
-			Integer passingGrade) {
+			Integer passingGrade, Integer weeks) {
 		super();
 		this.trainingName = trainingName;
 		this.trainingType = trainingType;
@@ -107,6 +108,7 @@ public class BatchEntity {
 		this.endDate = endDate;
 		this.goodGrade = goodGrade;
 		this.passingGrade = passingGrade;
+		this.weeks = weeks;
 	}
 	
 	/**
@@ -273,6 +275,14 @@ public class BatchEntity {
 		this.locationId = locationId;
 	}
 	
+	public Integer getWeeks() {
+		return weeks;
+	}
+
+	public void setWeeks(Integer weeks) {
+		this.weeks = weeks;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj.getClass() != BatchEntity.class) {
@@ -302,7 +312,7 @@ public class BatchEntity {
 	public String toString() {
 		return "BatchEntity [batchId=" + batchId + ", trainingName=" + trainingName + ", trainingType=" + trainingType
 				+ ", skillType=" + skillType + ", trainer=" + trainer + ", coTrainer=" + coTrainer + ", locationId=" + locationId + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", goodGrade=" + goodGrade + ", passingGrade=" + passingGrade + "]";
+				+ ", goodGrade=" + goodGrade + ", passingGrade=" + passingGrade + ", weeks=" + weeks + "]";
 	}
 	
 }
