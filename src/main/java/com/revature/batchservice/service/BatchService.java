@@ -1,5 +1,6 @@
 package com.revature.batchservice.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -115,8 +116,13 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public List<Integer> findBatchYears() {
-		
-		return br.findBatchYears();
+		List<Integer> years = br.findBatchYears();
+		Integer lastYear = br.findLastYear();
+		if(!years.contains(lastYear)) {
+			years.add(lastYear);
+		}
+		Collections.reverse(years);
+		return years;
 	}
 	
 	/**
