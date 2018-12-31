@@ -23,7 +23,7 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	 * @return A List<BatchEntity> that  holds all the batches for the given
 	 * start year. 
 	 */
-	@Query("select b from BatchEntity b where startYear(b.startDate) = :startYear AND endYear(b.endDate) = :endYear" )
+	@Query("select b from BatchEntity b where year(b.startDate) = :startYear AND year(b.endDate) = :endYear" )
 	public List<BatchEntity> findAllBatchesByYear (@Param("startYear") Integer startYear, @Param("endYear") Integer endYear);
 	
 	/**
