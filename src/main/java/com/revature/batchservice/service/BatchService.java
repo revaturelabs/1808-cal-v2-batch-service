@@ -61,8 +61,8 @@ public class BatchService implements BatchServiceInterface {
 	 * @param year An Integer representing the year to get batches from.
 	 * @return A List<BatchEntity> of batches that start in a given year.
 	 */
-	public List<BatchEntity> findBatchesByYear(Integer startYear, Integer endYear){
-		List<BatchEntity> beList = br.findAllBatchesByYear(startYear, endYear);
+	public List<BatchEntity> findBatchesByYear(Integer startYear){
+		List<BatchEntity> beList = br.findAllBatchesByYear(startYear);
 		OUTER: for (int i = 0; i < beList.size(); i ++) {
 			BatchEntity be = beList.get(i);
 			if(!contactLocationService(be)) {
