@@ -67,10 +67,11 @@ public class BatchController {
 	 * @param year An Integer representing the year. Year is taken in as a path variable.
 	 * @return A List<BatchEntity> of batches in the given year. Returned as a JSON object
 	 */
-	@GetMapping({"/qc/batch/{year}", "/vp/batch/{year}"})
-	public List<BatchEntity> getBatchesByStartYear(@PathVariable("year") Integer year) {
-		log.debug("Inside getBatchesByStartYear");
-		return bs.findBatchesByStartYear(year);
+	@GetMapping({"/qc/batch/{startYear}/{endYear}",	"/vp/batch/{startYear}/{endYear}"})
+	public List<BatchEntity> getBatchesByYear(@PathVariable("startYear") Integer startYear
+			, @PathVariable("endYear") Integer endYear) {
+		log.debug("Inside getBatchesByYear");
+		return bs.findBatchesByYear(startYear, endYear);
 	}
 	/**
 	 * Accepts a HTTP Get Request. Mapped to ProjectURL/vp/batch/all/current
