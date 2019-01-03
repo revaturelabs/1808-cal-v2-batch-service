@@ -29,7 +29,7 @@ public interface QualityAuditClient {
 	 *         Location address within its body of the form (LocationId, Location
 	 *         Name, Street Address City State ZipCode)
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "all/location/")
+	@RequestMapping(method = RequestMethod.POST, value = "note/create-batch-notes\"")
 	public ResponseEntity sendBatch(@RequestBody BatchEntity be);
 
 }
