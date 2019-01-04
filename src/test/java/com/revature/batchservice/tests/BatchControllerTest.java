@@ -39,7 +39,7 @@ public class BatchControllerTest {
 		Calendar endDate = Calendar.getInstance();
 		endDate.set(2018, 10, 23);
 		be = new BatchEntity("Training", "Java", "Servlets", "Nick", "", 10, 
-				startDate.getTime(), endDate.getTime(), 80, 80);
+				startDate.getTime(), endDate.getTime(), 80, 80, 1);
 	}
 
 	@Test
