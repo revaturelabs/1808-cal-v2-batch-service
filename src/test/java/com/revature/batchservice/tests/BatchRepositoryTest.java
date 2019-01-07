@@ -98,8 +98,8 @@ public class BatchRepositoryTest {
 		List<BatchEntity> list2019 = new ArrayList<BatchEntity>();
 		list2019.add(be3);
 		
-		List<BatchEntity> received2018 = bsi.findBatchesByStartYear(2018);
-		List<BatchEntity> received2019 = bsi.findBatchesByStartYear(2019);
+		List<BatchEntity> received2018 = bsi.findBatchesByYear(2018);
+		List<BatchEntity> received2019 = bsi.findBatchesByYear(2019);
 		assertEquals(list2018,received2018);
 		assertEquals(list2019,  received2019);
 		
