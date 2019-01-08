@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Justin Tu, Bita Mahbod
  *
  */
-@FeignClient(name= "location", url = "localhost:9090/")
+//@FeignClient(name= "location", url = "localhost:9090/")
+@FeignClient(name= "location", url = "${LOCATION_SERVICE_URL}")
 //@FeignClient(name= "location", url ="http://caliber-v2-alb-1098400863.eu-west-2.elb.amazonaws.com/location")
 public interface LocationClient {
 	/**

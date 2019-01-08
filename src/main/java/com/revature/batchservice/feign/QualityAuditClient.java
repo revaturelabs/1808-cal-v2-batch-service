@@ -17,7 +17,8 @@ import com.revature.batchservice.entity.BatchEntity;
  * @author Ian Barney
  *
  */
-@FeignClient(name = "audit-service", url = "localhost:9075/")
+//@FeignClient(name = "audit-service", url = "localhost:9075/")
+@FeignClient(name = "audit-service", url = "${AUDIT_SERVICE_URL}")
 //@FeignClient(name = "audit-service", url = "http://caliber-v2-alb-1098400863.eu-west-2.elb.amazonaws.com/qa")
 public interface QualityAuditClient {
 	
