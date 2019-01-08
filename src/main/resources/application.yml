@@ -19,6 +19,7 @@ server:
 eureka:
   client:
     fetch-registry: false
-    register-with-eureka: false
+    register-with-eureka: true
+    #register-with-eureka: false
       
 

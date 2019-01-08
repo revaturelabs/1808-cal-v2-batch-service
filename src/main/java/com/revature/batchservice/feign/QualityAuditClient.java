@@ -18,9 +18,10 @@ import com.revature.batchservice.entity.BatchEntity;
  *
  */
 @FeignClient(name = "audit-service", url = "localhost:9075/")
+//@FeignClient(name = "audit-service", url = "http://caliber-v2-alb-1098400863.eu-west-2.elb.amazonaws.com/qa")
 public interface QualityAuditClient {
 	
-	@RequestMapping(method = RequestMethod.POST, value = "audit/note/create-batch-notes", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, value = "audit/notes/create-batch-notes", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity sendBatch(@RequestBody BatchEntity be);
 
 }
