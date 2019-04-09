@@ -212,7 +212,7 @@ public class BatchService implements BatchServiceInterface {
 				be.setLocation("Location was not found");
 			}
 			return true;
-		} catch (RetryableException e) {
+		} catch (Exception e) {
 			log.warn("Could not connect with LocationService");
 			log.warn(e.getMessage());
 			be.setLocation("Connection to Location database lost");
