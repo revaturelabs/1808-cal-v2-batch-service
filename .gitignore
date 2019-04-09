@@ -61,6 +61,13 @@
 ehthumbs.db
 Thumbs.db
 
+
+# Folders #
+###########
+target/
+.settings/
+
+
 Collapse 
 
 Message Input
