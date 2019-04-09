@@ -9,12 +9,12 @@ spring:
       ddl-auto: create
       
 server:
-  port: 9090
+  port: 9095
   
-#eureka:
-#  client:
-#    service-url:
-#      deault-zone:${EUREKA_ZONE}
+# eureka:
+#   client:
+#     service-url:
+#       default-zone: ${EUREKA_HOME}
         
       
 

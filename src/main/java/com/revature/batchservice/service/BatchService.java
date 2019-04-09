@@ -2,11 +2,16 @@ package com.revature.batchservice.service;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.feign.LocationClient;
 import com.revature.batchservice.repository.BatchRepository;
+
+import feign.RetryableException;
 
 /**
  * Service class for handling Batches. Has methods for adding a batch to the database, 
@@ -21,17 +26,32 @@ import com.revature.batchservice.repository.BatchRepository;
 @Service
 public class BatchService implements BatchServiceInterface {
     
+	Logger log = Logger.getLogger("BatchService.class");
+	
 	@Autowired
 	private BatchRepository br;
 	
+	@Autowired
+	private LocationClient locationClient;
 	
+		
 	/**
 	 * Returns a List of all BatchEntities on the connected database.
 	 * @return a List<BatchEntity> that contains all BatchEntities in the database.
 	 */
 	@Override
 	public List<BatchEntity> findAllBatches() {
-		return br.findAll();
+		List<BatchEntity> beList = br.findAll();
+		OUTER: for (int i = 0; i < beList.size(); i ++) {
+			BatchEntity be = beList.get(i);
+			if(!contactLocationService(be)) {
+				for(int j = i; j < beList.size(); j++) {
+					beList.get(j).setLocation("Connection to Location database lost");
+				}
+				break OUTER;
+			}
+		}
+		return beList;
 	}
 	
 	/**
@@ -42,8 +62,17 @@ public class BatchService implements BatchServiceInterface {
 	 * @return A List<BatchEntity> of batches that start in a given year.
 	 */
 	public List<BatchEntity> findBatchesByStartYear(Integer year){
-		return br.findAllBatchesByYear(year);
-		
+		List<BatchEntity> beList = br.findAllBatchesByYear(year);
+		OUTER: for (int i = 0; i < beList.size(); i ++) {
+			BatchEntity be = beList.get(i);
+			if(!contactLocationService(be)) {
+				for(int j = i; j < beList.size(); j++) {
+					beList.get(j).setLocation("Connection to Location database lost");
+				}
+				break OUTER;
+			}
+		}
+		return beList;
 	}
 	
 	/**
@@ -54,9 +83,42 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public BatchEntity findBatchById(Integer id) {
-		return br.findOne(id);
+		BatchEntity be = br.findOne(id);
+		contactLocationService(be);
+		return be;
 	}
-
+	/**
+	 * This method returns a list of the current batches; which means the current date is 
+	 * between their start date and end date.
+	 * @return A List<BatchEntity> contains current batches.
+	 */
+	@Override
+	public List<BatchEntity> findCurrentBatches() {
+		List<BatchEntity> beList = br.findAllCurrentBatches();
+		OUTER: for (int i = 0; i < beList.size(); i ++) {
+			BatchEntity be = beList.get(i);
+			if(!contactLocationService(be)) {
+				for(int j = i; j < beList.size(); j++) {
+					beList.get(j).setLocation("Connection to Location database lost");
+				}
+				break OUTER;
+			}
+		}
+		return beList;
+		
+	}
+	/**
+	 * This method returns a list of the start years that the batches are in.
+	 * The list ordered in ascending order.
+	 * @return A List<Integer> contains start years of all batches, in ascending 
+	 * 		order.
+	 */
+	@Override
+	public List<Integer> findBatchYears() {
+		
+		return br.findBatchYears();
+	}
+	
 	/**
 	 * Attempts to add a BatchEntity to the database. Will throw an IllegalArgumentException
 	 * if a field in the given BatchEntity is null, (Note: BatchEntity.coTrainer can be null)
@@ -69,7 +131,7 @@ public class BatchService implements BatchServiceInterface {
 	 * 			before the startDate.
 	 */
 	@Override
-	public void createBatch(BatchEntity be) throws IllegalArgumentException {
+	public BatchEntity createBatch(BatchEntity be) throws IllegalArgumentException {
 		//Check if a field was null. Co-Trainer can be null
 		if(be.getTrainingName() == null) {
 			throw new IllegalArgumentException("trainingName was null.");
@@ -77,8 +139,8 @@ public class BatchService implements BatchServiceInterface {
 		if(be.getTrainingType() == null) {
 			throw new IllegalArgumentException("trainingType was null.");
 		}
-		if(be.getLocation() == null) {
-			throw new IllegalArgumentException("location was null.");
+		if(be.getLocationId() == null) {
+			throw new IllegalArgumentException("locationId was null.");
 		}
 		if(be.getSkillType() == null) {
 			throw new IllegalArgumentException("skillType was null.");
@@ -106,7 +168,7 @@ public class BatchService implements BatchServiceInterface {
 		if ( be.getEndDate().compareTo(be.getStartDate()) < 0) {
 			throw new IllegalArgumentException("End Date must be After Start date.");
 		}
-		br.save(be);
+		return br.save(be);
 	}
 
 	/**
@@ -128,21 +190,33 @@ public class BatchService implements BatchServiceInterface {
 	 * @param be The BatchEntity to delete from the database.
 	 */
 	@Override
-	public void deleteBatch(BatchEntity be) {
-		br.delete(be);
+	public void deleteBatch(Integer batchId) {
+		br.delete(batchId);
 	}
 	
 	/**
-	 * This method returns a list of the start years that the batches are in.
-	 * The list ordered in ascending order.
-	 * @return A List<Integer> contains start years of all batches, in ascending 
-	 * 		order.
+	 * Helper method for getting location info from the Location Micro-Service and
+	 * putting that info into a BatchEntity.
+	 * @param be The BatchEntity to set location info.
+	 * @return Returns true if RetryableException was not thrown by LocaitonClient. 
+	 * 	Returns false otherwise.
 	 */
-	@Override
-	public List<Integer> findBatchYears() {
-		
-		return br.findBatchYears();
+	private boolean contactLocationService(BatchEntity be) {
+		try {
+			ResponseEntity<String> response = locationClient.getLocationById(be.getLocationId());
+			if(response != null && response.hasBody()) {
+				String body = response.getBody();
+				body = body.substring(body.indexOf(",") + 2);
+				be.setLocation(body);
+			} else {
+				be.setLocation("Location was not found");
+			}
+			return true;
+		} catch (Exception e) {
+			log.warn("Could not connect with LocationService");
+			log.warn(e.getMessage());
+			be.setLocation("Connection to Location database lost");
+			return false;
+		}
 	}
-	
-
 }
