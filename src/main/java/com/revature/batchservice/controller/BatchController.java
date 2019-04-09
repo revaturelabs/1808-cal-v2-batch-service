@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.feign.LocationClient;
 import com.revature.batchservice.service.BatchService;
 
 /**
@@ -133,7 +134,7 @@ public class BatchController {
 	 * List is in ascending order and holds only distinct years.
 	 * @return A List<Integer> filled with batch start years 
 	 */
-	@GetMapping("/valid_years")
+	@GetMapping("/all/batch/valid_years")
 	public List<Integer> batchYears(){
 		return bs.findBatchYears();
 		

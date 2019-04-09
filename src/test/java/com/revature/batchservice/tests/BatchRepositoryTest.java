@@ -50,9 +50,9 @@ public class BatchRepositoryTest {
 		be.setTrainingType("beTrainingType");
 		be2.setTrainingType("beTrainingType2");
 		be3.setTrainingType("beTrainingType3");
-		be.setLocation("beLocation");
-		be2.setLocation("beLocation2");
-		be3.setLocation("beLocation3");
+		be.setLocationId(10);
+		be2.setLocationId(20);
+		be3.setLocationId(30);
 		be.setSkillType("skillType");
 		be2.setSkillType("skillType2");
 		be3.setSkillType("skillType3");
