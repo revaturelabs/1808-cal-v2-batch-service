@@ -177,16 +177,16 @@ public class BatchServiceTest {
 		be2.setEndDate(endDate.getTime());
 		
 		BatchEntity[] beArray = new BatchEntity[10];
-		beArray[0] = new BatchEntity(null, "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[1] = new BatchEntity("a", null, "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[2] = new BatchEntity("a", "a", null, "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[3] = new BatchEntity("a", "a", "a", null, "", 10, endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[4] = new BatchEntity("a", "a", "a", "a", null, 10, endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[5] = new BatchEntity("a", "a", "a", "a", "", null, endDate.getTime(), startDate.getTime(), 1, 1);
-		beArray[6] = new BatchEntity("a", "a", "a", "a", "", 10, null, startDate.getTime(), 1, 1);
-		beArray[7] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), null, 1, 1);
-		beArray[8] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), null, 1);
-		beArray[9] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, null);
+		beArray[0] = new BatchEntity(null, "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1, 1);
+		beArray[1] = new BatchEntity("a", null, "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1,1);
+		beArray[2] = new BatchEntity("a", "a", null, "a", "", 10, endDate.getTime(), startDate.getTime(), 1, 1,1);
+		beArray[3] = new BatchEntity("a", "a", "a", null, "", 10, endDate.getTime(), startDate.getTime(), 1, 1,1);
+		beArray[4] = new BatchEntity("a", "a", "a", "a", null, 10, endDate.getTime(), startDate.getTime(), 1, 1,1);
+		beArray[5] = new BatchEntity("a", "a", "a", "a", "", null, endDate.getTime(), startDate.getTime(), 1, 1,1);
+		beArray[6] = new BatchEntity("a", "a", "a", "a", "", 10, null, startDate.getTime(), 1, 1,1);
+		beArray[7] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), null, 1, 1,1);
+		beArray[8] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), null, 1,1);
+		beArray[9] = new BatchEntity("a", "a", "a", "a", "", 10, endDate.getTime(), startDate.getTime(), 1, null,1);
 		
 
 		exceptionRule.expect(IllegalArgumentException.class);
