@@ -1,6 +1,8 @@
 package com.revature.batchservice.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -256,6 +258,59 @@ public class BatchService implements BatchServiceInterface {
 			return false;
 		} catch (RetryableException e) {
 			log.warn("Could not connect with QualityAuditService");
+			log.warn(e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter) {
+		if(quarter < 1 || quarter > 4) return null;
+		List<BatchEntity> beList = br.findAll();
+		
+		for (int i = 0; i < beList.size(); i++) {
+			BatchEntity be = beList.get(i);
+			if(!isWithinRange(be.getStartDate(), year, quarter) || !isWithinRange(be.getEndDate(), year, quarter)) {
+				beList.remove(i);
+			} else {
+				contactLocationService(be);
+			}
+		}
+		return beList;
+	}
+	
+	private boolean isWithinRange(Date testDate, Integer year, Integer quarter) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
+		String dateInString = "";
+		Date startDate = new Date();
+		Date endDate = new Date();
+		
+		try {
+			if(quarter.equals((Integer)1)) {
+				dateInString = "01-01-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "31-03-" + year;
+				endDate = sdf.parse(dateInString);
+			} else if(quarter.equals((Integer)2)) {
+				dateInString = "01-04-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "30-06-" + year;
+				endDate = sdf.parse(dateInString);
+			} else if(quarter.equals((Integer)3)) {
+				dateInString = "01-07-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "30-09-" + year;
+				endDate = sdf.parse(dateInString);
+			} else if(quarter.equals((Integer)4)) {
+				dateInString = "01-10-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "31-12-" + year;
+				endDate = sdf.parse(dateInString);
+			} else {
+				throw new Exception("Quarter out of bounds");
+			}
+			return !(testDate.before(startDate) || testDate.after(endDate));
+		} catch(Exception e) {
 			log.warn(e.getMessage());
 			return false;
 		}

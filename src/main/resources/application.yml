@@ -11,14 +11,14 @@ spring:
 server:
   port: 9095
   
-# eureka:
-#   client:
-#     service-url:
-#       default-zone: ${EUREKA_HOME}
-
 eureka:
-  client:
-    fetch-registry: false
-    register-with-eureka: false
+   client:
+     service-url:
+       default-zone: ${EUREKA_HOME}
+
+#eureka:
+#  client:
+#    fetch-registry: false
+#    register-with-eureka: false
 
 

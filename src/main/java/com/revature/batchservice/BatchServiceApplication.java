@@ -9,6 +9,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableFeignClients
+@EnableEurekaClient
 public class BatchServiceApplication {
 
 	

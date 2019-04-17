@@ -50,7 +50,7 @@ public class BatchControllerTest {
 	
 	@Test
 	public void testGetAllBatches() {
-		bc.getAllBatches();
+		bc.getAllBatches(null, null);
 		Mockito.verify(bsi).findAllBatches();
 	}
 	

@@ -1,5 +1,6 @@
 package com.revature.batchservice.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -11,11 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.batchservice.entity.BatchEntity;
-import com.revature.batchservice.feign.LocationClient;
 import com.revature.batchservice.service.BatchService;
 
 /**
@@ -42,9 +42,19 @@ public class BatchController {
 	 * @return a List<BatchEntity> that contains all BatchEntities in the database.
 	 */
 	@GetMapping({ "/qc/batch/all", "/vp/batch/all" })
-	public List<BatchEntity> getAllBatches() {
+	public List<BatchEntity> getAllBatches(@RequestParam(name="year", required=false) Integer year, @RequestParam(name="quarter", required=false) Integer quarter) {
 		log.debug("Inside getAllBatches");
-		return bs.findAllBatches();
+		List<BatchEntity> total = null;
+		if(year != null && quarter != null) {
+			total = bs.findBatchesByYearAndQuarter(year, quarter);
+		} else {
+			if(year != null) {
+				total = bs.findBatchesByYear(year);
+			} else {
+				total = bs.findAllBatches();
+			}
+		}
+		return total;
 	}
 	
 	/**
