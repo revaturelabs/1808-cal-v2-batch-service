@@ -1,7 +1,10 @@
 package com.revature.batchservice.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,6 +259,62 @@ public class BatchService implements BatchServiceInterface {
 			return false;
 		} catch (RetryableException e) {
 			log.warn("Could not connect with QualityAuditService");
+			log.warn(e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter) {
+		if(quarter < 1 || quarter > 4) return null;
+		List<BatchEntity> beList = br.findAll();
+		ListIterator<BatchEntity> iter = beList.listIterator();
+		while(iter.hasNext()) {
+			BatchEntity be = iter.next();
+			if(!isWithinRange(be.getStartDate(), be.getEndDate(), year, quarter)) {
+				iter.remove();
+			} else {
+				contactLocationService(be);
+			}
+		}
+		
+		return beList;
+	}
+	
+	private boolean isWithinRange(Date bsDate, Date beDate, Integer year, Integer quarter) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		String dateInString = "";
+		Date startDate = new Date();
+		Date endDate = new Date();
+		
+		try {
+			if(quarter == 1) {
+				dateInString = "01-01-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "31-03-" + year;
+				endDate = sdf.parse(dateInString);
+			} else if(quarter == 2) {
+				dateInString = "01-04-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "30-06-" + year;
+				endDate = sdf.parse(dateInString);
+			} else if(quarter == 3) {
+				dateInString = "01-07-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "30-09-" + year;
+				endDate = sdf.parse(dateInString);
+			} else if(quarter == 4) {
+				dateInString = "01-10-" + year;
+				startDate = sdf.parse(dateInString);
+				dateInString = "31-12-" + year;
+				endDate = sdf.parse(dateInString);
+			} else {
+				throw new Exception("Quarter out of bounds");
+			}
+			
+			return !(beDate.before(startDate) || bsDate.after(endDate));
+			
+		} catch(Exception e) {
 			log.warn(e.getMessage());
 			return false;
 		}
