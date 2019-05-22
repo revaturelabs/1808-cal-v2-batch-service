@@ -17,7 +17,7 @@ import com.revature.batchservice.entity.BatchEntity;
  * @author Ian Barney
  *
  */
-@FeignClient(name = "audit-service", url = "localhost:9075/")
+@FeignClient(name = "quality-audit-service")
 public interface QualityAuditClient {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "audit/note/create-batch-notes", produces = MediaType.APPLICATION_JSON_VALUE)
