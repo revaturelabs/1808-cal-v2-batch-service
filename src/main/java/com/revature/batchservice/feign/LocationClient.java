@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Justin Tu, Bita Mahbod
  *
  */
-@FeignClient(name= "location", url = "localhost:9090/")
+@FeignClient(name= "location-service")
 public interface LocationClient {
 	/**
 	 * Sends a HTTP Get request to the getLocationById endpoint in the LocationService
