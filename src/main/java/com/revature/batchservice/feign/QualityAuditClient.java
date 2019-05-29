@@ -20,7 +20,7 @@ import com.revature.batchservice.entity.BatchEntity;
 @FeignClient(name = "quality-audit-service")
 public interface QualityAuditClient {
 	
-	@RequestMapping(method = RequestMethod.POST, value = "audit/note/create-batch-notes", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, value = "audit/notes/create-batch-notes", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity sendBatch(@RequestBody BatchEntity be);
 
 }
