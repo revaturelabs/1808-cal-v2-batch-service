@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.feign.LocationClient;
-import com.revature.batchservice.feign.QualityAuditClient;
 import com.revature.batchservice.repository.BatchRepository;
 
 import feign.RetryableException;
