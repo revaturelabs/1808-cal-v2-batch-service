@@ -40,9 +40,6 @@ public class BatchService implements BatchServiceInterface {
 	@Autowired
 	private LocationClient locationClient;
 
-	@Autowired
-	private QualityAuditClient qaClient;
-
 	/**
 	 * Returns a List of all BatchEntities on the connected database.
 	 * 
@@ -204,9 +201,7 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public void updateBatch(BatchEntity be) {
-		if (contactQualityAuditService(be)) {
-			br.save(be);
-		}
+		br.save(be);
 	}
 
 	/**
@@ -245,21 +240,6 @@ public class BatchService implements BatchServiceInterface {
 			log.warn("Could not connect with LocationService");
 			log.warn(e.getMessage());
 			be.setLocation("Connection to Location database lost");
-			return false;
-		}
-	}
-
-	private boolean contactQualityAuditService(BatchEntity be) {
-		try {
-			ResponseEntity response = qaClient.sendBatch(be);
-			if (response.getStatusCode() == HttpStatus.CREATED) {
-				return true;
-			}
-			log.warn("HTTP status " + response.getStatusCodeValue());
-			return false;
-		} catch (RetryableException e) {
-			log.warn("Could not connect with QualityAuditService");
-			log.warn(e.getMessage());
 			return false;
 		}
 	}
