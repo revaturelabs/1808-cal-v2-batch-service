@@ -8,15 +8,13 @@ import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.feign.LocationClient;
 import com.revature.batchservice.repository.BatchRepository;
-
-import feign.RetryableException;
 
 /**
  * Service class for handling Batches. Has methods for adding a batch to the
@@ -242,6 +240,7 @@ public class BatchService implements BatchServiceInterface {
 			return false;
 		}
 	}
+
 
 	@Override
 	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter) {
