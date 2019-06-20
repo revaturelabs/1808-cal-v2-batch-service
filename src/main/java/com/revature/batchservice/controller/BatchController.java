@@ -82,6 +82,16 @@ public class BatchController {
 		log.debug("Inside getBatchesByYear");
 		return bs.findBatchesByYear(startYear);
 	}
+	
+	/*
+	 * This function gets batches by year and by quarter to save time when loading large
+	 * amounts of batches.. this way we only have to load a quarter of the batches!
+	 */
+	@GetMapping({"/qc/batch/{startYear}/{quarter}",	"/vp/batch/{startYear}/{quarter}"})
+	public List<BatchEntity> getBatchesByYearByQuarter(@PathVariable("startYear") Integer startYear, @PathVariable("quarter") Integer quarter) {
+		log.debug("Inside getBatchesByYearByQuarter");
+		return bs.findBatchesByYearAndQuarter(startYear, quarter);
+	}
 	/**
 	 * Accepts a HTTP Get Request. Mapped to ProjectURL/vp/batch/all/current
 	 * Returns a List<BatchEntity> which contains current batches; which means the current date is 

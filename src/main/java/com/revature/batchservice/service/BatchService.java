@@ -8,16 +8,13 @@ import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.feign.LocationClient;
-import com.revature.batchservice.feign.QualityAuditClient;
 import com.revature.batchservice.repository.BatchRepository;
-
-import feign.RetryableException;
 
 /**
  * Service class for handling Batches. Has methods for adding a batch to the
@@ -39,9 +36,6 @@ public class BatchService implements BatchServiceInterface {
 
 	@Autowired
 	private LocationClient locationClient;
-
-	@Autowired
-	private QualityAuditClient qaClient;
 
 	/**
 	 * Returns a List of all BatchEntities on the connected database.
@@ -204,9 +198,7 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public void updateBatch(BatchEntity be) {
-		if (contactQualityAuditService(be)) {
-			br.save(be);
-		}
+		br.save(be);
 	}
 
 	/**
@@ -249,20 +241,6 @@ public class BatchService implements BatchServiceInterface {
 		}
 	}
 
-	private boolean contactQualityAuditService(BatchEntity be) {
-		try {
-			ResponseEntity response = qaClient.sendBatch(be);
-			if (response.getStatusCode() == HttpStatus.CREATED) {
-				return true;
-			}
-			log.warn("HTTP status " + response.getStatusCodeValue());
-			return false;
-		} catch (RetryableException e) {
-			log.warn("Could not connect with QualityAuditService");
-			log.warn(e.getMessage());
-			return false;
-		}
-	}
 
 	@Override
 	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter) {
