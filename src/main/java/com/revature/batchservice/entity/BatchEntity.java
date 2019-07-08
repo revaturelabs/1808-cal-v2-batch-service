@@ -297,11 +297,8 @@ public class BatchEntity {
 			return false;
 		}
 		
-		if(this.startDate.getTime() != other.getStartDate().getTime() || this.endDate.getTime() != other.getEndDate().getTime()) {
-			return false;
-		}
-		
-		return true;
+		return !(this.startDate.getTime() != other.getStartDate().getTime() || this.endDate.getTime() != other.getEndDate().getTime());
+
 	}
 	
 	/**
