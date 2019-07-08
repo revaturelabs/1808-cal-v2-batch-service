@@ -23,7 +23,7 @@ public interface LocationClient {
 	 * @return A BatchEntity<String> from the LocationService. Should contain a Location
 	 * address within its body of the form (LocationId, Location Name, Street Address City State ZipCode)
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "all/location/{id}" )
+	@RequestMapping(method = RequestMethod.GET, value = "location/all/location/{id}" )
      public ResponseEntity <String> getLocationById(@PathVariable(value="id") Integer locationId);
 		
 	
