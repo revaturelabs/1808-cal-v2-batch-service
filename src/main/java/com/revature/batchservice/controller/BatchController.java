@@ -28,7 +28,7 @@ import com.revature.batchservice.service.BatchService;
  *
  */
 @RestController()
-@CrossOrigin("*")
+@CrossOrigin(value="*")
 public class BatchController {
 
 	private Logger log = Logger.getLogger("BatchController");
