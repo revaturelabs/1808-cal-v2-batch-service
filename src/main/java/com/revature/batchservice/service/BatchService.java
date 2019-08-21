@@ -11,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.revature.batchservice.entity.BatchEntity;
-import com.revature.batchservice.feign.LocationClient;
+import com.revature.batchservice.feign.base.LocationClient;
 import com.revature.batchservice.repository.BatchRepository;
 
 /**

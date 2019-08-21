@@ -13,7 +13,7 @@ import com.revature.batchservice.entity.BatchEntity;
  * @author Justin Tu, Bita Mahbod, Daniel Mitre
  *
  */
-@Repository(value="batchRepository")
+@Repository
 public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	
 	/**

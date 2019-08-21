@@ -1,7 +1,6 @@
 package com.revature.batchservice.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.revature.batchservice.entity.BatchEntity;
-import com.revature.batchservice.feign.LocationClient;
+import com.revature.batchservice.feign.base.LocationClient;
 import com.revature.batchservice.repository.BatchRepository;
 import com.revature.batchservice.service.BatchService;
 

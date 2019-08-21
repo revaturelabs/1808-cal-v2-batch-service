@@ -1,6 +1,5 @@
-package com.revature.batchservice.feign;
+package com.revature.batchservice.feign.base;
 
-import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Justin Tu, Bita Mahbod
  *
  */
-@FeignClient(name= "location-service", fallback=LocationClientFallback.class)
 public interface LocationClient {
 	/**
 	 * Sends a HTTP Get request to the getLocationById endpoint in the LocationService

@@ -1,8 +1,9 @@
-package com.revature.batchservice.feign;
+package com.revature.batchservice.feign.local;
 
+import com.revature.batchservice.feign.base.LocationClient;
 import org.springframework.http.ResponseEntity;
 
-public class LocationClientFallback implements LocationClient{
+public class LocationClientFallbackLocal implements LocationClient {
 
 	@Override
 	public ResponseEntity<String> getLocationById(Integer locationId) {
