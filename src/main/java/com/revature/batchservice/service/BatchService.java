@@ -89,6 +89,9 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public BatchEntity findBatchById(Integer id) {
 		BatchEntity be = br.findOne(id);
+		if (be == null) {
+			be = new BatchEntity();
+		}
 		contactLocationService(be);
 		return be;
 	}
