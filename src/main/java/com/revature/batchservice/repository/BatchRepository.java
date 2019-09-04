@@ -1,13 +1,13 @@
 package com.revature.batchservice.repository;
 
-import java.util.List;
-
+import com.revature.batchservice.entity.BatchEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.revature.batchservice.entity.BatchEntity;
+import java.util.List;
+import java.util.stream.Stream;
 /**
  * A JPA repository for batch entities.  It has the default methods of a JpaRepository.
  * @author Justin Tu, Bita Mahbod, Daniel Mitre
@@ -37,6 +37,9 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	
 	@Query("select max(year(b.endDate)) from BatchEntity b")
 	public Integer findLastYear();
+
+	@Query("select year(b.endDate) from BatchEntity b")
+	public Stream<Integer> findUniqueBatchYears();
 	
 	/**
 	 * A custom query which find all current batches and returns them as a List.

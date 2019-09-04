@@ -1,10 +1,9 @@
 package com.revature.batchservice.service;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.feign.base.LocationClient;
 import com.revature.batchservice.repository.BatchRepository;
+import org.springframework.util.StringUtils;
 
 /**
  * Service class for handling Batches. Has methods for adding a batch to the
@@ -44,13 +44,19 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public List<BatchEntity> findAllBatches() {
 		List<BatchEntity> beList = br.findAll();
-		OUTER: for (int i = 0; i < beList.size(); i++) {
-			BatchEntity be = beList.get(i);
-			if (!contactLocationService(be)) {
-				for (int j = i; j < beList.size(); j++) {
-					beList.get(j).setLocation("Connection to Location database lost");
-				}
-				break OUTER;
+//		OUTER: for (int i = 0; i < beList.size(); i++) {
+//			BatchEntity be = beList.get(i);
+//			if (!contactLocationService(be)) {
+//				for (int j = i; j < beList.size(); j++) {
+//					beList.get(j).setLocation("Connection to Location database lost");
+//				}
+//				break OUTER;
+//			}
+//		}
+		for (BatchEntity be : beList) {
+			ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
+			if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody())) {
+				be.setLocation(location.getBody());
 			}
 		}
 		return beList;
@@ -60,19 +66,25 @@ public class BatchService implements BatchServiceInterface {
 	 * Returns a List of all BatchEntities that start in a given year, on the
 	 * connected database.
 	 * 
-	 * @param year
+	 * @param startYear
 	 *            An Integer representing the year to get batches from.
 	 * @return A List<BatchEntity> of batches that start in a given year.
 	 */
 	public List<BatchEntity> findBatchesByYear(Integer startYear) {
 		List<BatchEntity> beList = br.findAllBatchesByYear(startYear);
-		OUTER: for (int i = 0; i < beList.size(); i++) {
-			BatchEntity be = beList.get(i);
-			if (!contactLocationService(be)) {
-				for (int j = i; j < beList.size(); j++) {
-					beList.get(j).setLocation("Connection to Location database lost");
-				}
-				break OUTER;
+//		OUTER: for (int i = 0; i < beList.size(); i++) {
+//			BatchEntity be = beList.get(i);
+//			if (!contactLocationService(be)) {
+//				for (int j = i; j < beList.size(); j++) {
+//					beList.get(j).setLocation("Connection to Location database lost");
+//				}
+//				break OUTER;
+//			}
+//		}
+		for (BatchEntity be : beList) {
+			ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
+			if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody())) {
+				be.setLocation(location.getBody());
 			}
 		}
 		return beList;
@@ -92,7 +104,10 @@ public class BatchService implements BatchServiceInterface {
 		if (be == null) {
 			be = new BatchEntity();
 		}
-		contactLocationService(be);
+//		contactLocationService(be);
+		ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
+		if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody()))
+			be.setLocation(location.getBody());
 		return be;
 	}
 
@@ -105,13 +120,19 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public List<BatchEntity> findCurrentBatches() {
 		List<BatchEntity> beList = br.findAllCurrentBatches();
-		OUTER: for (int i = 0; i < beList.size(); i++) {
-			BatchEntity be = beList.get(i);
-			if (!contactLocationService(be)) {
-				for (int j = i; j < beList.size(); j++) {
-					beList.get(j).setLocation("Connection to Location database lost");
-				}
-				break OUTER;
+//		OUTER: for (int i = 0; i < beList.size(); i++) {
+//			BatchEntity be = beList.get(i);
+//			if (!contactLocationService(be)) {
+//				for (int j = i; j < beList.size(); j++) {
+//					beList.get(j).setLocation("Connection to Location database lost");
+//				}
+//				break OUTER;
+//			}
+//		}
+		for (BatchEntity be : beList) {
+			ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
+			if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody())) {
+				be.setLocation(location.getBody());
 			}
 		}
 		return beList;
@@ -127,13 +148,16 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public List<Integer> findBatchYears() {
-		List<Integer> years = br.findBatchYears();
-		Integer lastYear = br.findLastYear();
-		if (!years.contains(lastYear)) {
-			years.add(lastYear);
-		}
-		Collections.reverse(years);
-		return years;
+//		List<Integer> years = br.findBatchYears();
+//		System.out.println(years);
+//		Integer lastYear = br.findLastYear();
+//		if (!years.contains(lastYear)) {
+//			years.add(lastYear);
+//		}
+//		Collections.reverse(years);
+//		return years;
+		Stream<Integer> years = br.findUniqueBatchYears();
+		return years.distinct().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
 	}
 
 	/**
@@ -208,7 +232,7 @@ public class BatchService implements BatchServiceInterface {
 	 * give BatchEntity does not exist in the database, the database will not be
 	 * changed.
 	 * 
-	 * @param be The BatchEntity to delete from the database.
+	 * @param batchId The BatchEntity to delete from the database.
 	 */
 	@Override
 	public void deleteBatch(Integer batchId) {

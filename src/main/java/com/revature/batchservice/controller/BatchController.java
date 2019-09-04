@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -154,6 +155,7 @@ public class BatchController {
 	 * List is in ascending order and holds only distinct years.
 	 * @return A List<Integer> filled with batch start years 
 	 */
+	@Transactional(readOnly = true)
 	@GetMapping("/all/batch/valid_years")
 	public List<Integer> batchYears(){
 		return bs.findBatchYears();
