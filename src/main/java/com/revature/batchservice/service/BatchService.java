@@ -157,7 +157,7 @@ public class BatchService implements BatchServiceInterface {
 //		Collections.reverse(years);
 //		return years;
 		Stream<Integer> years = br.findUniqueBatchYears();
-		return years.distinct().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+		return years.distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 	}
 
 	/**
