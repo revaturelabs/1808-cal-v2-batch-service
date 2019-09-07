@@ -267,6 +267,10 @@ public class BatchService implements BatchServiceInterface {
 		}
 	}
 
+	@Override
+	public BatchEntity updateBatchAndReturn(BatchEntity batchEntity) {
+		return br.save(batchEntity);
+	}
 
 	@Override
 	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter) {

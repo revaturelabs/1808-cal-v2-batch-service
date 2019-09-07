@@ -5,16 +5,11 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.revature.batchservice.entity.BatchEntity;
 import com.revature.batchservice.service.BatchService;
@@ -132,9 +127,15 @@ public class BatchController {
 	 * @param be The BatchEntity to update.
 	 */
 	@PutMapping("/all/batch/update")
-	public void updateBatch(@RequestBody BatchEntity be) {
+	public ResponseEntity<BatchEntity> updateBatch(@RequestBody BatchEntity be, @RequestParam(name = "return", defaultValue = "false") String shouldReturn) {
+		final String normalized = shouldReturn.toLowerCase();
+		boolean shouldReturnBatch = Boolean.parseBoolean(normalized);
 		log.debug("Inside updateBatch");
-		bs.updateBatch(be);
+		if (shouldReturnBatch) {
+			return ResponseEntity.ok(bs.updateBatchAndReturn(be));
+		} else {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
 	}
 	
 	/**
