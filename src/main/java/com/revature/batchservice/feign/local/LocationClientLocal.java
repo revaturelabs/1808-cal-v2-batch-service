@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
  * @author William Gentry
  * 8/21/2019
  */
-@Profile("!dev && !prod")
+@Profile("local")
 @FeignClient(name= "location-service", fallback= LocationClientFallbackLocal.class)
 public interface LocationClientLocal extends LocationClient {
 }
