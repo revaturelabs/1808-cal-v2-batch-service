@@ -157,7 +157,7 @@ public class BatchService implements BatchServiceInterface {
 //		Collections.reverse(years);
 //		return years;
 		Stream<Integer> years = br.findUniqueBatchYears();
-		return years.distinct().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+		return years.distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 	}
 
 	/**
@@ -267,6 +267,10 @@ public class BatchService implements BatchServiceInterface {
 		}
 	}
 
+	@Override
+	public BatchEntity updateBatchAndReturn(BatchEntity batchEntity) {
+		return br.save(batchEntity);
+	}
 
 	@Override
 	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter) {

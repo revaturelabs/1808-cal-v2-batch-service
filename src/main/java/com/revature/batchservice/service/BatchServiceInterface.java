@@ -17,5 +17,5 @@ public interface BatchServiceInterface {
 	public void deleteBatch(Integer batchId);
 	public List<Integer> findBatchYears();
 	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter);
-	
+	BatchEntity updateBatchAndReturn(BatchEntity batchEntity);
 }
