@@ -39,7 +39,10 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	public Integer findLastYear();
 
 	@Query("select year(b.endDate) from BatchEntity b")
-	public Stream<Integer> findUniqueBatchYears();
+	public List<Integer> findAllEndDates();
+
+	@Query("select year(b.startDate) from BatchEntity b")
+	public List<Integer> findAllStartDates();
 	
 	/**
 	 * A custom query which find all current batches and returns them as a List.
