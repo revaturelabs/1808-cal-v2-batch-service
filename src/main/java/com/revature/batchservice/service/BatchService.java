@@ -148,16 +148,9 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	@Override
 	public List<Integer> findBatchYears() {
-//		List<Integer> years = br.findBatchYears();
-//		System.out.println(years);
-//		Integer lastYear = br.findLastYear();
-//		if (!years.contains(lastYear)) {
-//			years.add(lastYear);
-//		}
-//		Collections.reverse(years);
-//		return years;
-		Stream<Integer> years = br.findUniqueBatchYears();
-		return years.distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+		List<Integer> years = br.findAllEndDates();
+		years.addAll(br.findAllStartDates());
+		return years.stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 	}
 
 	/**
