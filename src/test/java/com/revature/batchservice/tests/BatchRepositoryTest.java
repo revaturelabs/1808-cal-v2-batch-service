@@ -1,12 +1,8 @@
 package com.revature.batchservice.tests;
 
-import static org.junit.Assert.assertEquals;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
+import com.revature.batchservice.BatchServiceApplication;
+import com.revature.batchservice.entity.BatchEntity;
+import com.revature.batchservice.service.BatchService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.revature.batchservice.BatchServiceApplication;
-import com.revature.batchservice.entity.BatchEntity;
-import com.revature.batchservice.service.BatchService;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BatchServiceApplication.class)
+@SpringBootTest(classes = BatchServiceApplication.class, properties = "spring.profiles.active=test")
 public class BatchRepositoryTest {
 	
 	@Autowired

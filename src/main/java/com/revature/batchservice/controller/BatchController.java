@@ -1,11 +1,9 @@
 package com.revature.batchservice.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +68,6 @@ public class BatchController {
 	 * Accepts a HTTP Get Request. Mapped to ProjectURL/year/{path variable}
 	 * Returns a List<BatchEntity> which contains Batches in the given year.
 	 * The List is returned as a JSON Object.
-	 * @param year An Integer representing the year. Year is taken in as a path variable.
-	 * @return A List<BatchEntity> of batches in the given year. Returned as a JSON object
 	 */
 	@GetMapping({"/qc/batch/{startYear}",	"/vp/batch/{startYear}"})
 	public List<BatchEntity> getBatchesByYear(@PathVariable("startYear") Integer startYear) {
@@ -127,14 +123,13 @@ public class BatchController {
 	 * @param be The BatchEntity to update.
 	 */
 	@PutMapping("/all/batch/update")
-	public ResponseEntity<BatchEntity> updateBatch(@RequestBody BatchEntity be, @RequestParam(name = "return", defaultValue = "false") String shouldReturn) {
-		final String normalized = shouldReturn.toLowerCase();
-		boolean shouldReturnBatch = Boolean.parseBoolean(normalized);
-		log.debug("Inside updateBatch");
-		if (shouldReturnBatch) {
-			return ResponseEntity.ok(bs.updateBatchAndReturn(be));
-		} else {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	public ResponseEntity<BatchEntity> updateBatch(@RequestBody BatchEntity be) {
+		try {
+			BatchEntity batch = bs.upsertBatch(be);
+			return ResponseEntity.ok(batch);
+		} catch (Exception e) {
+			log.warn("Failed to upsert batch {}", e);
+			return ResponseEntity.unprocessableEntity().build();
 		}
 	}
 	
@@ -142,12 +137,11 @@ public class BatchController {
 	 * Accepts a HTTP DELETE request.
 	 * Takes in a BatchEntity and attempts to delete it from the database. 
 	 * If the give BatchEntity does not exist in the database, the database will not be changed.
-	 * @param be The BatchEntity to delete from the database.
 	 */
 	@DeleteMapping("/all/batch/delete/{batchId}")
-	public void deleteBatch(@PathVariable String batchId) {
+	public void deleteBatch(@PathVariable int batchId) {
 		log.debug("Inside deleteBatch");
-		bs.deleteBatch(Integer.parseInt(batchId));
+		bs.deleteBatch(batchId);
 	}
 	
 	/**

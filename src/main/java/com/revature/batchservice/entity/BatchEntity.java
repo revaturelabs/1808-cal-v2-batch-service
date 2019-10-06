@@ -1,6 +1,8 @@
 package com.revature.batchservice.entity;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,7 +24,7 @@ public class BatchEntity {
 	@Column(name="BATCH_ID")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "BATCH_ID_SEQUENCE")
 	@SequenceGenerator(name = "BATCH_ID_SEQUENCE", sequenceName = "BATCH_ID_SEQUENCE")
-	private Integer batchId;
+	private int batchId;
 	
 	@NotNull
 	@Column(name="TRAINING_NAME")
@@ -45,7 +47,7 @@ public class BatchEntity {
 	
 	@NotNull
 	@Column(name="LOCATION_ID")
-	private Integer locationId;
+	private int locationId;
 	
 	
 	private String location;
@@ -62,15 +64,15 @@ public class BatchEntity {
 	
 	@NotNull
 	@Column(name="GOOD_GRADE")
-	private Integer goodGrade;
+	private int goodGrade;
 	
 	@NotNull
 	@Column(name="PASSING_GRADE")
-	private Integer passingGrade;
+	private int passingGrade;
 	
 	@NotNull
 	@Column(name="NUMBER_OF_WEEKS")
-	private Integer weeks;
+	private int weeks;
 	
 	/**
 	 * Constructor for BatchEntity. It holds the training name,
@@ -85,14 +87,14 @@ public class BatchEntity {
 	 * @param location A String to represent the location
 	 * @param startDate A Date to represent the start date
 	 * @param endDate A Date to represent the end date
-	 * @param goodGrade A Integer to represent the good grade
-	 * @param passingGrade A Integer to represent the passing grade
-	 * @param weeks an Integer to represent the number of weeks
+	 * @param goodGrade A int to represent the good grade
+	 * @param passingGrade A int to represent the passing grade
+	 * @param weeks an int to represent the number of weeks
 	 */
 	
 	public BatchEntity(String trainingName, String trainingType, String skillType, String trainer,
-			String coTrainer, Integer locationId, Date startDate, Date endDate, Integer goodGrade,
-			Integer passingGrade, Integer weeks) {
+			String coTrainer, int locationId, Date startDate, Date endDate, int goodGrade,
+			int passingGrade, int weeks) {
 		super();
 		this.trainingName = trainingName;
 		this.trainingType = trainingType;
@@ -218,42 +220,42 @@ public class BatchEntity {
 	 * Getter for good grade.
 	 * @return A Date that holds the batch's good grade.
 	 */
-	public Integer getGoodGrade() {
+	public int getGoodGrade() {
 		return goodGrade;
 	}
 	/**
 	 * Setter for good date.
-	 * @param goodGrade A Integer that holds the batch's good grade.
+	 * @param goodGrade A int that holds the batch's good grade.
 	 */
-	public void setGoodGrade(Integer goodGrade) {
+	public void setGoodGrade(int goodGrade) {
 		this.goodGrade = goodGrade;
 	}
 	/**
 	 * Getter for passing grade.
-	 * @return A Integer that holds the batch's passing grade.
+	 * @return A int that holds the batch's passing grade.
 	 */
-	public Integer getPassingGrade() {
+	public int getPassingGrade() {
 		return passingGrade;
 	}
 	/**
 	 * Setter for passing grade.
-	 * @param passingGrade A Integer that holds the batch's passing grade.
+	 * @param passingGrade A int that holds the batch's passing grade.
 	 */
-	public void setPassingGrade(Integer passingGrade) {
+	public void setPassingGrade(int passingGrade) {
 		this.passingGrade = passingGrade;
 	}
 	/**
 	 * Getter for batch id.
-	 * @return A Integer that holds the batch's id.
+	 * @return A int that holds the batch's id.
 	 */
-	public Integer getBatchId() {
+	public int getBatchId() {
 		return batchId;
 	}
 	/**
 	 * Setter for batch id.
-	 * @param batchId A Integer that holds the batch's id.
+	 * @param batchId A int that holds the batch's id.
 	 */
-	public void setBatchId(Integer batchId) {
+	public void setBatchId(int batchId) {
 		this.batchId = batchId;
 	}
 	
@@ -264,48 +266,62 @@ public class BatchEntity {
 		this.location = location;
 	}
 	
-	public Integer getLocationId() {
+	public int getLocationId() {
 		return locationId;
 	}
-	public void setLocationId(Integer locationId) {
+	public void setLocationId(int locationId) {
 		this.locationId = locationId;
 	}
 	
-	public Integer getWeeks() {
+	public int getWeeks() {
 		return weeks;
 	}
 
-	public void setWeeks(Integer weeks) {
+	public void setWeeks(int weeks) {
 		this.weeks = weeks;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if(obj.getClass() != BatchEntity.class) {
-			return false;
-		}
-		BatchEntity other = (BatchEntity) obj;
-		if(!this.coTrainer.equals(other.getCoTrainer()) || !this.locationId.equals(other.getLocationId()) || !this.goodGrade.equals(other.getGoodGrade())
-				|| !this.passingGrade.equals(other.getPassingGrade()) || !this.skillType.equals(other.getSkillType()) 
-				|| !this.trainer.equals(other.getTrainer()) || !this.trainingName.equals(other.getTrainingName()) 
-				|| !this.trainingType.equals(other.getTrainingType()))
-		{
-			return false;
-		}
-		
-		return !(this.startDate.getTime() != other.getStartDate().getTime() || this.endDate.getTime() != other.getEndDate().getTime());
-
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		BatchEntity that = (BatchEntity) o;
+		return batchId == that.batchId &&
+						locationId == that.locationId &&
+						goodGrade == that.goodGrade &&
+						passingGrade == that.passingGrade &&
+						weeks == that.weeks &&
+						Objects.equals(trainingName, that.trainingName) &&
+						Objects.equals(trainingType, that.trainingType) &&
+						Objects.equals(skillType, that.skillType) &&
+						Objects.equals(trainer, that.trainer) &&
+						Objects.equals(coTrainer, that.coTrainer) &&
+						Objects.equals(location, that.location) &&
+						Objects.equals(startDate, that.startDate) &&
+						Objects.equals(endDate, that.endDate);
 	}
-	
-	/**
-	 * Return a String to represent the BatchEntity.
-	 * @return A String to represent the BatchEntity.
-	 */
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(batchId, trainingName, trainingType, skillType, trainer, coTrainer, locationId, location, startDate, endDate, goodGrade, passingGrade, weeks);
+	}
+
 	@Override
 	public String toString() {
-		return "BatchEntity [batchId=" + batchId + ", trainingName=" + trainingName + ", trainingType=" + trainingType
-				+ ", skillType=" + skillType + ", trainer=" + trainer + ", coTrainer=" + coTrainer + ", locationId=" + locationId + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", goodGrade=" + goodGrade + ", passingGrade=" + passingGrade + ", weeks=" + weeks + "]";
+		return new StringJoiner(", ", BatchEntity.class.getSimpleName() + "[", "]")
+						.add("batchId=" + batchId)
+						.add("trainingName='" + trainingName + "'")
+						.add("trainingType='" + trainingType + "'")
+						.add("skillType='" + skillType + "'")
+						.add("trainer='" + trainer + "'")
+						.add("coTrainer='" + coTrainer + "'")
+						.add("locationId=" + locationId)
+						.add("location='" + location + "'")
+						.add("startDate=" + startDate)
+						.add("endDate=" + endDate)
+						.add("goodGrade=" + goodGrade)
+						.add("passingGrade=" + passingGrade)
+						.add("weeks=" + weeks)
+						.toString();
 	}
-	
 }

@@ -44,15 +44,6 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public List<BatchEntity> findAllBatches() {
 		List<BatchEntity> beList = br.findAll();
-//		OUTER: for (int i = 0; i < beList.size(); i++) {
-//			BatchEntity be = beList.get(i);
-//			if (!contactLocationService(be)) {
-//				for (int j = i; j < beList.size(); j++) {
-//					beList.get(j).setLocation("Connection to Location database lost");
-//				}
-//				break OUTER;
-//			}
-//		}
 		for (BatchEntity be : beList) {
 			ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
 			if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody())) {
@@ -72,15 +63,6 @@ public class BatchService implements BatchServiceInterface {
 	 */
 	public List<BatchEntity> findBatchesByYear(Integer startYear) {
 		List<BatchEntity> beList = br.findAllBatchesByYear(startYear);
-//		OUTER: for (int i = 0; i < beList.size(); i++) {
-//			BatchEntity be = beList.get(i);
-//			if (!contactLocationService(be)) {
-//				for (int j = i; j < beList.size(); j++) {
-//					beList.get(j).setLocation("Connection to Location database lost");
-//				}
-//				break OUTER;
-//			}
-//		}
 		for (BatchEntity be : beList) {
 			ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
 			if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody())) {
@@ -104,7 +86,6 @@ public class BatchService implements BatchServiceInterface {
 		if (be == null) {
 			be = new BatchEntity();
 		}
-//		contactLocationService(be);
 		ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
 		if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody()))
 			be.setLocation(location.getBody());
@@ -120,15 +101,6 @@ public class BatchService implements BatchServiceInterface {
 	@Override
 	public List<BatchEntity> findCurrentBatches() {
 		List<BatchEntity> beList = br.findAllCurrentBatches();
-//		OUTER: for (int i = 0; i < beList.size(); i++) {
-//			BatchEntity be = beList.get(i);
-//			if (!contactLocationService(be)) {
-//				for (int j = i; j < beList.size(); j++) {
-//					beList.get(j).setLocation("Connection to Location database lost");
-//				}
-//				break OUTER;
-//			}
-//		}
 		for (BatchEntity be : beList) {
 			ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
 			if (location.getStatusCode().is2xxSuccessful() && location.hasBody() && StringUtils.hasText(location.getBody())) {
@@ -176,8 +148,8 @@ public class BatchService implements BatchServiceInterface {
 		if (be.getTrainingType() == null) {
 			throw new IllegalArgumentException("trainingType was null.");
 		}
-		if (be.getLocationId() == null) {
-			throw new IllegalArgumentException("locationId was null.");
+		if (be.getLocationId() == -1) {
+			throw new IllegalArgumentException("locationId was missing.");
 		}
 		if (be.getSkillType() == null) {
 			throw new IllegalArgumentException("skillType was null.");
@@ -185,11 +157,11 @@ public class BatchService implements BatchServiceInterface {
 		if (be.getTrainer() == null) {
 			throw new IllegalArgumentException("trainer was null.");
 		}
-		if (be.getPassingGrade() == null) {
-			throw new IllegalArgumentException("passingGrade was null.");
+		if (be.getPassingGrade() == 0) {
+			throw new IllegalArgumentException("passingGrade was missing.");
 		}
-		if (be.getGoodGrade() == null) {
-			throw new IllegalArgumentException("goodGrade was null.");
+		if (be.getGoodGrade() == 0) {
+			throw new IllegalArgumentException("goodGrade was missing.");
 		}
 		if (be.getStartDate() == null) {
 			throw new IllegalArgumentException("startDate was null.");
@@ -261,8 +233,26 @@ public class BatchService implements BatchServiceInterface {
 	}
 
 	@Override
-	public BatchEntity updateBatchAndReturn(BatchEntity batchEntity) {
-		return br.save(batchEntity);
+	public BatchEntity upsertBatch(BatchEntity batchEntity) {
+		BatchEntity batch = br.findOne(batchEntity.getBatchId());
+		if (batch != null) {
+			batch.setTrainer(batchEntity.getTrainer());
+			batch.setCoTrainer(batchEntity.getCoTrainer());
+			batch.setStartDate(batchEntity.getStartDate());
+			batch.setEndDate(batchEntity.getEndDate());
+			batch.setSkillType(batchEntity.getSkillType());
+			batch.setPassingGrade(batchEntity.getPassingGrade());
+			batch.setGoodGrade(batchEntity.getGoodGrade());
+			batch.setLocation(batchEntity.getLocation());
+			batch.setLocationId(batchEntity.getLocationId());
+			batch.setTrainingName(batch.getTrainingType());
+			batch.setWeeks(batchEntity.getWeeks());
+			batch.setTrainingType(batchEntity.getTrainingType());
+			batch = br.save(batch);
+		} else {
+			batch = br.save(batchEntity);
+		}
+		return batch;
 	}
 
 	@Override
