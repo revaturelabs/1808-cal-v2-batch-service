@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.revature.batchservice.dto.Benchmark;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -309,5 +310,14 @@ public class BatchService implements BatchServiceInterface {
 			log.warn(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public Benchmark getBatchBenchmark(int batchId) {
+		BatchEntity batch = this.br.findOne(batchId);
+		if (batch != null) {
+			return new Benchmark(batch.getGoodGrade(), batch.getPassingGrade());
+		}
+		return null;
 	}
 }
