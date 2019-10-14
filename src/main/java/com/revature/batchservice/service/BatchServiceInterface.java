@@ -2,6 +2,7 @@ package com.revature.batchservice.service;
 
 import java.util.List;
 
+import com.revature.batchservice.dto.Benchmark;
 import org.springframework.stereotype.Service;
 
 import com.revature.batchservice.entity.BatchEntity;
@@ -18,4 +19,5 @@ public interface BatchServiceInterface {
 	public List<Integer> findBatchYears();
 	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter);
 	BatchEntity upsertBatch(BatchEntity batchEntity);
+	Benchmark getBatchBenchmark(int batchId);
 }

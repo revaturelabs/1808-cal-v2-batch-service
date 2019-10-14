@@ -2,6 +2,7 @@ package com.revature.batchservice.controller;
 
 import java.util.List;
 
+import com.revature.batchservice.dto.Benchmark;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -154,7 +155,15 @@ public class BatchController {
 	@GetMapping("/all/batch/valid_years")
 	public List<Integer> batchYears(){
 		return bs.findBatchYears();
-		
+	}
+
+	@GetMapping("/{batchId}/benchmark")
+	public ResponseEntity<Benchmark> getBenchmarkForBatch(@PathVariable("batchId") int batchId) {
+		Benchmark benchmark = this.bs.getBatchBenchmark(batchId);
+		if (benchmark != null) {
+			return ResponseEntity.ok(benchmark);
+		}
+		return ResponseEntity.noContent().build();
 	}
 	
 }
