@@ -1,17 +1,19 @@
 package com.revaturelabs.caliber.batch;
 
+import com.revaturelabs.caliber.batch.security.RoleQC;
+import com.revaturelabs.caliber.batch.security.RoleVP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-
-
-import static net.logstash.logback.argument.StructuredArguments.kv;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class BatchServiceImp implements BatchService {
@@ -20,30 +22,22 @@ public class BatchServiceImp implements BatchService {
   @Autowired
   private BatchRepository batchRepository;
 
-  private List<String> getGroupsFromSecurityContext() throws AccessDeniedException {
-    Object groups = ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaims().get("groups");
-
-    if (groups instanceof String) {
-      return Collections.singletonList((String) groups);
-    }
-
-    if (groups instanceof List) {
-      @SuppressWarnings("unchecked")
-        List<String> list = (List<String>) groups;
-      return list;
-    }
-
-    throw new AccessDeniedException("No group claim");
-  }
+  /*
+   Below is service specific needs to apply business rules
+   */
 
   private String getCurrentUserEmail() {
     return (String) ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaims().get("email");
   }
 
-  private List<String> globalAllowed = Arrays.asList("Application/ROLE_VP", "Application/ROLE_QC");
+  private static List<GrantedAuthority> globalAllowed = Arrays.asList(new RoleVP(), new RoleQC());
+
+  /*
+   Below is the implementations of the Batch service
+   */
 
   private boolean allowedGlobalRead() {
-    return !Collections.disjoint(getGroupsFromSecurityContext(), globalAllowed);
+    return !Collections.disjoint(SecurityContextHolder.getContext().getAuthentication().getAuthorities(), globalAllowed);
   }
 
   @Override
