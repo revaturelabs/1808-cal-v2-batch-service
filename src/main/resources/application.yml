@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: batch-service
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/batch
+    username: postgres
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+    password: password
+
+server:
+  port: 10001
+  error:
+    include-stacktrace: never
+---
+spring:
+  profiles:
+    active: local
+  cloud:
+    kubernetes:
+      secrets:
+        enabled: false
+      config:
+        enabled: false
+      reload:
+        enabled: false
+  security:
+    oauth2:
+
+      resourceserver:
+        jwt:
+          issuer-uri: https://localhost:9443/oauth2/token
+          jwk-set-uri: https://localhost:9443/oauth2/jwks
+
+---
+spring:
+  profiles:
+    active: kubernetes
+
+  management:
+    endpoint:
+      restart:
+        enabled: true
+      health:
+        enabled: true
+      info:
+        enabled: true
+  server:
+    port: 80
+

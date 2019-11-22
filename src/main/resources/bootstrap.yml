@@ -1,43 +1,20 @@
 spring:
   application:
     name: batch-service
-#  cloud:
-#    config:
-#      name: batch-service
-#      discovery:
-#        service-id: config
-#        enabled: true
-        
-server:
-  servlet-path: /batch/*
----
-spring:
-  profiles: local
-  cloud:
-    config:
-      uri: http://localhost:8888
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
----
-spring:
-  profiles: dev
-  cloud:
-    config:
-      discovery:
-        enabled: false
-      uri: http://config.caliber-2-dev
 
-server:
-  port: 80
-
-eureka:
-  client:
-    enabled: false
 ---
 spring:
-  profiles: prod
-  
+  profiles:
+    active: local
+---
+spring:
+  profiles:
+    active: kubernetes
+  cloud:
+    kubernetes:
+      reload:
+        enabled: true
+        mode: event
+      config:
+        sources:
+          - name: ${spring.application.name}
