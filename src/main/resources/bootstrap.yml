@@ -51,11 +51,10 @@ spring:
 
 server:
   port: 80
-logging:
-  level:
-    java:
-      sql: debug
 
 eureka:
   client:
     enabled: false
+
+client:
+  url: ${CLIENT_URL}
