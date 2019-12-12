@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 public class Batch {
   @Id
-  @Column(name = "batch_id", unique = false)
+  @Column(name = "batch_id", unique = true)
   private String id;
 
   @Column
