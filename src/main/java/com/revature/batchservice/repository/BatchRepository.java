@@ -24,7 +24,7 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	 * start year. 
 	 */
 	@Query("select b from BatchEntity b where year(b.startDate) = :startYear OR year(b.endDate) = :startYear" )
-	public List<BatchEntity> findAllBatchesByYear (@Param("startYear") Integer startYear);
+	public List<BatchEntity> findAllBatchesByYear (@Param("startYear") int startYear);
 	
 	/**
 	 * A Custom query which selects the unique starting years for all batches. 
@@ -36,7 +36,7 @@ public interface BatchRepository extends JpaRepository<BatchEntity, Integer> {
 	public List<Integer> findBatchYears();
 	
 	@Query("select max(year(b.endDate)) from BatchEntity b")
-	public Integer findLastYear();
+	public int findLastYear();
 
 	@Query("select year(b.endDate) from BatchEntity b")
 	public List<Integer> findAllEndDates();
