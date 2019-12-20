@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +30,11 @@ public class BatchServiceImp implements BatchService {
    */
 
   private String getCurrentUserEmail() {
-    return (String) ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaims().get("email");
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth instanceof AnonymousAuthenticationToken) {
+      return "";
+    }
+    return (String) ((Jwt) auth.getPrincipal()).getClaims().get("email");
   }
 
   private static List<GrantedAuthority> globalAllowed = Arrays.asList(new SimpleGrantedAuthority("Application/ROLE_VP"), new SimpleGrantedAuthority("Application/ROLE_QC"));

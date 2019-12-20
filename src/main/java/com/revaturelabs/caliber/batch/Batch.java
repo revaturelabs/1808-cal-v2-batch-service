@@ -1,7 +1,5 @@
 package com.revaturelabs.caliber.batch;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Objects;
@@ -33,7 +31,10 @@ public class Batch {
   private String type;
 
   @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
-  private Set<BatchAssignment> batchTrainers;
+  private Set<BatchAssignment> employeeAssignments;
+
+  @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
+  private Set<TraineeAssignment> traineeAssignments;
 
   public Batch() {
   }
@@ -48,7 +49,7 @@ public class Batch {
     this.type = type;
   }
 
-  public Batch(String id, String name, Instant startDate, Instant endDate, String skill, String location, String type, Set<BatchAssignment> batchTrainers) {
+  public Batch(String id, String name, Instant startDate, Instant endDate, String skill, String location, String type, Set<BatchAssignment> employeeAssignments) {
     this.id = id;
     this.name = name;
     this.startDate = startDate;
@@ -56,7 +57,7 @@ public class Batch {
     this.skill = skill;
     this.location = location;
     this.type = type;
-    this.batchTrainers = batchTrainers;
+    this.employeeAssignments = employeeAssignments;
   }
 
   public String getId() {
@@ -115,12 +116,20 @@ public class Batch {
     this.type = type;
   }
 
-  public Set<BatchAssignment> getBatchTrainers() {
-    return batchTrainers;
+  public Set<BatchAssignment> getEmployeeAssignments() {
+    return employeeAssignments;
   }
 
-  public void setBatchTrainers(Set<BatchAssignment> batchTrainers) {
-    this.batchTrainers = batchTrainers;
+  public void setEmployeeAssignments(Set<BatchAssignment> employeeAssignments) {
+    this.employeeAssignments = employeeAssignments;
+  }
+
+  public Set<TraineeAssignment> getTraineeAssignments() {
+    return traineeAssignments;
+  }
+
+  public void setTraineeAssignments(Set<TraineeAssignment> traineeAssignments) {
+    this.traineeAssignments = traineeAssignments;
   }
 
   @Override
@@ -152,7 +161,8 @@ public class Batch {
       ", skill='" + skill + '\'' +
       ", location='" + location + '\'' +
       ", type='" + type + '\'' +
-      ", batchTrainers=" + batchTrainers.size() +
+      ", employeeAssignments=" + employeeAssignments.size() +
+      ", traineeAssignments=" + traineeAssignments.size() +
       '}';
   }
 }
