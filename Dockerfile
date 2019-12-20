@@ -12,16 +12,12 @@ ARG CONFIG_URL
 ARG APM_SERVER_URL
 ARG APM_SECRET_TOKEN
 ARG CLIENT_URL
-ARG ENVIRONMENT_ID
-ENV DT_API_URL="https://$ENVIRONMENT_ID.live.dynatrace.com/api"
-ARG DT_API_TOKEN
+ARG DOWNLOAD_TOKEN
 ARG DT_ONEAGENT_OPTIONS="flavor=java"
-ENV DT_HOME="/opt/dynatrace/oneagent"
-RUN mkdir -p "$DT_HOME" && \
-    wget -O "$DT_HOME/oneagent.zip" "$DT_API_URL/v1/deployment/installer/agent/unix/paas/latest?Api-Token=$DT_API_TOKEN&$DT_ONEAGENT_OPTIONS" && \
-    unzip -d "$DT_HOME" "$DT_HOME/oneagent.zip" && \
-    rm "$DT_HOME/oneagent.zip"
-ENTRYPOINT [ "/opt/dynatrace/oneagent/dynatrace-agent64.sh" ]
+ARG ENVIRONMENT_ID
+RUN wget -O Dynatrace-OneAgent-Linux-1.181.154.sh "https://$ENVIRONMENT_ID.live.dynatrace.com/api/v1/deployment/installer/agent/unix/default/latest?arch=x86&$DT_ONEAGENT_OPTIONS" --header="Authorization: Api-Token $DOWNLOAD_TOKEN"
+RUN wget https://ca.dynatrace.com/dt-root.cert.pem ; ( echo 'Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="--SIGNED-INSTALLER"'; echo ; echo ; echo '----SIGNED-INSTALLER' ; cat Dynatrace-OneAgent-Linux-1.181.154.sh ) | openssl cms -verify -CAfile dt-root.cert.pem > /dev/null
+RUN /bin/sh Dynatrace-OneAgent-Linux-1.181.154.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0
 ENV spring_profiles_active=$SPRING_ENV
 ENV DB_URL=$DB_URL
 ENV DB_USER=$DB_USER
