@@ -38,9 +38,6 @@ public class BatchServiceImp implements BatchService {
    */
 
   private boolean allowedGlobalRead() {
-    logger.debug("Authorities = {}", kv("auth", SecurityContextHolder.getContext().getAuthentication().getAuthorities()));
-    logger.debug("Allow = {}", kv("verdict", !Collections.disjoint(SecurityContextHolder.getContext().getAuthentication().getAuthorities(), globalAllowed)));
-    logger.debug("globalAllowed = {}", kv("allowed", globalAllowed));
     return !Collections.disjoint(SecurityContextHolder.getContext().getAuthentication().getAuthorities(), globalAllowed);
   }
 
