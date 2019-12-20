@@ -12,6 +12,16 @@ ARG CONFIG_URL
 ARG APM_SERVER_URL
 ARG APM_SECRET_TOKEN
 ARG CLIENT_URL
+ARG ENVIRONMENT_ID
+ENV DT_API_URL="https://$ENVIRONMENT_ID.live.dynatrace.com/api"
+ARG DT_API_TOKEN
+ARG DT_ONEAGENT_OPTIONS="flavor=java"
+ENV DT_HOME="/opt/dynatrace/oneagent"
+RUN mkdir -p "$DT_HOME" && \
+    wget -O "$DT_HOME/oneagent.zip" "$DT_API_URL/v1/deployment/installer/agent/unix/paas/latest?Api-Token=$DT_API_TOKEN&$DT_ONEAGENT_OPTIONS" && \
+    unzip -d "$DT_HOME" "$DT_HOME/oneagent.zip" && \
+    rm "$DT_HOME/oneagent.zip"
+ENTRYPOINT [ "/opt/dynatrace/oneagent/dynatrace-agent64.sh" ]
 ENV spring_profiles_active=$SPRING_ENV
 ENV DB_URL=$DB_URL
 ENV DB_USER=$DB_USER
