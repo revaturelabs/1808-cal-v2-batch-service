@@ -1,12 +1,11 @@
 package com.revaturelabs.caliber.batch;
 
-import com.revaturelabs.caliber.batch.security.RoleQC;
-import com.revaturelabs.caliber.batch.security.RoleVP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static net.logstash.logback.argument.StructuredArguments.kv;
 
 @Service
 public class BatchServiceImp implements BatchService {
@@ -30,13 +31,16 @@ public class BatchServiceImp implements BatchService {
     return (String) ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaims().get("email");
   }
 
-  private static List<GrantedAuthority> globalAllowed = Arrays.asList(new RoleVP(), new RoleQC());
+  private static List<GrantedAuthority> globalAllowed = Arrays.asList(new SimpleGrantedAuthority("Application/ROLE_VP"), new SimpleGrantedAuthority("Application/ROLE_QC"));
 
   /*
    Below is the implementations of the Batch service
    */
 
   private boolean allowedGlobalRead() {
+    logger.debug("Authorities = {}", kv("auth", SecurityContextHolder.getContext().getAuthentication().getAuthorities()));
+    logger.debug("Allow = {}", kv("verdict", !Collections.disjoint(SecurityContextHolder.getContext().getAuthentication().getAuthorities(), globalAllowed)));
+    logger.debug("globalAllowed = {}", kv("allowed", globalAllowed));
     return !Collections.disjoint(SecurityContextHolder.getContext().getAuthentication().getAuthorities(), globalAllowed);
   }
 
