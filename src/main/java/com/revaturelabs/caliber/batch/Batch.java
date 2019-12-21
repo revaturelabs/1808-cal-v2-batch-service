@@ -1,6 +1,7 @@
 package com.revaturelabs.caliber.batch;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
@@ -13,25 +14,30 @@ public class Batch {
   private String id;
 
   @Column
+  @NotNull
   private String name;
 
   @Column(name = "start_date")
+  @NotNull
   private Instant startDate;
 
   @Column(name = "end_date")
+  @NotNull
   private Instant endDate;
 
   @Column
+  @NotNull
   private String skill;
 
   @Column
+  @NotNull
   private String location;
 
   @Column
   private String type;
 
   @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
-  private Set<BatchAssignment> employeeAssignments;
+  private Set<EmployeeAssignment> employeeAssignments;
 
   @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
   private Set<TraineeAssignment> traineeAssignments;
@@ -49,7 +55,7 @@ public class Batch {
     this.type = type;
   }
 
-  public Batch(String id, String name, Instant startDate, Instant endDate, String skill, String location, String type, Set<BatchAssignment> employeeAssignments) {
+  public Batch(String id, String name, Instant startDate, Instant endDate, String skill, String location, String type, Set<EmployeeAssignment> employeeAssignments) {
     this.id = id;
     this.name = name;
     this.startDate = startDate;
@@ -116,11 +122,11 @@ public class Batch {
     this.type = type;
   }
 
-  public Set<BatchAssignment> getEmployeeAssignments() {
+  public Set<EmployeeAssignment> getEmployeeAssignments() {
     return employeeAssignments;
   }
 
-  public void setEmployeeAssignments(Set<BatchAssignment> employeeAssignments) {
+  public void setEmployeeAssignments(Set<EmployeeAssignment> employeeAssignments) {
     this.employeeAssignments = employeeAssignments;
   }
 

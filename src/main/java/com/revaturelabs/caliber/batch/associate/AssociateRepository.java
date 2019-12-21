@@ -1,5 +1,6 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.associate;
 
+import com.revaturelabs.caliber.batch.Batch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

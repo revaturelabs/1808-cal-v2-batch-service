@@ -64,17 +64,17 @@ public class BatchServiceImp implements BatchService {
 
   @Override
   public Batch create(Batch batch) {
+    return batchRepository.save(batch);
+  }
+
+  @Override
+  public Batch update(Batch batch) {
     return null;
   }
 
   @Override
-  public Batch update(Batch category) {
-    return null;
-  }
-
-  @Override
-  public Batch createOrUpdate(Batch category) {
-    return null;
+  public Batch createOrUpdate(Batch batch) {
+    return batchRepository.save(batch);
   }
 
   @Override

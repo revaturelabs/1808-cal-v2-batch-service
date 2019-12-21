@@ -1,4 +1,4 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.associate;
 
 import org.springframework.security.access.AccessDeniedException;
 

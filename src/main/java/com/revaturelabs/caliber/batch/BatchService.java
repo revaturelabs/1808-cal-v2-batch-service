@@ -11,9 +11,9 @@ public interface BatchService {
 
   Batch create(Batch batch);
 
-  Batch update(Batch category);
+  Batch update(Batch batch);
 
-  Batch createOrUpdate(Batch category);
+  Batch createOrUpdate(Batch batch);
 
   void delete(String id);
 }

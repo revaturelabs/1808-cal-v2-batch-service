@@ -1,6 +1,7 @@
 package com.revaturelabs.caliber.batch;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.revaturelabs.caliber.batch.employee.Employee;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,14 +9,14 @@ import java.util.Objects;
 
 @Table(name = "trainer_batch")
 @Entity
-public class BatchAssignment implements Serializable {
+public class EmployeeAssignment implements Serializable {
   @Column
   private String role;
 
   @Id
   @JoinColumn(name = "email")
   @ManyToOne
-  private Trainer trainer;
+  private Employee employee;
 
   @Id
   @JoinColumn(name = "batch_id")
@@ -23,12 +24,12 @@ public class BatchAssignment implements Serializable {
   @JsonBackReference
   private Batch batch;
 
-  public BatchAssignment() {
+  public EmployeeAssignment() {
   }
 
-  public BatchAssignment(String role, Trainer trainer, Batch batch) {
+  public EmployeeAssignment(String role, Employee employee, Batch batch) {
     this.role = role;
-    this.trainer = trainer;
+    this.employee = employee;
     this.batch = batch;
   }
 
@@ -40,12 +41,12 @@ public class BatchAssignment implements Serializable {
     this.role = role;
   }
 
-  public Trainer getTrainer() {
-    return trainer;
+  public Employee getEmployee() {
+    return employee;
   }
 
-  public void setTrainer(Trainer trainer) {
-    this.trainer = trainer;
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
   }
 
   public Batch getBatch() {
@@ -60,22 +61,22 @@ public class BatchAssignment implements Serializable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    BatchAssignment that = (BatchAssignment) o;
+    EmployeeAssignment that = (EmployeeAssignment) o;
     return Objects.equals(getRole(), that.getRole()) &&
-      Objects.equals(getTrainer(), that.getTrainer()) &&
+      Objects.equals(getEmployee(), that.getEmployee()) &&
       Objects.equals(getBatch(), that.getBatch());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getRole(), getTrainer(), getBatch());
+    return Objects.hash(getRole(), getEmployee(), getBatch());
   }
 
   @Override
   public String toString() {
-    return "BatchAssignment{" +
+    return "EmployeeAssignment{" +
       "role='" + role + '\'' +
-      ", trainer=" + trainer.getEmail() +
+      ", employee=" + employee.getEmail() +
       ", batch=" + batch.getId() +
       '}';
   }

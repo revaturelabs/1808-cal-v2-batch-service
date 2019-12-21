@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface BatchRepository extends JpaRepository<Batch, String> {
-  @Query("FROM Batch AS batch INNER JOIN batch.employeeAssignments AS trainingAssignments WHERE trainingAssignments.trainer.email = :email")
+  @Query("FROM Batch AS batch INNER JOIN batch.employeeAssignments AS trainingAssignments WHERE trainingAssignments.employee.email = :email")
   public List<Batch> findByTrainerEmail(@Param("email") String email);
 }

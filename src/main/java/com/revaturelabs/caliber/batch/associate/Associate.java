@@ -1,8 +1,11 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.associate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.revaturelabs.caliber.batch.TraineeAssignment;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,15 +15,18 @@ public class Associate {
 
   @Id
   @Column(name = "email")
+  @Email
   private String email;
 
   @Column(name = "salesforce_id", unique = true)
   private String salesforceId;
 
   @Column(name = "first_name")
+  @NotNull
   private String firstName;
 
   @Column(name = "last_name")
+  @NotNull
   private String lastName;
 
   @OneToMany(mappedBy = "associate", cascade = CascadeType.ALL)

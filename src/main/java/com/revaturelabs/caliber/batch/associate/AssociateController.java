@@ -1,4 +1,4 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.associate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

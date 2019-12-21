@@ -1,14 +1,10 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.associate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -32,13 +28,13 @@ public class AssociateServiceImp implements AssociateService {
   }
 
   @Override
-  public Associate update(Associate category) {
+  public Associate update(Associate associate) {
     return null;
   }
 
   @Override
-  public Associate createOrUpdate(Associate category) {
-    return null;
+  public Associate createOrUpdate(Associate associate) {
+    return associateRepository.save(associate);
   }
 
   @Override

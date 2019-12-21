@@ -1,33 +1,39 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.employee;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.revaturelabs.caliber.batch.EmployeeAssignment;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 
 @Table(name = "trainer")
 @Entity
-public class Trainer {
+public class Employee {
 
   @Id
   @Column(name = "email", unique = true)
+  @Email
   private String email;
 
   @Column(name = "first_name")
+  @NotNull
   private String firstName;
 
   @Column(name = "last_name")
+  @NotNull
   private String lastName;
 
-  @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
   @JsonBackReference
-  private Set<BatchAssignment> trainingBatches;
+  private Set<EmployeeAssignment> trainingBatches;
 
-  public Trainer() {
+  public Employee() {
   }
 
-  public Trainer(String email, String firstName, String lastName) {
+  public Employee(String email, String firstName, String lastName) {
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -57,11 +63,11 @@ public class Trainer {
     this.lastName = lastName;
   }
 
-  public Set<BatchAssignment> getTrainingBatches() {
+  public Set<EmployeeAssignment> getTrainingBatches() {
     return trainingBatches;
   }
 
-  public void setTrainingBatches(Set<BatchAssignment> trainingBatches) {
+  public void setTrainingBatches(Set<EmployeeAssignment> trainingBatches) {
     this.trainingBatches = trainingBatches;
   }
 
@@ -69,10 +75,10 @@ public class Trainer {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Trainer trainer = (Trainer) o;
-    return Objects.equals(getEmail(), trainer.getEmail()) &&
-      Objects.equals(getFirstName(), trainer.getFirstName()) &&
-      Objects.equals(getLastName(), trainer.getLastName());
+    Employee employee = (Employee) o;
+    return Objects.equals(getEmail(), employee.getEmail()) &&
+      Objects.equals(getFirstName(), employee.getFirstName()) &&
+      Objects.equals(getLastName(), employee.getLastName());
   }
 
   @Override
@@ -82,7 +88,7 @@ public class Trainer {
 
   @Override
   public String toString() {
-    return "Trainer{" +
+    return "Employee{" +
       "email='" + email + '\'' +
       ", firstName='" + firstName + '\'' +
       ", lastName='" + lastName + '\'' +

@@ -1,13 +1,14 @@
 package com.revaturelabs.caliber.batch;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.revaturelabs.caliber.batch.associate.Associate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "trainee_assignment")
+@Table(name = "associate_batch")
 public class TraineeAssignment implements Serializable {
   @Column
   private String trainingStatus;
