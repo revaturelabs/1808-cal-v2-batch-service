@@ -2,7 +2,8 @@ package com.revaturelabs.caliber.batch;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,18 +20,16 @@ public class Batch {
 
   @Column(name = "start_date")
   @NotNull
-  private Instant startDate;
+  private LocalDate startDate;
 
   @Column(name = "end_date")
   @NotNull
-  private Instant endDate;
+  private LocalDate endDate;
 
   @Column
-  @NotNull
   private String skill;
 
   @Column
-  @NotNull
   private String location;
 
   @Column
@@ -45,7 +44,7 @@ public class Batch {
   public Batch() {
   }
 
-  public Batch(String id, String name, Instant startDate, Instant endDate, String skill, String location, String type) {
+  public Batch(String id, String name, LocalDate startDate, LocalDate endDate, String skill, String location, String type) {
     this.id = id;
     this.name = name;
     this.startDate = startDate;
@@ -55,7 +54,7 @@ public class Batch {
     this.type = type;
   }
 
-  public Batch(String id, String name, Instant startDate, Instant endDate, String skill, String location, String type, Set<EmployeeAssignment> employeeAssignments) {
+  public Batch(String id, String name, LocalDate startDate, LocalDate endDate, String skill, String location, String type, Set<EmployeeAssignment> employeeAssignments) {
     this.id = id;
     this.name = name;
     this.startDate = startDate;
@@ -82,19 +81,19 @@ public class Batch {
     this.name = name;
   }
 
-  public Instant getStartDate() {
+  public LocalDate getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(Instant startDate) {
+  public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
   }
 
-  public Instant getEndDate() {
+  public LocalDate getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(Instant endDate) {
+  public void setEndDate(LocalDate endDate) {
     this.endDate = endDate;
   }
 
@@ -159,6 +158,8 @@ public class Batch {
 
   @Override
   public String toString() {
+    String emp =  employeeAssignments == null ? "[0]" : "[" + Integer.toString(employeeAssignments.size()) + "]";
+    String train = traineeAssignments == null ? "[0]" : "[" + Integer.toString(traineeAssignments.size()) + "]";
     return "Batch{" +
       "id='" + id + '\'' +
       ", name='" + name + '\'' +
@@ -167,8 +168,8 @@ public class Batch {
       ", skill='" + skill + '\'' +
       ", location='" + location + '\'' +
       ", type='" + type + '\'' +
-      ", employeeAssignments=" + employeeAssignments.size() +
-      ", traineeAssignments=" + traineeAssignments.size() +
+      ", employeeAssignments=" + emp +
+      ", traineeAssignments=" + train +
       '}';
   }
 }

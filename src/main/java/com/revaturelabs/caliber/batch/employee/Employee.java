@@ -9,13 +9,12 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(name = "trainer")
+@Table(name = "employee")
 @Entity
 public class Employee {
 
   @Id
   @Column(name = "email", unique = true)
-  @Email
   private String email;
 
   @Column(name = "first_name")
@@ -88,11 +87,12 @@ public class Employee {
 
   @Override
   public String toString() {
+    String batches = trainingBatches == null ? "[0]" : "[" + trainingBatches.size() + "]";
     return "Employee{" +
       "email='" + email + '\'' +
       ", firstName='" + firstName + '\'' +
       ", lastName='" + lastName + '\'' +
-      ", trainingBatches=" + trainingBatches.size() +
+      ", trainingBatches=" + trainingBatches +
       '}';
   }
 }

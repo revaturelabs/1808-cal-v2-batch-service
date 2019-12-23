@@ -7,20 +7,22 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Table(name = "trainer_batch")
+@Table(name = "employee_batch")
 @Entity
 public class EmployeeAssignment implements Serializable {
   @Column
   private String role;
 
   @Id
-  @JoinColumn(name = "email")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Integer id;
+
+  @JoinColumn(name = "employee_id")
   @ManyToOne
   private Employee employee;
 
-  @Id
   @JoinColumn(name = "batch_id")
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JsonBackReference
   private Batch batch;
 
@@ -57,20 +59,6 @@ public class EmployeeAssignment implements Serializable {
     this.batch = batch;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    EmployeeAssignment that = (EmployeeAssignment) o;
-    return Objects.equals(getRole(), that.getRole()) &&
-      Objects.equals(getEmployee(), that.getEmployee()) &&
-      Objects.equals(getBatch(), that.getBatch());
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(getRole(), getEmployee(), getBatch());
-  }
 
   @Override
   public String toString() {

@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImp implements EmployeeService {
@@ -18,8 +20,8 @@ public class EmployeeServiceImp implements EmployeeService {
   }
 
   @Override
-  public Employee getById(String id) {
-    return null;
+  public Optional<Employee> getById(String id) {
+    return employeeRepository.findById(id);
   }
 
   @Override

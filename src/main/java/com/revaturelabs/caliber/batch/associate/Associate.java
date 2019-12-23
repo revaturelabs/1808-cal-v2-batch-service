@@ -107,7 +107,7 @@ public class Associate {
       ", firstName='" + firstName + '\'' +
       ", lastName='" + lastName + '\'' +
       ", email='" + email + '\'' +
-      ", trainingAssignments=" + trainingAssignments.size() +
+      ", trainingAssignments=" + "[]" +
       '}';
   }
 }

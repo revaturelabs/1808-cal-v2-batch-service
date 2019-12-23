@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static net.logstash.logback.argument.StructuredArguments.kv;
 
@@ -58,8 +59,8 @@ public class BatchServiceImp implements BatchService {
   }
 
   @Override
-  public Batch getById(String id) {
-    return null;
+  public Optional<Batch> getById(String id) {
+    return batchRepository.findById(id);
   }
 
   @Override
@@ -76,6 +77,12 @@ public class BatchServiceImp implements BatchService {
   public Batch createOrUpdate(Batch batch) {
     return batchRepository.save(batch);
   }
+
+  @Override
+  public List<Batch> createOrUpdateAll(List<Batch> batches) {
+    return batchRepository.saveAll(batches);
+  }
+
 
   @Override
   public void delete(String id) {

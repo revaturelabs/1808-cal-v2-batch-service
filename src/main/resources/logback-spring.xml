@@ -3,7 +3,7 @@
     <appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>batch.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>category-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>batch-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>60</maxHistory>
             <totalSizeCap>2GB</totalSizeCap>
@@ -23,6 +23,12 @@
     </logger>
     <logger name="com.revaturelabs" level="DEBUG">
         <appender-ref ref="consoleAppender" />
+    </logger>
+    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+        <appender-ref ref="consoleAppender"/>
+    </logger>
+    <logger name="org.hibernate.type.descriptor.sql" level="TRACE" additivity="false">
+        <appender-ref ref="consoleAppender"/>
     </logger>
 </springProfile>
 <springProfile name="dev,prod">
