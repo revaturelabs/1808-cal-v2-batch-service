@@ -62,7 +62,7 @@ public class BatchService implements BatchServiceInterface {
 	 *            An Integer representing the year to get batches from.
 	 * @return A List<BatchEntity> of batches that start in a given year.
 	 */
-	public List<BatchEntity> findBatchesByYear(Integer startYear) {
+	public List<BatchEntity> findBatchesByYear(int startYear) {
 		List<BatchEntity> beList = br.findAllBatchesByYear(startYear);
 		for (BatchEntity be : beList) {
 			ResponseEntity<String> location = locationClient.getLocationById(be.getLocationId());
@@ -82,7 +82,7 @@ public class BatchService implements BatchServiceInterface {
 	 *         matching id was found.
 	 */
 	@Override
-	public BatchEntity findBatchById(Integer id) {
+	public BatchEntity findBatchById(int id) {
 		BatchEntity be = br.findOne(id);
 		if (be == null) {
 			be = new BatchEntity();
@@ -201,7 +201,7 @@ public class BatchService implements BatchServiceInterface {
 	 * @param batchId The BatchEntity to delete from the database.
 	 */
 	@Override
-	public void deleteBatch(Integer batchId) {
+	public void deleteBatch(int batchId) {
 		br.delete(batchId);
 	}
 
@@ -257,7 +257,7 @@ public class BatchService implements BatchServiceInterface {
 	}
 
 	@Override
-	public List<BatchEntity> findBatchesByYearAndQuarter(Integer year, Integer quarter) {
+	public List<BatchEntity> findBatchesByYearAndQuarter(int year, int quarter) {
 		if(quarter < 1 || quarter > 4) return null;
 		List<BatchEntity> beList = br.findAll();
 		ListIterator<BatchEntity> iter = beList.listIterator();
@@ -273,7 +273,7 @@ public class BatchService implements BatchServiceInterface {
 		return beList;
 	}
 	
-	private boolean isWithinRange(Date bsDate, Date beDate, Integer year, Integer quarter) {
+	private boolean isWithinRange(Date bsDate, Date beDate, int year, int quarter) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		String dateInString = "";
 		Date startDate = new Date();

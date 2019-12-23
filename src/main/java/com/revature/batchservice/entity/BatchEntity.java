@@ -281,29 +281,88 @@ public class BatchEntity {
 		this.weeks = weeks;
 	}
 
+	
+	
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		BatchEntity that = (BatchEntity) o;
-		return batchId == that.batchId &&
-						locationId == that.locationId &&
-						goodGrade == that.goodGrade &&
-						passingGrade == that.passingGrade &&
-						weeks == that.weeks &&
-						Objects.equals(trainingName, that.trainingName) &&
-						Objects.equals(trainingType, that.trainingType) &&
-						Objects.equals(skillType, that.skillType) &&
-						Objects.equals(trainer, that.trainer) &&
-						Objects.equals(coTrainer, that.coTrainer) &&
-						Objects.equals(location, that.location) &&
-						Objects.equals(startDate, that.startDate) &&
-						Objects.equals(endDate, that.endDate);
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BatchEntity other = (BatchEntity) obj;
+		if (batchId != other.batchId)
+			return false;
+		if (coTrainer == null) {
+			if (other.coTrainer != null)
+				return false;
+		} else if (!coTrainer.equals(other.coTrainer))
+			return false;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (goodGrade != other.goodGrade)
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (locationId != other.locationId)
+			return false;
+		if (passingGrade != other.passingGrade)
+			return false;
+		if (skillType == null) {
+			if (other.skillType != null)
+				return false;
+		} else if (!skillType.equals(other.skillType))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		if (trainer == null) {
+			if (other.trainer != null)
+				return false;
+		} else if (!trainer.equals(other.trainer))
+			return false;
+		if (trainingName == null) {
+			if (other.trainingName != null)
+				return false;
+		} else if (!trainingName.equals(other.trainingName))
+			return false;
+		if (trainingType == null) {
+			if (other.trainingType != null)
+				return false;
+		} else if (!trainingType.equals(other.trainingType))
+			return false;
+		if (weeks != other.weeks)
+			return false;
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(batchId, trainingName, trainingType, skillType, trainer, coTrainer, locationId, location, startDate, endDate, goodGrade, passingGrade, weeks);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + batchId;
+		result = prime * result + ((coTrainer == null) ? 0 : coTrainer.hashCode());
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + goodGrade;
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + locationId;
+		result = prime * result + passingGrade;
+		result = prime * result + ((skillType == null) ? 0 : skillType.hashCode());
+		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((trainer == null) ? 0 : trainer.hashCode());
+		result = prime * result + ((trainingName == null) ? 0 : trainingName.hashCode());
+		result = prime * result + ((trainingType == null) ? 0 : trainingType.hashCode());
+		result = prime * result + weeks;
+		return result;
 	}
 
 	@Override
