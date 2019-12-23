@@ -37,13 +37,13 @@ public class BatchController {
 	 * @return a List<BatchEntity> that contains all BatchEntities in the database.
 	 */
 	@GetMapping({ "/qc/batch/all", "/vp/batch/all" })
-	public List<BatchEntity> getAllBatches(@RequestParam(name="year", required=false) Integer year, @RequestParam(name="quarter", required=false) Integer quarter) {
+	public List<BatchEntity> getAllBatches(@RequestParam(name="year", required=false) int year, @RequestParam(name="quarter", required=false) int quarter) {
 		log.debug("Inside getAllBatches");
 		List<BatchEntity> total = null;
-		if(year != null && quarter != null) {
+		if(year != 0 && quarter != 0) {
 			total = bs.findBatchesByYearAndQuarter(year, quarter);
 		} else {
-			if(year != null) {
+			if(year != 0) {
 				total = bs.findBatchesByYear(year);
 			} else {
 				total = bs.findAllBatches();
@@ -60,7 +60,7 @@ public class BatchController {
 	 * 			id was found. Value is returned as a JSON object.
 	 */
 	@GetMapping("all/batch/{id}")
-	public BatchEntity getBatchById(@PathVariable("id") Integer id) {
+	public BatchEntity getBatchById(@PathVariable("id") int id) {
 		log.debug("Inside findBatchById");
 		return bs.findBatchById(id);
 	}
@@ -71,7 +71,7 @@ public class BatchController {
 	 * The List is returned as a JSON Object.
 	 */
 	@GetMapping({"/qc/batch/{startYear}",	"/vp/batch/{startYear}"})
-	public List<BatchEntity> getBatchesByYear(@PathVariable("startYear") Integer startYear) {
+	public List<BatchEntity> getBatchesByYear(@PathVariable("startYear") int startYear) {
 		log.debug("Inside getBatchesByYear");
 		return bs.findBatchesByYear(startYear);
 	}
@@ -81,7 +81,7 @@ public class BatchController {
 	 * amounts of batches.. this way we only have to load a quarter of the batches!
 	 */
 	@GetMapping({"/qc/batch/{startYear}/{quarter}",	"/vp/batch/{startYear}/{quarter}"})
-	public List<BatchEntity> getBatchesByYearByQuarter(@PathVariable("startYear") Integer startYear, @PathVariable("quarter") Integer quarter) {
+	public List<BatchEntity> getBatchesByYearByQuarter(@PathVariable("startYear") int startYear, @PathVariable("quarter") int quarter) {
 		log.debug("Inside getBatchesByYearByQuarter");
 		return bs.findBatchesByYearAndQuarter(startYear, quarter);
 	}
