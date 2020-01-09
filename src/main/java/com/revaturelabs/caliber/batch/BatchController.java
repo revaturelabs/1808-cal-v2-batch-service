@@ -1,6 +1,5 @@
 package com.revaturelabs.caliber.batch;
 
-import com.revaturelabs.caliber.batch.category.CategoryClient;
 import com.revaturelabs.caliber.batch.revpro.RevProClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +16,6 @@ public class BatchController {
 
     private static Logger log = LoggerFactory.getLogger(BatchController.class);
 
-    @Autowired
-    CategoryClient categoryClient;
     @Autowired
     RevProClient revProClient;
 

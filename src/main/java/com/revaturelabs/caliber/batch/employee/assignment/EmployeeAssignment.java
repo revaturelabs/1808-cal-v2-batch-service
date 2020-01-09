@@ -1,6 +1,8 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.employee.assignment;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.revaturelabs.caliber.batch.Batch;
 import com.revaturelabs.caliber.batch.employee.Employee;
 
 import javax.persistence.*;
@@ -9,20 +11,19 @@ import java.util.Objects;
 
 @Table(name = "employee_batch")
 @Entity
+@IdClass(EmployeeBatchId.class)
 public class EmployeeAssignment implements Serializable {
   @Column
   private String role;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private Integer id;
-
   @JoinColumn(name = "employee_id")
   @ManyToOne
   private Employee employee;
 
+  @Id
   @JoinColumn(name = "batch_id")
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JsonBackReference
   private Batch batch;
 
@@ -33,6 +34,11 @@ public class EmployeeAssignment implements Serializable {
     this.role = role;
     this.employee = employee;
     this.batch = batch;
+  }
+
+  @JsonIgnore
+  public EmployeeBatchId getId() {
+    return new EmployeeBatchId(employee.getEmail(), batch.getId());
   }
 
   public String getRole() {
@@ -59,6 +65,20 @@ public class EmployeeAssignment implements Serializable {
     this.batch = batch;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    EmployeeAssignment that = (EmployeeAssignment) o;
+    return Objects.equals(getRole(), that.getRole()) &&
+      Objects.equals(getEmployee(), that.getEmployee()) &&
+      Objects.equals(getBatch(), that.getBatch());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getRole(), getEmployee(), getBatch());
+  }
 
   @Override
   public String toString() {

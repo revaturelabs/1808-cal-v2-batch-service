@@ -1,6 +1,7 @@
-package com.revaturelabs.caliber.batch;
+package com.revaturelabs.caliber.batch.associate.assignment;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.revaturelabs.caliber.batch.Batch;
 import com.revaturelabs.caliber.batch.associate.Associate;
 
 import javax.persistence.*;
@@ -9,7 +10,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "associate_batch")
-public class TraineeAssignment implements Serializable {
+@IdClass(AssociateAssignmentId.class)
+public class AssociateAssignment implements Serializable {
   @Column
   private String trainingStatus;
 
@@ -24,10 +26,10 @@ public class TraineeAssignment implements Serializable {
   @JsonBackReference
   private Batch batch;
 
-  public TraineeAssignment() {
+  public AssociateAssignment() {
   }
 
-  public TraineeAssignment(String trainingStatus, Associate associate, Batch batch) {
+  public AssociateAssignment(String trainingStatus, Associate associate, Batch batch) {
     this.trainingStatus = trainingStatus;
     this.associate = associate;
     this.batch = batch;
@@ -61,7 +63,7 @@ public class TraineeAssignment implements Serializable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    TraineeAssignment that = (TraineeAssignment) o;
+    AssociateAssignment that = (AssociateAssignment) o;
     return Objects.equals(getTrainingStatus(), that.getTrainingStatus()) &&
       Objects.equals(getAssociate(), that.getAssociate()) &&
       Objects.equals(getBatch(), that.getBatch());
@@ -74,9 +76,9 @@ public class TraineeAssignment implements Serializable {
 
   @Override
   public String toString() {
-    return "TraineeAssignment{" +
+    return "AssociateAssignment{" +
       "trainingStatus='" + trainingStatus + '\'' +
-      ", associate=" + associate.getSalesforceId() +
+      ", associate=" + associate.getEmail() +
       ", batch=" + batch.getId() +
       '}';
   }

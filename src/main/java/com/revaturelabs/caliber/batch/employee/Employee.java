@@ -1,10 +1,9 @@
 package com.revaturelabs.caliber.batch.employee;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.revaturelabs.caliber.batch.EmployeeAssignment;
+import com.revaturelabs.caliber.batch.employee.assignment.EmployeeAssignment;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;

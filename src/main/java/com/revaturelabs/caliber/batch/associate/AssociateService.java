@@ -12,6 +12,8 @@ public interface AssociateService {
 
   Associate create(Associate associate);
 
+  List<Associate> saveAll(Iterable<Associate> associates);
+
   Associate update(Associate associate);
 
   Associate createOrUpdate(Associate associate);

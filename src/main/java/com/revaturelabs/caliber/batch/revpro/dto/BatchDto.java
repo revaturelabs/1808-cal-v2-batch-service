@@ -1,7 +1,8 @@
 package com.revaturelabs.caliber.batch.revpro.dto;
 
 import com.revaturelabs.caliber.batch.Batch;
-import com.revaturelabs.caliber.batch.EmployeeAssignment;
+import com.revaturelabs.caliber.batch.employee.assignment.EmployeeAssignment;
+import com.revaturelabs.caliber.batch.associate.assignment.AssociateAssignment;
 import com.revaturelabs.caliber.batch.employee.Employee;
 
 import java.time.LocalDate;
@@ -169,11 +170,26 @@ public class BatchDto {
     Employee e = trainer.convertToEmployee();
 
     Set<EmployeeAssignment> trainingAssignments = new LinkedHashSet<EmployeeAssignment>();
+
+    for (TrainerDto coTrainer: coTrainers) {
+      trainingAssignments.add(
+        new EmployeeAssignment("cotrainer", coTrainer.convertToEmployee(), convertedBatch)
+      );
+    }
+
     EmployeeAssignment employeeAssignment = new EmployeeAssignment("trainer", e, convertedBatch);
     trainingAssignments.add(employeeAssignment);
 
     convertedBatch.setEmployeeAssignments(trainingAssignments);
     e.setTrainingBatches(trainingAssignments);
+
+    if(batchTrainees != null) {
+      Set<AssociateAssignment> associatesInBatch = new LinkedHashSet<>();
+      for (AssociateDto associate: batchTrainees) {
+        associatesInBatch.add(new AssociateAssignment(associate.getTrainingStatus(), associate.convertToAssociate(), convertedBatch));
+      }
+      convertedBatch.setAssociateAssignments(associatesInBatch);
+    }
 
     return convertedBatch;
   }

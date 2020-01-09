@@ -1,21 +1,26 @@
 package com.revaturelabs.caliber.batch.revpro.dto;
 
+import com.revaturelabs.caliber.batch.associate.Associate;
+
+import java.util.HashSet;
 import java.util.Objects;
 
 public class AssociateDto {
   private String firstName;
   private String lastName;
   private String salesforceId;
+  private String email;
   private String trainingStatus;
 
   public AssociateDto() {
   }
 
-  public AssociateDto(String firstName, String lastName, String salesforceId, String trainingStatus) {
+  public AssociateDto(String firstName, String lastName, String salesforceId, String trainingStatus, String email) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.salesforceId = salesforceId;
     this.trainingStatus = trainingStatus;
+    this.email = email;
   }
 
   public String getFirstName() {
@@ -50,6 +55,14 @@ public class AssociateDto {
     this.trainingStatus = trainingStatus;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -58,12 +71,13 @@ public class AssociateDto {
     return Objects.equals(getFirstName(), that.getFirstName()) &&
       Objects.equals(getLastName(), that.getLastName()) &&
       Objects.equals(getSalesforceId(), that.getSalesforceId()) &&
+      Objects.equals(getEmail(), that.getEmail()) &&
       Objects.equals(getTrainingStatus(), that.getTrainingStatus());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getFirstName(), getLastName(), getSalesforceId(), getTrainingStatus());
+    return Objects.hash(getFirstName(), getLastName(), getSalesforceId(), getEmail(), getTrainingStatus());
   }
 
   @Override
@@ -72,7 +86,12 @@ public class AssociateDto {
       "firstName='" + firstName + '\'' +
       ", lastName='" + lastName + '\'' +
       ", salesforceId='" + salesforceId + '\'' +
+      ", email='" + email + '\'' +
       ", trainingStatus='" + trainingStatus + '\'' +
       '}';
+  }
+
+  public Associate convertToAssociate() {
+    return new Associate(salesforceId,firstName,lastName,email, new HashSet<>());
   }
 }

@@ -1,7 +1,7 @@
 package com.revaturelabs.caliber.batch.associate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.revaturelabs.caliber.batch.TraineeAssignment;
+import com.revaturelabs.caliber.batch.associate.assignment.AssociateAssignment;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,28 +15,25 @@ public class Associate {
 
   @Id
   @Column(name = "email")
-  @Email
   private String email;
 
   @Column(name = "salesforce_id", unique = true)
   private String salesforceId;
 
   @Column(name = "first_name")
-  @NotNull
   private String firstName;
 
   @Column(name = "last_name")
-  @NotNull
   private String lastName;
 
   @OneToMany(mappedBy = "associate", cascade = CascadeType.ALL)
   @JsonBackReference
-  private Set<TraineeAssignment> trainingAssignments;
+  private Set<AssociateAssignment> trainingAssignments;
 
   public Associate() {
   }
 
-  public Associate(String salesforceId, String firstName, String lastName, String email, Set<TraineeAssignment> trainingAssignments) {
+  public Associate(String salesforceId, String firstName, String lastName, String email, Set<AssociateAssignment> trainingAssignments) {
     this.salesforceId = salesforceId;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -76,11 +73,11 @@ public class Associate {
     this.email = email;
   }
 
-  public Set<TraineeAssignment> getTrainingAssignments() {
+  public Set<AssociateAssignment> getTrainingAssignments() {
     return trainingAssignments;
   }
 
-  public void setTrainingAssignments(Set<TraineeAssignment> trainingAssignments) {
+  public void setTrainingAssignments(Set<AssociateAssignment> trainingAssignments) {
     this.trainingAssignments = trainingAssignments;
   }
 

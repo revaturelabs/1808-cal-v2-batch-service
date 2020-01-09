@@ -28,6 +28,11 @@ public class AssociateServiceImp implements AssociateService {
   }
 
   @Override
+  public List<Associate> saveAll(Iterable<Associate> associates) {
+    return associateRepository.saveAll(associates);
+  }
+
+  @Override
   public Associate update(Associate associate) {
     return null;
   }

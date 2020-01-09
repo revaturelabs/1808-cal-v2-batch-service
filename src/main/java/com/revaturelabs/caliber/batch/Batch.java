@@ -1,9 +1,11 @@
 package com.revaturelabs.caliber.batch;
 
+import com.revaturelabs.caliber.batch.associate.assignment.AssociateAssignment;
+import com.revaturelabs.caliber.batch.employee.assignment.EmployeeAssignment;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,7 +41,7 @@ public class Batch {
   private Set<EmployeeAssignment> employeeAssignments;
 
   @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
-  private Set<TraineeAssignment> traineeAssignments;
+  private Set<AssociateAssignment> associateAssignments;
 
   public Batch() {
   }
@@ -129,12 +131,12 @@ public class Batch {
     this.employeeAssignments = employeeAssignments;
   }
 
-  public Set<TraineeAssignment> getTraineeAssignments() {
-    return traineeAssignments;
+  public Set<AssociateAssignment> getAssociateAssignments() {
+    return associateAssignments;
   }
 
-  public void setTraineeAssignments(Set<TraineeAssignment> traineeAssignments) {
-    this.traineeAssignments = traineeAssignments;
+  public void setAssociateAssignments(Set<AssociateAssignment> associateAssignments) {
+    this.associateAssignments = associateAssignments;
   }
 
   @Override
@@ -159,7 +161,7 @@ public class Batch {
   @Override
   public String toString() {
     String emp =  employeeAssignments == null ? "[0]" : "[" + Integer.toString(employeeAssignments.size()) + "]";
-    String train = traineeAssignments == null ? "[0]" : "[" + Integer.toString(traineeAssignments.size()) + "]";
+    String train = associateAssignments == null ? "[0]" : "[" + Integer.toString(associateAssignments.size()) + "]";
     return "Batch{" +
       "id='" + id + '\'' +
       ", name='" + name + '\'' +
@@ -169,7 +171,7 @@ public class Batch {
       ", location='" + location + '\'' +
       ", type='" + type + '\'' +
       ", employeeAssignments=" + emp +
-      ", traineeAssignments=" + train +
+      ", associateAssignments=" + train +
       '}';
   }
 }
