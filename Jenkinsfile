@@ -5,6 +5,7 @@ podTemplate(containers: [
   node(POD_LABEL) {
     stage('Build a Maven project') {
       container('maven') {
+          sh 'ls'
           sh 'mvn -B clean package'
       }
     }
