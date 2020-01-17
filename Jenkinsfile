@@ -4,7 +4,7 @@ podTemplate(containers: [
 
   node(POD_LABEL) {
     stage('Build a Maven project') {
-      git credentailsId: 'GITLAB_KEY' 'https://gitlab.revaturelabs.com/caliber/batch.git'
+      git credentialsId: 'GITLAB_KEY' 'https://gitlab.revaturelabs.com/caliber/batch.git'
       container('maven') {
           sh 'mvn -B clean package'
       }
